@@ -1,6 +1,6 @@
 {
-  "name": "claude-only-commit-workflow",
-  "description": "Enforces that only /commit (via Claude) can trigger git commits. Blocks manual git commit from terminal and from Claude outside the /commit workflow.",
+  "name": "claude-only-commit-workflow-plugin",
+  "description": "A commit skill plugin that blocks manual git commits and lets Claude auto-review changes and commit",
   "version": "1.0.0",
   "author": {
     "name": "MetalMental",

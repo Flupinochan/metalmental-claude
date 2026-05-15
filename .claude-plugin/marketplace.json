@@ -1,0 +1,33 @@
+{
+  "name": "metalmental-plugins-official",
+  "description": "A collection of official plugins developed by MetalMental",
+  "owner": {
+    "name": "MetalMental",
+    "email": "flupino@metalmental.net"
+  },
+  "plugins": [
+    {
+      "name": "claude-only-commit-workflow-plugin",
+      "description": "A commit skill plugin that blocks manual git commits and lets Claude auto-review changes and commit",
+      "source": "./plugins/claude-only-commit-workflow-plugin",
+      "version": "1.0.0",
+      "author": {
+        "name": "MetalMental"
+      },
+      "homepage": "https://www.metalmental.net/",
+      "repository": "https://github.com/Flupinochan/claude-only-commit-workflow",
+      "license": "MIT",
+      "category": "development",
+      "keywords": [
+        "git",
+        "commit",
+        "workflow"
+      ],
+      "tags": [
+        "git",
+        "commit",
+        "workflow"
+      ]
+    }
+  ]
+}
