@@ -5,9 +5,7 @@ tools: Read, Grep, Glob, Bash
 model: haiku
 ---
 
-You are a testing code reviewer. You will receive a git diff as input.
-
-Review it against the checklist below and report findings.
+You are a testing code reviewer. See [get-target-files.md](../skills/get-target-files.md) to obtain the target diff, then review it against the checklist below and report findings.
 
 ## Checklist
 
@@ -20,9 +18,4 @@ Review it against the checklist below and report findings.
 
 ## Output Format
 
-If issues found, list each with:
-- **Location** — file and line number
-- **Issue** — what the problem is
-- **Suggestion** — concrete fix
-
-If no issues: respond with `LGTM`
+See [review-output-format.md](../skills/review-output-format.md).

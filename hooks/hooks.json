@@ -5,7 +5,7 @@
       {
         "hooks": [
           {
-            "command": "bash \"${CLAUDE_PLUGIN_ROOT}/hooks/install-git-pre-commit-hook.sh\"",
+            "command": "bash \"${CLAUDE_PLUGIN_ROOT}/scripts/install-git-pre-commit-hook.sh\"",
             "timeout": 10,
             "type": "command"
           }
