@@ -3,12 +3,25 @@
   "description": "Enforces that only /commit (via Claude) can trigger git commits. Blocks manual git commit from terminal and from Claude outside the /commit workflow.",
   "version": "1.0.0",
   "author": {
-    "name": "MetalMental"
+    "name": "MetalMental",
+    "email": "flupino@metalmental.net",
+    "url": "https://github.com/Flupinochan"
   },
+  "homepage": "https://www.metalmental.net/",
+  "repository": "https://github.com/Flupinochan/claude-only-commit-workflow",
+  "license": "MIT",
   "keywords": [
     "git",
     "commit",
-    "workflow",
-    "guard"
-  ]
+    "workflow"
+  ],
+  "skills": "./skills/",
+  "agents": [
+    "./agents/review-security.md",
+    "./agents/review-performance.md",
+    "./agents/review-readability.md",
+    "./agents/review-maintainability.md",
+    "./agents/review-testing.md"
+  ],
+  "hooks": "./hooks/hooks.json"
 }
