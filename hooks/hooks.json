@@ -1,0 +1,17 @@
+{
+  "description": "Auto-install git pre-commit hook to enforce commit discipline",
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "command": "bash \"${CLAUDE_PLUGIN_ROOT}/hooks/install-git-pre-commit-hook.sh\"",
+            "timeout": 10,
+            "type": "command"
+          }
+        ],
+        "matcher": "*"
+      }
+    ]
+  }
+}

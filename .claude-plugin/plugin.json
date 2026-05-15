@@ -1,0 +1,14 @@
+{
+  "name": "claude-only-commit-workflow",
+  "description": "Enforces that only /commit (via Claude) can trigger git commits. Blocks manual git commit from terminal and from Claude outside the /commit workflow.",
+  "version": "1.0.0",
+  "author": {
+    "name": "MetalMental"
+  },
+  "keywords": [
+    "git",
+    "commit",
+    "workflow",
+    "guard"
+  ]
+}
