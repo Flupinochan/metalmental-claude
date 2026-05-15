@@ -1,27 +1,27 @@
 # claude-only-commit-workflow
 
-## 概要
+## Overview
 
-Claude Code用のSKILL Plugin
+A SKILL Plugin for Claude Code
 
-- 手動での `git commit` を禁止し、Claude経由のみに制限
-- コードレビューとコミットメッセージを自動化
+- Prevents manual `git commit` and restricts commits to Claude only
+- Automates code review and commit message generation
 
-## 利用可能なスキル
+## Available Skills
 
-| スキル                  | 説明                                                                  | レビュー |
-| ----------------------- | --------------------------------------------------------------------- | -------- |
-| `/commit-with-workflow` | 5つのサブエージェントでコードレビューを実施し、問題がなければコミット | あり     |
-| `/commit`               | レビューなしで即座にコミット                                          | なし     |
+| Skill                   | Description                                                                    | Review |
+| ----------------------- | ------------------------------------------------------------------------------ | ------ |
+| `/commit-with-workflow` | Runs code review with 5 sub-agents and commits only if all reviews pass (LGTM) | Yes    |
+| `/commit`               | Commits immediately without review                                             | No     |
 
-## 処理フロー
+## Workflow
 
 ### `/commit-with-workflow`
 
 ```mermaid
 flowchart TD
-    A(["/commit-with-workflow"]) --> B["変更ファイルを取得"]
-    B --> C{サブエージェントによる並列レビュー}
+    A(["/commit-with-workflow"]) --> B["Get changed files"]
+    B --> C{Parallel review by sub-agents}
 
     C --> R1["review-security"]
     C --> R2["review-performance"]
@@ -29,28 +29,28 @@ flowchart TD
     C --> R4["review-maintainability"]
     C --> R5["review-testing"]
 
-    R1 & R2 & R3 & R4 & R5 --> D{全員 LGTM?}
+    R1 & R2 & R3 & R4 & R5 --> D{All LGTM?}
 
-    D -- "問題あり" --> E([ユーザーに報告して終了。コミットはしない])
-    D -- "全員 LGTM" --> F["/commit"]
+    D -- "Issues found" --> E([Report to user and exit. No commit.])
+    D -- "All LGTM" --> F["/commit"]
 
     F --> G{staged/workspace?}
     G -- staged --> J
-    G -- workspace --> H["コミット対象を適切に分割"]
-    H --> J["コミットメッセージ生成"]
-    J --> K["コミット"]
-    K --> L{workspaceに残ファイルがある?}
-    L -- あり --> J
-    L -- なし --> M([完了])
+    G -- workspace --> H["Split changes into appropriate commit units"]
+    H --> J["Generate commit message"]
+    J --> K["Commit"]
+    K --> L{Remaining files in workspace?}
+    L -- Yes --> J
+    L -- No --> M([Done])
 ```
 
-## ファイル構成
+## File Structure
 
-| ファイル                               | 役割                                           |
-| -------------------------------------- | ---------------------------------------------- |
-| `skills/commit-with-workflow/SKILL.md` | `/commit-with-workflow` メインフロー           |
-| `skills/commit/SKILL.md`               | `/commit` コミットメッセージ生成・コミット実行 |
-| `skills/get-target-files.md`           | 変更ファイル (staged or workspace) 取得用      |
-| `agents/review-*.md`                   | レビュー用の各サブエージェント                 |
-| `skills/review-output-format.md`       | 各サブエージェントの出力フォーマット           |
-| `hooks/hooks.json`                     | Claude以外からの `git commit` を禁止するhooks  |
+| File                                   | Role                                                  |
+| -------------------------------------- | ----------------------------------------------------- |
+| `skills/commit-with-workflow/SKILL.md` | `/commit-with-workflow` main flow                     |
+| `skills/commit/SKILL.md`               | `/commit` commit message generation and execution     |
+| `skills/get-target-files.md`           | Retrieves changed files (staged or workspace)         |
+| `agents/review-*.md`                   | Individual sub-agents for each review category        |
+| `skills/review-output-format.md`       | Output format specification for each sub-agent        |
+| `hooks/hooks.json`                     | Hook that blocks `git commit` from outside of Claude  |
