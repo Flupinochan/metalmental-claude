@@ -1,0 +1,17 @@
+{
+  "description": "Log every PostToolUseFailure event to this plugin's persistent data directory",
+  "hooks": {
+    "PostToolUseFailure": [
+      {
+        "hooks": [
+          {
+            "command": "bash \"${CLAUDE_PLUGIN_ROOT}/scripts/log-tool-failure.sh\"",
+            "timeout": 10,
+            "type": "command"
+          }
+        ],
+        "matcher": "*"
+      }
+    ]
+  }
+}

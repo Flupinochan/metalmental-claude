@@ -1,0 +1,24 @@
+{
+  "name": "tool-failure-logger-plugin",
+  "description": "Automatically logs PostToolUseFailure events and provides skills to clear logs or investigate settings.json remediation ideas",
+  "version": "1.0.0",
+  "author": {
+    "name": "MetalMental",
+    "email": "flupino@metalmental.net",
+    "url": "https://github.com/Flupinochan"
+  },
+  "homepage": "https://www.metalmental.net/",
+  "repository": "https://github.com/Flupinochan/metalmental-claude",
+  "license": "MIT",
+  "keywords": [
+    "hooks",
+    "logging",
+    "failure-analysis",
+    "settings"
+  ],
+  "skills": "./skills/",
+  "agents": [
+    "./agents/settings-fix-advisor.md"
+  ],
+  "hooks": "./hooks/hooks.json"
+}

@@ -53,6 +53,31 @@
         "workflow",
         "mcp"
       ]
+    },
+    {
+      "name": "tool-failure-logger-plugin",
+      "description": "Automatically logs PostToolUseFailure events and provides skills to clear logs or investigate settings.json remediation ideas",
+      "source": "./plugins/tool-failure-logger-plugin",
+      "version": "1.0.0",
+      "author": {
+        "name": "MetalMental"
+      },
+      "homepage": "https://www.metalmental.net/",
+      "repository": "https://github.com/Flupinochan/metalmental-claude",
+      "license": "MIT",
+      "category": "development",
+      "keywords": [
+        "hooks",
+        "logging",
+        "failure-analysis",
+        "settings"
+      ],
+      "tags": [
+        "hooks",
+        "logging",
+        "failure-analysis",
+        "settings"
+      ]
     }
   ]
 }

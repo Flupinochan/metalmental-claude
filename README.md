@@ -28,3 +28,11 @@ claude
 /plugin install web-search-plugin@metalmental-plugins-official
 /web-search-plugin:web-search <query>
 ```
+
+### tool-failure-logger-plugin
+
+```bash
+/plugin install tool-failure-logger-plugin@metalmental-plugins-official
+/tool-failure-logger-plugin:clear-tool-failure-logs
+/tool-failure-logger-plugin:analyze-tool-failures
+```
