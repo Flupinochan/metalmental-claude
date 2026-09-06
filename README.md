@@ -36,3 +36,16 @@ claude
 /tool-failure-logger-plugin:clear-tool-failure-logs
 /tool-failure-logger-plugin:analyze-tool-failures
 ```
+
+### daily-report-plugin
+
+```bash
+/plugin install daily-report-plugin@metalmental-plugins-official
+/daily-report-plugin:daily-report [YYYY-MM-DD]
+```
+
+## develop
+
+```bash
+claude --plugin-dir ./plugins/daily-report-plugin
+```

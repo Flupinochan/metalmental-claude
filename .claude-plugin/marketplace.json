@@ -78,6 +78,29 @@
         "failure-analysis",
         "settings"
       ]
+    },
+    {
+      "name": "daily-report-plugin",
+      "description": "Reads Claude Code session history across all projects for a given date and generates a Japanese daily work-report timeline in the terminal",
+      "source": "./plugins/daily-report-plugin",
+      "version": "1.0.0",
+      "author": {
+        "name": "MetalMental"
+      },
+      "homepage": "https://www.metalmental.net/",
+      "repository": "https://github.com/Flupinochan/metalmental-claude",
+      "license": "MIT",
+      "category": "development",
+      "keywords": [
+        "daily-report",
+        "session-history",
+        "workflow"
+      ],
+      "tags": [
+        "daily-report",
+        "session-history",
+        "workflow"
+      ]
     }
   ]
 }
