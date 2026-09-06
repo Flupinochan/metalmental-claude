@@ -28,6 +28,31 @@
         "commit",
         "workflow"
       ]
+    },
+    {
+      "name": "web-search-plugin",
+      "description": "A skill + workflow plugin that fetches candidate documents in full (no summarization), ranks them, and adversarially re-verifies the top candidate independently before returning it",
+      "source": "./plugins/web-search-plugin",
+      "version": "1.0.0",
+      "author": {
+        "name": "MetalMental"
+      },
+      "homepage": "https://www.metalmental.net/",
+      "repository": "https://github.com/Flupinochan/metalmental-claude",
+      "license": "MIT",
+      "category": "search",
+      "keywords": [
+        "web-search",
+        "research",
+        "workflow",
+        "mcp"
+      ],
+      "tags": [
+        "web-search",
+        "research",
+        "workflow",
+        "mcp"
+      ]
     }
   ]
 }
