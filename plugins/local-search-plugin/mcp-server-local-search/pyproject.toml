@@ -1,0 +1,61 @@
+[project]
+name = "mcp-server-local-search"
+version = "0.1.0"
+description = "A Model Context Protocol server providing local full-text and semantic (RAG) search over personal documents"
+readme = "README.md"
+requires-python = ">=3.10"
+authors = [{ name = "MetalMental" }]
+maintainers = [{ name = "MetalMental", email = "flupino@metalmental.net" }]
+keywords = ["mcp", "search", "rag", "full-text-search", "sqlite", "llm"]
+license = { text = "MIT" }
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: End Users/Desktop",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+]
+dependencies = [
+    "mcp>=2.0.0",
+    "pydantic>=2.0.0",
+    "sqlite-vec>=0.1.9",
+    "sentence-transformers>=6.0.0",
+    "torch>=2.13.0",
+    "markitdown[docx,pdf,pptx]>=0.1.7",
+    "charset-normalizer>=3.5.1",
+]
+
+[project.urls]
+Repository = "https://github.com/Flupinochan/metalmental-claude"
+Issues = "https://github.com/Flupinochan/metalmental-claude/issues"
+
+[project.scripts]
+mcp-server-local-search = "mcp_server_local_search:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[dependency-groups]
+dev = [
+    "pyright>=1.1.411",
+    "ruff>=0.16.3",
+    "pytest>=9.1.1",
+    "pytest-asyncio>=1.4.0",
+    # markitdown[docx] pulls mammoth for reading; writing test fixtures needs python-docx
+    "python-docx>=1.2.0",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"
+
+# PyPIのLinux向けtorchはCUDAビルドが既定で数GBに達するため、CPU版インデックスへ明示的に振り向ける
+# explicit = true により、このインデックスは tool.uv.sources で指定したパッケージにのみ使われる
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true
+
+[tool.uv.sources]
+torch = { index = "pytorch-cpu" }

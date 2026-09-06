@@ -44,6 +44,14 @@ claude
 /daily-report-plugin:daily-report [YYYY-MM-DD]
 ```
 
+### local-search-plugin
+
+```bash
+/plugin install local-search-plugin@metalmental-plugins-official
+/local-search-plugin:local-search-setup
+/local-search-plugin:local-search <query>
+```
+
 ## develop
 
 ```bash

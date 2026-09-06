@@ -101,6 +101,33 @@
         "session-history",
         "workflow"
       ]
+    },
+    {
+      "name": "local-search-plugin",
+      "description": "A skill + MCP plugin that searches local documents (Markdown/text/PDF/Office) by keyword and by meaning, returning only paths and line ranges instead of document text",
+      "source": "./plugins/local-search-plugin",
+      "version": "1.0.0",
+      "author": {
+        "name": "MetalMental"
+      },
+      "homepage": "https://www.metalmental.net/",
+      "repository": "https://github.com/Flupinochan/metalmental-claude",
+      "license": "MIT",
+      "category": "search",
+      "keywords": [
+        "local-search",
+        "full-text-search",
+        "rag",
+        "sqlite",
+        "mcp"
+      ],
+      "tags": [
+        "local-search",
+        "full-text-search",
+        "rag",
+        "sqlite",
+        "mcp"
+      ]
     }
   ]
 }
