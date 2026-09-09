@@ -54,6 +54,15 @@ claude
 /local-search-plugin:local-search <query>
 ```
 
+### career-transition-support
+
+```bash
+/plugin install career-transition-support@metalmental-plugins-official
+/career-transition-support:jp-resume-writer
+/career-transition-support:jp-job-posting-analyzer
+/career-transition-support:jp-portfolio-case-study
+```
+
 ## develop
 
 ```bash

@@ -1,0 +1,20 @@
+{
+  "name": "career-transition-support",
+  "description": "A skill plugin for Japanese IT engineer career transitions: writes and revises resumes, analyzes job postings for match rate and gaps, and builds portfolio case studies",
+  "version": "1.0.0",
+  "author": {
+    "name": "MetalMental",
+    "email": "flupino@metalmental.net",
+    "url": "https://github.com/Flupinochan"
+  },
+  "homepage": "https://www.metalmental.net/",
+  "repository": "https://github.com/Flupinochan/metalmental-claude",
+  "license": "MIT",
+  "keywords": [
+    "career",
+    "resume",
+    "job-search",
+    "japan"
+  ],
+  "skills": "./skills"
+}
