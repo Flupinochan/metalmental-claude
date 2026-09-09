@@ -1,0 +1,46 @@
+{
+  "name": "verified-web-search",
+  "description": "URLごとに要約なしの完全なdocumentを取得・判定し、優先順位の高い候補から独立した敵対的検証を経た1件のみをURL付きで返すworkflowプラグイン",
+  "version": "1.0.0",
+  "author": {
+    "name": "MetalMental",
+    "email": "flupino@metalmental.net",
+    "url": "https://github.com/Flupinochan"
+  },
+  "homepage": "https://www.metalmental.net/",
+  "repository": "https://github.com/Flupinochan/metalmental-claude",
+  "license": "MIT",
+  "keywords": [
+    "web-search",
+    "research",
+    "workflow",
+    "mcp"
+  ],
+  "skills": "./skills/",
+  "agents": [
+    "./agents/web-search-scout.md",
+    "./agents/web-search-fetcher.md",
+    "./agents/web-search-selector.md",
+    "./agents/web-search-verifier.md"
+  ],
+  "workflows": "./workflows/",
+  "mcpServers": {
+    "context7": {
+      "command": "npx",
+      "args": ["-y", "@upstash/context7-mcp"]
+    },
+    "fetch": {
+      "command": "uv",
+      "args": [
+        "run",
+        "--project",
+        "${CLAUDE_PLUGIN_ROOT}/mcp-server-fetch",
+        "mcp-server-fetch"
+      ]
+    },
+    "playwright": {
+      "command": "npx",
+      "args": ["-y", "@playwright/mcp@latest"]
+    }
+  }
+}

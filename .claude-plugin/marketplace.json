@@ -38,9 +38,9 @@
       ]
     },
     {
-      "name": "web-search-plugin",
+      "name": "verified-web-search",
       "description": "A skill + workflow plugin that fetches candidate documents in full (no summarization), ranks them, and adversarially re-verifies the top candidate independently before returning it",
-      "source": "./plugins/web-search-plugin",
+      "source": "./plugins/verified-web-search",
       "version": "1.0.0",
       "author": {
         "name": "MetalMental"
@@ -63,9 +63,9 @@
       ]
     },
     {
-      "name": "tool-failure-logger-plugin",
+      "name": "tool-failure-log",
       "description": "Automatically logs PostToolUseFailure events and provides skills to clear logs or investigate settings.json remediation ideas",
-      "source": "./plugins/tool-failure-logger-plugin",
+      "source": "./plugins/tool-failure-log",
       "version": "1.0.0",
       "author": {
         "name": "MetalMental"
@@ -88,9 +88,9 @@
       ]
     },
     {
-      "name": "daily-report-plugin",
+      "name": "session-daily-report",
       "description": "Reads Claude Code session history across all projects for a given date and generates a Japanese daily work-report timeline in the terminal",
-      "source": "./plugins/daily-report-plugin",
+      "source": "./plugins/session-daily-report",
       "version": "1.0.0",
       "author": {
         "name": "MetalMental"
@@ -111,9 +111,9 @@
       ]
     },
     {
-      "name": "local-search-plugin",
+      "name": "local-doc-search",
       "description": "A skill + MCP plugin that searches local documents (Markdown/text/PDF/Office) by keyword and by meaning, returning only paths and line ranges instead of document text",
-      "source": "./plugins/local-search-plugin",
+      "source": "./plugins/local-doc-search",
       "version": "1.0.0",
       "author": {
         "name": "MetalMental"

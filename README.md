@@ -24,34 +24,34 @@ claude
 /git-github-workflow:create-pull-request
 ```
 
-### web-search-plugin
+### verified-web-search
 
 ```bash
-/plugin install web-search-plugin@metalmental-plugins-official
-/web-search-plugin:web-search <query>
+/plugin install verified-web-search@metalmental-plugins-official
+/verified-web-search:web-search <query>
 ```
 
-### tool-failure-logger-plugin
+### tool-failure-log
 
 ```bash
-/plugin install tool-failure-logger-plugin@metalmental-plugins-official
-/tool-failure-logger-plugin:clear-tool-failure-logs
-/tool-failure-logger-plugin:analyze-tool-failures
+/plugin install tool-failure-log@metalmental-plugins-official
+/tool-failure-log:clear-tool-failure-logs
+/tool-failure-log:analyze-tool-failures
 ```
 
-### daily-report-plugin
+### session-daily-report
 
 ```bash
-/plugin install daily-report-plugin@metalmental-plugins-official
-/daily-report-plugin:daily-report [YYYY-MM-DD]
+/plugin install session-daily-report@metalmental-plugins-official
+/session-daily-report:daily-report [YYYY-MM-DD]
 ```
 
-### local-search-plugin
+### local-doc-search
 
 ```bash
-/plugin install local-search-plugin@metalmental-plugins-official
-/local-search-plugin:local-search-setup
-/local-search-plugin:local-search <query>
+/plugin install local-doc-search@metalmental-plugins-official
+/local-doc-search:local-search-setup
+/local-doc-search:local-search <query>
 ```
 
 ### career-transition-support
@@ -66,5 +66,5 @@ claude
 ## develop
 
 ```bash
-claude --plugin-dir ./plugins/daily-report-plugin
+claude --plugin-dir ./plugins/session-daily-report
 ```
