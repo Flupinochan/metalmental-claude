@@ -5,7 +5,8 @@
 A skill plugin for Claude Code
 
 - Prevents manual `git commit` and restricts commits to Claude only, with automated commit
-  message generation
+  message generation including breaking-change and issue-reference footers, and aborts when a
+  file that may contain secrets is about to be committed
 - Confirms base branch/prefix/suffix via `AskUserQuestion`, creates a git worktree and
   working branch with `git worktree add --no-track`, and switches the session into it
 - Extracts a GitHub issue number from the branch name when present, generates a pull
@@ -15,7 +16,7 @@ A skill plugin for Claude Code
 
 | Skill                       | Description                                                                 | Auto-invocation |
 | ---------------------------- | ---------------------------------------------------------------------------- | ---------------- |
-| `/commit-enforce`           | Commits immediately without review                                          | Enabled |
+| `/commit-enforce`           | Groups changes, generates a Conventional Commits message with optional breaking-change and issue footers, then commits | Enabled |
 | `/create-worktree-and-branch` | Creates a git worktree and branch from an interactively chosen base/prefix/suffix, then switches into it | Enabled |
 | `/create-pull-request`      | Generates a pull request title and body from branch name and diff, then creates it | Enabled |
 
@@ -26,10 +27,13 @@ A skill plugin for Claude Code
 ```mermaid
 flowchart TD
     A(["/commit-enforce"]) --> B["Get changed files"]
-    B --> G{staged/workspace?}
-    G -- staged --> J
+    B --> S{Secret file detected?}
+    S -- Yes --> X([Abort])
+    S -- No --> G{staged/workspace?}
+    G -- staged --> I
     G -- workspace --> H["Split changes into appropriate commit units"]
-    H --> J["Generate commit message"]
+    H --> I["Get branch info (type / issue number)"]
+    I --> J["Generate commit message"]
     J --> K["Commit"]
     K --> L{Remaining files in workspace?}
     L -- Yes --> J
@@ -40,8 +44,8 @@ flowchart TD
 
 | File                                              | Role                                                        |
 | --------------------------------------------------- | ------------------------------------------------------------ |
-| `skills/commit-enforce/SKILL.md`                  | `/commit-enforce` commit message generation and execution   |
-| `skills/get-commit-target-files.md`               | Retrieves changed files (staged or workspace)                |
+| `skills/commit-enforce/SKILL.md`                  | `/commit-enforce` branch/type/issue resolution, commit message generation, and execution |
+| `skills/commit-enforce/references/get-commit-target-files.md` | Retrieves changed files (staged or workspace), aborts if a secret file is detected |
 | `skills/create-worktree-and-branch/SKILL.md`      | Confirms base branch/prefix/suffix, creates the worktree and branch, and switches into it |
 | `skills/create-pull-request/SKILL.md`             | Extracts issue number, confirms merge target/title, generates body, creates PR |
 | `hooks/hooks.json`                                | Triggers `SessionStart` to run the install script            |
@@ -56,6 +60,8 @@ flowchart TD
   the directory Claude Code's own `--worktree` flag and `EnterWorktree` tool also use
 - `.gitignore` entries and gitignored files such as `.env` are not copied into the new
   worktree automatically
+- Secret-file detection in `commit-enforce` matches file paths only and never reads file
+  contents. Sample files such as `.env.example` are excluded
 
 ## Cleanup
 

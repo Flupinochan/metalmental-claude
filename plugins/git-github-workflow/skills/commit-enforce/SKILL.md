@@ -5,8 +5,8 @@ compatibility: Requires git
 license: MIT
 metadata:
   author: MetalMental
-  version: "1.0"
-allowed-tools: Bash(git diff *) Bash(git add *) Bash(git ls-files *) Bash(git ls-files * | wc -l) Bash(git branch *) Bash(CLAUDE_COMMIT_ALLOWED=1 git commit *) Read
+  version: "1.1"
+allowed-tools: AskUserQuestion Bash(git diff *) Bash(git add *) Bash(git ls-files *) Bash(git ls-files * | wc -l) Bash(git branch *) Bash(CLAUDE_COMMIT_ALLOWED=1 git commit *) Read
 ---
 
 # シンプルコミットワークフロー
@@ -30,11 +30,13 @@ git add file1.txt file2.txt # 1回目のtool call
 CLAUDE_COMMIT_ALLOWED=1 git commit -m "fix: something" # 2回目のtool call
 ```
 
+同様の理由で、複数行のコミットメッセージもヒアドキュメントやコマンド置換 `$()` は使用せず、Step5に記載の複数 `-m` オプションで組み立てること
+
 ## 手順
 
 ### Step1: コミット対象のファイルを取得
 
-[get-commit-target-files.md](../get-commit-target-files.md) を参照し、コミット対象のファイル情報と変更元 (`staged` または `workspace`) を取得
+[get-commit-target-files.md](references/get-commit-target-files.md) を参照し、コミット対象のファイル情報と変更元 (`staged` または `workspace`) を取得
 
 - `staged` の場合: Step3へ進む
 - `workspace` の場合: Step2へ進む
@@ -55,11 +57,9 @@ CLAUDE_COMMIT_ALLOWED=1 git commit -m "fix: something" # 2回目のtool call
 - **単一コミット:** 全ファイルを1つでコミットする
 - **手動で指定:** ユーザーがグループ分けを指定する
 
-### Step3: コミットメッセージを生成
+### Step3: ブランチ情報を取得
 
-以下のルールに従いコミットメッセージを生成する
-
-**形式:** `<type>: <説明>`
+このStepはブランチ単位の情報を扱うため、グループ数に関わらず1回のみ実行する
 
 1. 現在のブランチ名を取得
 
@@ -67,18 +67,59 @@ CLAUDE_COMMIT_ALLOWED=1 git commit -m "fix: something" # 2回目のtool call
 git branch --show-current
 ```
 
-2. ブランチ名が `<prefix>/<suffix>` の形式の場合、prefixを以下の対応表でtypeに変換する
+ブランチ名が取得できない場合 (detached HEADなど) は、typeの候補とissue番号のいずれも取得せずStep4へ進む
+
+2. ブランチ名が `<prefix>/<suffix>` の形式の場合、prefixを以下の対応表でtypeに変換し、typeの候補として記録する
 
 | ブランチprefix | type   |
 | -------------- | ------ |
 | `feature`      | `feat` |
 | `bug`          | `fix`  |
 
-対応表に一致するprefixが取得できた場合はそのtypeを使用し、3のtype一覧は参照しない
+対応表に一致するprefixが取得できた場合はそのtypeを候補として使用し、Step4のtype一覧は参照しない
 
-対応表に一致しない場合、またはブランチ名がこの形式でない場合は、変更内容に基づき3のtype一覧からtypeを判断する
+対応表に一致しない場合、またはブランチ名がこの形式でない場合は、typeの候補は記録せず、Step4のtype一覧から変更内容に基づき判断する
 
-3. **typeの一覧 (対応表に一致しない場合のみ使用):**
+3. ブランチ名からissue番号を抽出
+
+抽出ルール: branch名の最後のセグメントが数値のみの場合、それをissue番号とする
+
+- 例1: `feature/123` → `123`
+- 例2: `bug/456` → `456`
+- 例3: `feature/fix-username-validation` → 数値のみのセグメントがないため抽出なし
+
+issue番号のないbranchも存在するため、取得できなかった場合はスキップしてよい
+
+4. issue番号を取得できた場合のみ、`AskUserQuestion` ツールを使用してユーザーに確認を求める
+
+> 「コミットメッセージに `Closes #<issue番号>` を付与しますか？」
+
+オプション:
+
+- **付与する:** すべてのグループの中で最後にコミットするグループのメッセージに `Closes #<issue番号>` フッターを付与する
+- **付与しない:** フッターを付与しない
+
+この回答はブランチ単位で1回のみ確認し、以降のグループでも同じ回答を再利用する
+
+### Step4: コミットメッセージを生成
+
+グループごとに以下の1〜5を実施する
+
+**形式:**
+
+```
+<type>[!]: <説明>
+
+[BREAKING CHANGE: <破壊的変更の内容>]
+
+[Closes #<issue番号>]
+```
+
+`[]` は条件を満たす場合のみ付与する要素
+
+1. **typeを決定**
+
+Step3でtypeの候補を取得できた場合はそれを使用する。取得できなかった場合は、変更内容に基づき以下の一覧から判断する
 
 | Type       | 用途                                   |
 | ---------- | -------------------------------------- |
@@ -88,13 +129,51 @@ git branch --show-current
 | `style`    | 動作に影響しないフォーマット変更       |
 | `refactor` | バグ修正や機能追加を伴わないコード整理 |
 | `test`     | テストの追加・修正                     |
-| `chore`    | ビルド・依存関係・ツール関連の変更     |
+| `chore`    | 他のtypeに当てはまらない雑務的な変更   |
 | `ci`       | CI/CD設定の変更                        |
 | `perf`     | パフォーマンス改善                     |
+| `build`    | ビルドシステム・依存関係の変更         |
+| `revert`   | 過去のコミットの取り消し               |
 
-4. Step1で取得したファイルの変更内容を元に適切な `<説明>` を生成
+2. **説明を生成**
 
-5. `<type>: <説明>` の形式でコミットメッセージを生成
+Step1で取得したファイルの変更内容を元に `<説明>` を生成する
+
+- 50文字以内に収める
+- 体言止め、または「~を追加」「~を修正」の形式で書く
+- 1コミット1論理変更とし、複数の変更を1文に詰め込まない
+- 文末に `。` を付けない
+
+3. **破壊的変更を判定**
+
+このグループの変更内容に以下が含まれるか確認する
+
+- 公開関数・メソッド・クラスの削除またはリネーム
+- 引数の削除・順序変更・必須化
+- 戻り値やレスポンス形式の変更
+- APIのエンドポイントパスやHTTPメソッドの変更
+- 設定キー・環境変数の削除・リネーム・必須化
+- CLIオプションの削除・リネーム
+- DBスキーマの破壊的変更 (カラム削除、NOT NULL化など)
+
+該当する場合のみ `AskUserQuestion` ツールを使用してユーザーに確認を求める
+
+> 「この変更は破壊的変更ですか？」
+> `<検出した破壊的変更の内容>`
+
+オプション:
+
+- **破壊的変更として扱う:** typeの直後 (`:` の直前) に `!` を付与し、`BREAKING CHANGE:` フッターを追加する
+- **通常の変更として扱う:** `!` とフッターを付与しない
+
+該当しない場合は確認せず4へ進む
+
+4. **フッターを組み立てる**
+
+- 3で破壊的変更として扱う場合: `BREAKING CHANGE: <破壊的変更の内容>` を追加
+- Step3で `Closes #<issue番号>` の付与が承認されており、かつこのグループが最後にコミットするグループの場合: `Closes #<issue番号>` を追加
+
+5. **メッセージを確認**
 
 生成したメッセージを `AskUserQuestion` ツールを使用してユーザーに確認を求める:
 
@@ -104,20 +183,39 @@ git branch --show-current
 オプション:
 
 - **承認:** 生成されたコミットメッセージをそのまま使用する
-- **手動で指定:** ユーザーが指定したコミットメッセージを使用する
+- **手動で指定:** ユーザーが指定したコミットメッセージを1行のまま使用する。この場合 `!` とフッターは付与しない
 
-### Step4: コミットを実行
+生成例:
+
+```
+feat!: 認証エンドポイントを変更
+
+BREAKING CHANGE: /auth/login のレスポンス形式を変更
+
+Closes #123
+```
+
+### Step5: コミットを実行
 
 `git commit` には必ず `CLAUDE_COMMIT_ALLOWED=1` をつける
 
+フッターがある場合は `-m` を複数指定する。`-m` ごとに空行が挿入されるため、ヒアドキュメントやコマンド置換 `$()` は使用しない
+
 - `staged` の場合:
+
   ```bash
-  CLAUDE_COMMIT_ALLOWED=1 git commit -m "<承認されたメッセージ>"
-  ```
-- `workspace` の場合:
-  ```bash
-  git add <このグループのファイル>
-  CLAUDE_COMMIT_ALLOWED=1 git commit -m "<承認されたメッセージ>"
+  # フッターなし
+  CLAUDE_COMMIT_ALLOWED=1 git commit -m "<件名>"
+
+  # フッターあり
+  CLAUDE_COMMIT_ALLOWED=1 git commit -m "<件名>" -m "BREAKING CHANGE: <破壊的変更の内容>" -m "Closes #<issue番号>"
   ```
 
-残りの各グループがある場合は、Step3とStep4を繰り返す
+- `workspace` の場合:
+
+  ```bash
+  git add <このグループのファイル>
+  CLAUDE_COMMIT_ALLOWED=1 git commit -m "<件名>" -m "BREAKING CHANGE: <破壊的変更の内容>"
+  ```
+
+残りの各グループがある場合は、Step4とStep5を繰り返す。Step3は再実行しない
