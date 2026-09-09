@@ -15,11 +15,13 @@ claude
 
 ## Plugins
 
-### claude-only-commit-workflow-plugin
+### git-github-workflow
 
 ```bash
-/plugin install claude-only-commit-workflow-plugin@metalmental-plugins-official
-/commit
+/plugin install git-github-workflow@metalmental-plugins-official
+/git-github-workflow:commit-enforce
+/git-github-workflow:create-worktree-and-branch
+/git-github-workflow:create-pull-request
 ```
 
 ### web-search-plugin

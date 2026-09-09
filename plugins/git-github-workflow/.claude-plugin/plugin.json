@@ -1,0 +1,24 @@
+{
+  "name": "git-github-workflow",
+  "description": "A skill plugin bundling git commit enforcement, worktree/branch creation, and GitHub pull request creation into one workflow",
+  "version": "1.0.0",
+  "author": {
+    "name": "MetalMental",
+    "email": "flupino@metalmental.net",
+    "url": "https://github.com/Flupinochan"
+  },
+  "homepage": "https://www.metalmental.net/",
+  "repository": "https://github.com/Flupinochan/metalmental-claude",
+  "license": "MIT",
+  "keywords": [
+    "git",
+    "github",
+    "commit",
+    "worktree",
+    "branch",
+    "pull-request",
+    "workflow"
+  ],
+  "skills": "./skills",
+  "hooks": "./hooks/hooks.json"
+}

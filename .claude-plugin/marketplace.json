@@ -7,25 +7,33 @@
   },
   "plugins": [
     {
-      "name": "claude-only-commit-workflow-plugin",
-      "description": "A commit skill plugin that blocks manual git commits and lets Claude auto-review changes and commit",
-      "source": "./plugins/claude-only-commit-workflow-plugin",
+      "name": "git-github-workflow",
+      "description": "A skill plugin bundling git commit enforcement, worktree/branch creation, and GitHub pull request creation into one workflow",
+      "source": "./plugins/git-github-workflow",
       "version": "1.0.0",
       "author": {
         "name": "MetalMental"
       },
       "homepage": "https://www.metalmental.net/",
-      "repository": "https://github.com/Flupinochan/claude-only-commit-workflow",
+      "repository": "https://github.com/Flupinochan/metalmental-claude",
       "license": "MIT",
       "category": "development",
       "keywords": [
         "git",
+        "github",
         "commit",
+        "worktree",
+        "branch",
+        "pull-request",
         "workflow"
       ],
       "tags": [
         "git",
+        "github",
         "commit",
+        "worktree",
+        "branch",
+        "pull-request",
         "workflow"
       ]
     },

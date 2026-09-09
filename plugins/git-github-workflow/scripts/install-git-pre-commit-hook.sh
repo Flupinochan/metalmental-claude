@@ -3,7 +3,7 @@
 
 set -euo pipefail
 
-MARKER="# [claude-only-commit-workflow]"
+MARKER="# [commit-enforce]"
 GIT_HOOKS_DIR=".git/hooks"
 PRE_COMMIT="$GIT_HOOKS_DIR/pre-commit"
 
@@ -11,6 +11,11 @@ PRE_COMMIT="$GIT_HOOKS_DIR/pre-commit"
 if [ ! -d "$GIT_HOOKS_DIR" ]; then
   exit 0
 fi
+
+# Create enabled marker in CLAUDE_PLUGIN_DATA (auto-deleted on plugin uninstall)
+ENABLED_FILE="${CLAUDE_PLUGIN_DATA}/enabled"
+mkdir -p "${CLAUDE_PLUGIN_DATA}"
+touch "$ENABLED_FILE"
 
 # Skip if already installed
 if [ -f "$PRE_COMMIT" ] && grep -qF "$MARKER" "$PRE_COMMIT"; then
@@ -22,11 +27,12 @@ if [ ! -f "$PRE_COMMIT" ]; then
   printf '#!/bin/sh\n' > "$PRE_COMMIT"
 fi
 
-# Append guard block to the pre-commit hook
+# ENABLED_FILE path is expanded at install time so the hook works without Claude Code
+printf '\n' >> "$PRE_COMMIT"
 cat >> "$PRE_COMMIT" << EOF
 $MARKER
-if [ -z "\$CLAUDE_COMMIT_ALLOWED" ]; then
-  echo "Direct git commit is disabled. Use /commit in Claude Code." >&2
+if [ -f "${ENABLED_FILE}" ] && [ -z "\$CLAUDE_COMMIT_ALLOWED" ]; then
+  echo "Direct git commit is disabled. Use /commit-enforce in Claude Code." >&2
   exit 1
 fi
 EOF
