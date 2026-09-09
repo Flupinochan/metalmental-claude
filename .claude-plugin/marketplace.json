@@ -138,6 +138,31 @@
       ]
     },
     {
+      "name": "sandbox-enforce",
+      "description": "Scans every Claude Code settings file on the machine for sandbox.enabled and consolidates sandboxing to the user settings after confirmation",
+      "source": "./plugins/sandbox-enforce",
+      "version": "1.0.0",
+      "author": {
+        "name": "MetalMental"
+      },
+      "homepage": "https://www.metalmental.net/",
+      "repository": "https://github.com/Flupinochan/metalmental-claude",
+      "license": "MIT",
+      "category": "development",
+      "keywords": [
+        "sandbox",
+        "security",
+        "settings",
+        "wsl"
+      ],
+      "tags": [
+        "sandbox",
+        "security",
+        "settings",
+        "wsl"
+      ]
+    },
+    {
       "name": "career-transition-support",
       "description": "A skill plugin for Japanese IT engineer career transitions: writes and revises resumes, analyzes job postings for match rate and gaps, and builds portfolio case studies",
       "source": "./plugins/career-transition-support",

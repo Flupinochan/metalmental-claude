@@ -54,6 +54,13 @@ claude
 /local-doc-search:local-search <query>
 ```
 
+### sandbox-enforce
+
+```bash
+/plugin install sandbox-enforce@metalmental-plugins-official
+/sandbox-enforce:enable-sandbox-everywhere
+```
+
 ### career-transition-support
 
 ```bash

@@ -1,0 +1,20 @@
+{
+  "name": "sandbox-enforce",
+  "description": "Scans every Claude Code settings file on the machine for sandbox.enabled and consolidates sandboxing to the user settings after confirmation",
+  "version": "1.0.0",
+  "author": {
+    "name": "MetalMental",
+    "email": "flupino@metalmental.net",
+    "url": "https://github.com/Flupinochan"
+  },
+  "homepage": "https://www.metalmental.net/",
+  "repository": "https://github.com/Flupinochan/metalmental-claude",
+  "license": "MIT",
+  "keywords": [
+    "sandbox",
+    "security",
+    "settings",
+    "wsl"
+  ],
+  "skills": "./skills/"
+}
