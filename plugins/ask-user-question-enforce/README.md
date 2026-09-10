@@ -1,4 +1,4 @@
-# skill-authoring
+# ask-user-question-enforce
 
 ## Overview
 
@@ -13,7 +13,7 @@ A skill plugin for Claude Code
 
 | Skill | Description | Auto-invocation |
 | --- | --- | --- |
-| `/ask-user-question-enforce` | Applies the AskUserQuestion notation and checklist when creating or editing a skill | Enabled |
+| `/ask-user-question-enforce` | Applies the AskUserQuestion notation when creating or editing a skill | Enabled |
 
 ## File Structure
 

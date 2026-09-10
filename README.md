@@ -61,11 +61,11 @@ claude
 /sandbox-enforce:enable-sandbox-everywhere
 ```
 
-### skill-authoring
+### ask-user-question-enforce
 
 ```bash
-/plugin install skill-authoring@metalmental-plugins-official
-/skill-authoring:ask-user-question-enforce
+/plugin install ask-user-question-enforce@metalmental-plugins-official
+/ask-user-question-enforce:ask-user-question-enforce
 ```
 
 ### career-transition-support

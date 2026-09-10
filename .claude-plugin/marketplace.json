@@ -163,9 +163,9 @@
       ]
     },
     {
-      "name": "skill-authoring",
+      "name": "ask-user-question-enforce",
       "description": "Provides authoring rules for Claude Code skills, standardizing how user confirmations inside a skill are expressed with the AskUserQuestion tool",
-      "source": "./plugins/skill-authoring",
+      "source": "./plugins/ask-user-question-enforce",
       "version": "1.0.0",
       "author": {
         "name": "MetalMental"
