@@ -1,6 +1,6 @@
 ---
 name: analyze-tool-failures
-description: Use when the user explicitly asks to analyze tool failures, investigate why tools keep failing, or wants a settings.json remediation proposal based on recorded PostToolUseFailure log entries. Read-only investigation — never modifies any file. Only triggered on explicit user invocation.
+description: このスキルは、ユーザーが「ツールの失敗ログを分析して」「なぜツールが失敗し続けるのか調べて」「settings.jsonの修正案を出して」のように、このプラグインが記録したPostToolUseFailureログをもとに設定の改善案を得たい場合に使用する。調査は読み取り専用で、いかなるファイルも変更しない。ユーザーが明示的に呼び出した場合のみ実行する
 disable-model-invocation: true
 context: fork
 agent: settings-fix-advisor
@@ -12,14 +12,17 @@ metadata:
 
 # Analyze Tool Failures
 
-Investigate recent `PostToolUseFailure` log entries under `${CLAUDE_PLUGIN_DATA}/logs/*.log`
-(written by this plugin's hook) and correlate them with the current Claude Code settings.json
-configuration (global `~/.claude/settings.json`, and project-level `.claude/settings.json` /
-`.claude/settings.local.json` when present).
+`${CLAUDE_PLUGIN_DATA}/logs/*.log` 配下に記録された直近の `PostToolUseFailure` ログを調査し、
+現在のClaude Code設定 (グローバルの `~/.claude/settings.json`、および存在する場合はプロジェクト
+配下の `.claude/settings.json` / `.claude/settings.local.json`) と突き合わせる
 
-`$ARGUMENTS` may specify a lookback window: a number of days (e.g. `7`) or a specific
-`YYYYMMDD` date. Default to the last 7 days of logs when no argument is given.
+`$ARGUMENTS` には調査期間を指定できる。日数 (例: `7`) または `YYYYMMDD` 形式の特定日付を
+渡す。引数が無い場合は直近7日分のログを対象とする
 
-Produce a prioritized, human-readable report of likely configuration-related root causes and
-concrete proposed settings.json changes. Do not edit any file — this skill only reports
-proposals for the user to review and apply manually.
+設定に起因すると考えられる原因の優先順位付きレポートと、具体的なsettings.json修正案を
+人間が読める形式で出力する。いかなるファイルも変更しない。このスキルは提案の出力のみを
+行い、修正の適用はユーザーが手動で行う
+
+## 出力ルール
+
+- 表記は本リポジトリのCLAUDE.md「表記・出力ルール」節に従う (半角括弧、理由の前置き、水平線不使用、体言止め、文末の「。」不使用)

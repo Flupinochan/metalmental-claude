@@ -1,6 +1,6 @@
 ---
 name: clear-tool-failure-logs
-description: Use when the user explicitly asks to clear, delete, or clean up the PostToolUseFailure log files written by this plugin's hook. Destructive operation — never triggered automatically by Claude, only on explicit user invocation.
+description: このスキルは、ユーザーが「ツール失敗ログを削除して」「ログをクリアして」「ログファイルを片付けて」のように、このプラグインのhookが記録したPostToolUseFailureログファイルを削除したい場合に使用する。破壊的操作のため、ユーザーが明示的に呼び出した場合のみ実行する
 disable-model-invocation: true
 license: MIT
 metadata:
@@ -11,43 +11,39 @@ allowed-tools: AskUserQuestion Bash(ls "${CLAUDE_PLUGIN_DATA}"/logs/*.log) Bash(
 
 # Clear Tool Failure Logs
 
-Delete `PostToolUseFailure` log files (`${CLAUDE_PLUGIN_DATA}/logs/YYYYMMDD.log`) written by
-this plugin's hook.
+このプラグインのhookが記録した `PostToolUseFailure` ログファイル
+(`${CLAUDE_PLUGIN_DATA}/logs/YYYYMMDD.log`) を削除する
 
-## Step 1: Inventory
+## 手順
 
-Run `ls -la "${CLAUDE_PLUGIN_DATA}"/logs/*.log 2>/dev/null` (and optionally `wc -l` per file)
-to list existing log files with size/line counts. If none exist, report that and stop.
+1. `ls -la "${CLAUDE_PLUGIN_DATA}"/logs/*.log 2>/dev/null` を実行し、既存のログファイルを
+   一覧化する (`wc -l` でファイルごとの行数も確認するとよい)。ファイルが1件も無い場合は
+   その旨を伝えて処理を終了する
+2. 以下をもとに`AskUserQuestion`ツールを呼び出してユーザに確認する
 
-## Step 2: Confirm scope
+   ```
+   questions:
+     - question: どのログファイルを削除しますか
+       header: 削除範囲
+       multiSelect: false
+       options:
+         - label: すべて削除
+           description: 一覧に出た全てのログファイルを削除する
+         - label: 特定の日付のみ削除
+           description: 8桁の日付 (YYYYMMDD) を尋ね、その日付のログファイルのみ削除する
+         - label: 中止
+           description: 何も削除しない
+   ```
 
-Call the `AskUserQuestion` tool based on the following:
+   「特定の日付のみ削除」が選ばれた場合、8桁の日付 (`YYYYMMDD`) を尋ね、
+   `${CLAUDE_PLUGIN_DATA}/logs/<日付>.log` のみを削除対象とする
+3. 削除を実行する
+   - すべて削除: `rm "${CLAUDE_PLUGIN_DATA}"/logs/*.log`
+   - 特定の日付: 入力が正規表現 `^[0-9]{8}$` に厳密に一致することを確認したうえで
+     `rm "${CLAUDE_PLUGIN_DATA}"/logs/<日付>.log` を実行する。一致しない場合は実行を拒否し
+     エラーを報告する (「昨日」「先週」のような相対表現や部分的な日付・範囲指定は解釈しない)
+4. 削除したファイル、または該当ファイルが無かった旨を正確に報告する
 
-```
-questions:
-  - question: Which log files should be deleted?
-    header: Delete scope
-    multiSelect: false
-    options:
-      - label: Delete all
-        description: Remove every listed log file
-      - label: Delete a specific date
-        description: Prompt for an 8-digit date (YYYYMMDD) and delete only that date's log file
-      - label: Cancel
-        description: Do not delete anything
-```
+## 出力ルール
 
-If "Delete a specific date" is selected, prompt for an 8-digit date (`YYYYMMDD`) and delete only
-`${CLAUDE_PLUGIN_DATA}/logs/<date>.log`
-
-## Step 3: Execute
-
-- All: `rm "${CLAUDE_PLUGIN_DATA}"/logs/*.log`
-- Specific date: validate the input strictly matches `^[0-9]{8}$` before running
-  `rm "${CLAUDE_PLUGIN_DATA}"/logs/<date>.log`. Refuse and report an error if the input does
-  not match this pattern (do not attempt to interpret partial dates, ranges, or relative
-  expressions such as "yesterday" or "last week").
-
-## Step 4: Report
-
-State exactly which file(s) were deleted, or that nothing matched.
+- 表記は本リポジトリのCLAUDE.md「表記・出力ルール」節に従う (半角括弧、理由の前置き、水平線不使用、体言止め、文末の「。」不使用)
