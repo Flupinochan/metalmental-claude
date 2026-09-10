@@ -61,6 +61,13 @@ claude
 /sandbox-enforce:enable-sandbox-everywhere
 ```
 
+### skill-authoring
+
+```bash
+/plugin install skill-authoring@metalmental-plugins-official
+/skill-authoring:ask-user-question-enforce
+```
+
 ### career-transition-support
 
 ```bash

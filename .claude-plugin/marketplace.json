@@ -163,6 +163,31 @@
       ]
     },
     {
+      "name": "skill-authoring",
+      "description": "Provides authoring rules for Claude Code skills, standardizing how user confirmations inside a skill are expressed with the AskUserQuestion tool",
+      "source": "./plugins/skill-authoring",
+      "version": "1.0.0",
+      "author": {
+        "name": "MetalMental"
+      },
+      "homepage": "https://www.metalmental.net/",
+      "repository": "https://github.com/Flupinochan/metalmental-claude",
+      "license": "MIT",
+      "category": "development",
+      "keywords": [
+        "skill-development",
+        "ask-user-question",
+        "authoring",
+        "meta"
+      ],
+      "tags": [
+        "skill-development",
+        "ask-user-question",
+        "authoring",
+        "meta"
+      ]
+    },
+    {
       "name": "career-transition-support",
       "description": "A skill plugin for Japanese IT engineer career transitions: writes and revises resumes, analyzes job postings for match rate and gaps, and builds portfolio case studies",
       "source": "./plugins/career-transition-support",
