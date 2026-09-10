@@ -17,7 +17,6 @@
     "sqlite",
     "mcp"
   ],
-  "skills": "./skills/",
   "mcpServers": {
     "local-search": {
       "command": "uv",

@@ -10,6 +10,5 @@
   "homepage": "https://www.metalmental.net/",
   "repository": "https://github.com/Flupinochan/metalmental-claude",
   "license": "MIT",
-  "keywords": ["daily-report", "session-history", "workflow"],
-  "workflows": "./workflows/"
+  "keywords": ["daily-report", "session-history", "workflow"]
 }

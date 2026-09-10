@@ -10,7 +10,7 @@
       "name": "git-github-workflow",
       "description": "A skill plugin bundling git commit enforcement, worktree/branch creation, and GitHub pull request creation into one workflow",
       "source": "./plugins/git-github-workflow",
-      "version": "1.1.0",
+      "version": "1.1.1",
       "author": {
         "name": "MetalMental"
       },
@@ -66,7 +66,7 @@
       "name": "tool-failure-log",
       "description": "Automatically logs PostToolUseFailure events and provides skills to clear logs or investigate settings.json remediation ideas",
       "source": "./plugins/tool-failure-log",
-      "version": "1.0.0",
+      "version": "1.0.1",
       "author": {
         "name": "MetalMental"
       },

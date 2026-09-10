@@ -1,7 +1,7 @@
 {
   "name": "tool-failure-log",
   "description": "Automatically logs PostToolUseFailure events and provides skills to clear logs or investigate settings.json remediation ideas",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": {
     "name": "MetalMental",
     "email": "flupino@metalmental.net",
@@ -15,10 +15,5 @@
     "logging",
     "failure-analysis",
     "settings"
-  ],
-  "skills": "./skills/",
-  "agents": [
-    "./agents/settings-fix-advisor.md"
-  ],
-  "hooks": "./hooks/hooks.json"
+  ]
 }

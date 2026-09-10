@@ -16,14 +16,6 @@
     "workflow",
     "mcp"
   ],
-  "skills": "./skills/",
-  "agents": [
-    "./agents/web-search-scout.md",
-    "./agents/web-search-fetcher.md",
-    "./agents/web-search-selector.md",
-    "./agents/web-search-verifier.md"
-  ],
-  "workflows": "./workflows/",
   "mcpServers": {
     "context7": {
       "command": "npx",
