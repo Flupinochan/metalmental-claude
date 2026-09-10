@@ -74,8 +74,20 @@ sandbox が起動せず非sandboxで実行されることをユーザに先に�
 
 ### 3. WSL側 user設定の有効化 (集約先)
 
-`USER_SETTINGS_FIX_NEEDED` が出力されていた場合、`~/.claude/settings.json` に
-`sandbox.enabled: true` を設定する旨をユーザに提示し、**明示的な承認を得る**。
+`USER_SETTINGS_FIX_NEEDED` が出力されていた場合、以下をもとに`AskUserQuestion`ツールを呼び出してユーザに確認する
+
+```
+questions:
+  - question: "~/.claude/settings.json にsandbox.enabled: trueを設定しますか"
+    header: user設定の有効化
+    multiSelect: false
+    options:
+      - label: 実行する
+        description: "sandbox.enabled: trueを設定する"
+      - label: 実行しない
+        description: 何もせず以降の手順も中止する
+```
+
 承認が得られなければ以降の手順も中止する
 
 承認後:
@@ -86,10 +98,23 @@ python3 "${CLAUDE_PLUGIN_ROOT}/skills/enable-sandbox-everywhere/scripts/scan_san
 
 ### 4. WSL側プロジェクト設定の false キー削除
 
-`FIX_TARGET` の一覧 (ファイルパス) をそのままユーザに提示し、それぞれ `sandbox.enabled`
-キーを削除して手順3の user 設定を継承させる旨の**明示的な承認を得る**。ファイル全体が
+`FIX_TARGET` の一覧 (ファイルパス) をそのままユーザに提示する。ファイル全体が
 `json.dump` により再フォーマットされること (インデント幅・空行が変わり得ること) と、
-書込前に `<path>.bak` が作成されることも併せて伝える。承認が得られなければ中止する
+書込前に `<path>.bak` が作成されることを併せて伝えたうえで、以下をもとに`AskUserQuestion`ツールを呼び出してユーザに確認する
+
+```
+questions:
+  - question: 提示したファイルからsandbox.enabledキーを削除し、手順3のuser設定を継承させますか
+    header: プロジェクト設定の修正
+    multiSelect: false
+    options:
+      - label: 実行する
+        description: 対象ファイルのsandbox.enabledキーを削除する
+      - label: 実行しない
+        description: 何もせず中止する
+```
+
+承認が得られなければ中止する
 
 承認後、対象ファイルを1件ずつ処理する:
 
@@ -100,7 +125,31 @@ python3 "${CLAUDE_PLUGIN_ROOT}/skills/enable-sandbox-everywhere/scripts/scan_san
 ### 5. Windows側の確認 (WSL環境のみ)
 
 `WINDOWS_USER_SETTINGS_FIX_NEEDED` および `WINDOWS_TARGET` は、WSL とは別の
-Windows 側 Claude Code インストールの設定であるため、手順3・4とは**分けて個別に承認を得る**。
+Windows 側 Claude Code インストールの設定であるため、手順3・4とは分けて個別に、以下をもとに
+`AskUserQuestion`ツールを呼び出してユーザに確認する
+
+```
+questions:
+  - question: "Windows側の~/.claude/settings.json にsandbox.enabled: trueを設定しますか (WINDOWS_USER_SETTINGS_FIX_NEEDED)"
+    header: Win user設定
+    multiSelect: false
+    options:
+      - label: 実行する
+        description: "sandbox.enabled: trueを設定する"
+      - label: 実行しない
+        description: 何もしない
+  - question: 提示したWindows側ファイルからsandbox.enabledキーを削除しますか (WINDOWS_TARGET)
+    header: Windows設定の修正
+    multiSelect: false
+    options:
+      - label: 実行する
+        description: 対象ファイルのsandbox.enabledキーを削除する
+      - label: 実行しない
+        description: 何もしない
+```
+
+いずれか出力されていない項目があれば、その質問は提示しない
+
 承認後は同様に `--fix <path> --action set-true` (前者) / `--fix <path> --action remove-key` (後者) を実行する
 
 ### 6. カレントセッション自身の設定 (手動確認・最後に案内)
@@ -168,7 +217,7 @@ managed > project local > project > user の優先順位で、カレントディ
   した可能性があるため、`CURRENT_SESSION_DISABLED` は分離して最後にユーザ主導で扱う
 - **`Read`/`Edit` でファイル全文を読み書きする**: 機密値を含む設定ファイルの本文が会話
   コンテキストに載ってしまう。必ず `--fix` 経由にする
-- **確認スキップ**: 有効化・削除の書込前のユーザ確認は省略しない
+- **確認スキップ**: 有効化・削除の書込前の`AskUserQuestion`による確認は省略しない
 
 ## 構成
 

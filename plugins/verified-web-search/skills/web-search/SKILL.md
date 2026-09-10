@@ -1,7 +1,7 @@
 ---
 name: web-search
 description: このスキルは、ユーザーが「正確な情報をもとに調べてください」「事実をもとに回答してください」「根拠を述べてください」「ソースを教えて」のように質問された場合、WebFetchによる要約された内容の取得では不十分と判断した場合に使用する。ネットで検索した完全な情報をそのまま返却する
-allowed-tools: Workflow
+allowed-tools: AskUserQuestion Workflow
 license: MIT
 metadata:
   author: MetalMental
@@ -12,7 +12,21 @@ metadata:
 
 ## 手順
 
-1. `$ARGUMENTS`を調査したい質問 (`query`) として受け取る。空の場合は何を調べたいか確認する
+1. `$ARGUMENTS`を調査したい質問 (`query`) として受け取る。空の場合、以下をもとに`AskUserQuestion`ツールを呼び出してユーザに確認する
+
+   ```
+   questions:
+     - question: 何を調べたいですか
+       header: 調査内容
+       multiSelect: false
+       options:
+         - label: 技術仕様やドキュメントについて
+           description: ライブラリ・API・ツールなどの仕様を調べる
+         - label: 最新のニュースや動向について
+           description: 特定分野の最近の出来事や動きを調べる
+   ```
+
+   いずれにも当てはまらない場合は「その他」から具体的な質問文を入力してもらう
 2. `Workflow`ツールで`verified-web-search:web-search-workflow`という名前のworkflowを呼び出す
    - この名前で解決しない場合は、bareの`web-search-workflow`で再試行する
    - `args: { "query": "<質問>" }`を渡す。`maxUrls` / `maxVerifyAttempts`は既定値を使うため通常は省略する

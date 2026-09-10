@@ -5,6 +5,7 @@ license: MIT
 metadata:
   author: MetalMental
   version: "1.0"
+allowed-tools: AskUserQuestion Read Write Edit Glob Grep
 ---
 
 # 求人票分析と職務経歴書の調整
@@ -110,7 +111,21 @@ metadata:
 2. 現在の職務経歴書 (jp-resume-writerで作成したもの) と突き合わせる
 3. マッチ度とギャップを算出し、出力形式でまとめる
 4. 職務経歴書の調整が必要な場合、具体的な並び替え案を提示する
-5. 本人の承認を得てから、実際に職務経歴書ファイルを修正する
+5. 以下をもとに`AskUserQuestion`ツールを呼び出してユーザに確認する
+
+   ```
+   questions:
+     - question: 提示した並び替え案で職務経歴書ファイルを修正しますか
+       header: 修正の承認
+       multiSelect: false
+       options:
+         - label: 承認
+           description: 提示した並び替え案のとおりに職務経歴書ファイルを修正する
+         - label: 修正しない
+           description: 分析結果の提示のみで終了する
+   ```
+
+   承認が得られた場合のみ、実際に職務経歴書ファイルを修正する
 
 ## このskillで扱わないもの
 

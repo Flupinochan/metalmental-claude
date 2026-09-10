@@ -5,6 +5,7 @@ license: MIT
 metadata:
   author: MetalMental
   version: "1.0"
+allowed-tools: AskUserQuestion Read Write Edit Glob Grep
 ---
 
 # 職務経歴書作成 (ITエンジニア向け)
@@ -102,9 +103,38 @@ SES業界などで「スキルシート」と呼ぶ場合、本skillの8項目�
 
 ## 作業の進め方
 
-1. ユーザーの職歴・実績のヒアリング、または既存ファイルの読み込み
+1. 新規作成か既存ファイルの添削かが不明な場合、以下をもとに`AskUserQuestion`ツールを呼び出してユーザに確認する
+
+   ```
+   questions:
+     - question: 職務経歴書の作成方法を教えてください
+       header: 作成方法
+       multiSelect: false
+       options:
+         - label: 新規作成
+           description: ヒアリングから職歴・実績を聞き取って作成する
+         - label: 既存ファイルの添削
+           description: 既存の職務経歴書ファイルを読み込んで添削する
+   ```
+
+   新規作成の場合はユーザーの職歴・実績をヒアリングし、添削の場合は既存ファイルを読み込む
 2. 各プロジェクトの実績を「実績の書き方の型」に沿って書き起こす
-3. 数値化できる箇所を洗い出し、不明な場合は推定手法を提示して本人に確認する
+3. 数値化できる箇所を洗い出す。実績の数値が不明な場合、以下をもとに`AskUserQuestion`ツールを呼び出してユーザに確認する
+
+   ```
+   questions:
+     - question: この実績の数値が不明です。どの推定手法で示しますか
+       header: 数値の推定手法
+       multiSelect: false
+       options:
+         - label: 保守的推定
+           description: 低めに見積もる (例 「約70時間以上削減」)
+         - label: 範囲推定
+           description: 「X〜Y」の形で示す (例 「8〜12名のチーム」)
+         - label: 最小値提示
+           description: 「X以上」の形で示す (例 「100件以上」)
+   ```
+
 4. 標準構成の8項目に沿って全体をmarkdownで組み立てる
 5. 弱い表現がないか見直し、成果が書かれていない文を修正する
 

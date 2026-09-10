@@ -1,7 +1,7 @@
 ---
 name: local-search-setup
 description: このスキルは、ユーザーが「PCの資料を検索できるようにして」「このフォルダを検索対象にして」「インデックスを作り直して」「検索対象を確認したい」のように、ローカル検索の初期設定やインデックス作成、検索対象フォルダの追加削除を求めた場合に使用する。検索そのものはlocal-searchスキルが担当する
-allowed-tools: mcp__plugin_local-doc-search_local-search__add_search_path, mcp__plugin_local-doc-search_local-search__remove_search_path, mcp__plugin_local-doc-search_local-search__list_search_paths, mcp__plugin_local-doc-search_local-search__start_indexing, mcp__plugin_local-doc-search_local-search__get_index_status, mcp__plugin_local-doc-search_local-search__cancel_indexing
+allowed-tools: AskUserQuestion, mcp__plugin_local-doc-search_local-search__add_search_path, mcp__plugin_local-doc-search_local-search__remove_search_path, mcp__plugin_local-doc-search_local-search__list_search_paths, mcp__plugin_local-doc-search_local-search__start_indexing, mcp__plugin_local-doc-search_local-search__get_index_status, mcp__plugin_local-doc-search_local-search__cancel_indexing
 license: MIT
 metadata:
   author: MetalMental
@@ -13,12 +13,36 @@ metadata:
 ## 手順
 
 1. `list_search_paths`で現在の登録状況を確認する
-2. 対象フォルダが未指定の場合、どのフォルダを検索対象にするかユーザーに確認する
-   - ホームディレクトリ全体のような広範囲は、インデックス作成に長時間かかるため避けるよう案内する
-   - 「書類」「Documents」などドキュメントが集まるフォルダを提案する
+2. 対象フォルダが未指定の場合、以下をもとに`AskUserQuestion`ツールを呼び出してユーザに確認する
+
+   ```
+   questions:
+     - question: どのフォルダを検索対象にしますか
+       header: 検索対象フォルダ
+       multiSelect: false
+       options:
+         - label: Documents (推奨)
+           description: 書類が集まるフォルダ、ホームディレクトリ全体より高速に索引化できる
+         - label: Desktop
+           description: デスクトップ上のファイルを対象にする
+   ```
+
+   ホームディレクトリ全体のような広範囲は、インデックス作成に長時間かかるため避けるよう案内する
 3. `add_search_path`で登録する
    - `registered`が`false`の場合、`conflict`の内容をそのまま伝える (登録済みフォルダとの重複)
-   - `estimated_files`が5000件を超える警告が出た場合、続行するかユーザーに確認する
+   - `estimated_files`が5000件を超える警告が出た場合、以下をもとに`AskUserQuestion`ツールを呼び出してユーザに確認する
+
+     ```
+     questions:
+       - question: 対象ファイルが5000件を超えています。続行しますか
+         header: 続行確認
+         multiSelect: false
+         options:
+           - label: 続行する
+             description: このままインデックス作成を進める
+           - label: 中止する
+             description: 対象フォルダを見直すため一旦中止する
+     ```
 4. `start_indexing`でインデックス作成を開始する
    - **初回は埋め込みモデルのダウンロードに数GB、数分から数十分かかる**ことを必ず事前に伝える
    - 2回目以降は変更があったファイルだけを処理するため短時間で終わる

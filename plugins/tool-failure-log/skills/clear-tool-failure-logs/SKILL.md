@@ -6,7 +6,7 @@ license: MIT
 metadata:
   author: MetalMental
   version: "1.0"
-allowed-tools: Bash(ls "${CLAUDE_PLUGIN_DATA}"/logs/*.log) Bash(wc -l "${CLAUDE_PLUGIN_DATA}"/logs/*.log) Bash(rm "${CLAUDE_PLUGIN_DATA}"/logs/*.log)
+allowed-tools: AskUserQuestion Bash(ls "${CLAUDE_PLUGIN_DATA}"/logs/*.log) Bash(wc -l "${CLAUDE_PLUGIN_DATA}"/logs/*.log) Bash(rm "${CLAUDE_PLUGIN_DATA}"/logs/*.log)
 ---
 
 # Clear Tool Failure Logs
@@ -21,12 +21,24 @@ to list existing log files with size/line counts. If none exist, report that and
 
 ## Step 2: Confirm scope
 
-Ask via `AskUserQuestion`:
+Call the `AskUserQuestion` tool based on the following:
 
-- **Delete all**: remove every listed log file
-- **Delete a specific date**: prompt for an 8-digit date (`YYYYMMDD`) and delete only
-  `${CLAUDE_PLUGIN_DATA}/logs/<date>.log`
-- **Cancel**
+```
+questions:
+  - question: Which log files should be deleted?
+    header: Delete scope
+    multiSelect: false
+    options:
+      - label: Delete all
+        description: Remove every listed log file
+      - label: Delete a specific date
+        description: Prompt for an 8-digit date (YYYYMMDD) and delete only that date's log file
+      - label: Cancel
+        description: Do not delete anything
+```
+
+If "Delete a specific date" is selected, prompt for an 8-digit date (`YYYYMMDD`) and delete only
+`${CLAUDE_PLUGIN_DATA}/logs/<date>.log`
 
 ## Step 3: Execute
 

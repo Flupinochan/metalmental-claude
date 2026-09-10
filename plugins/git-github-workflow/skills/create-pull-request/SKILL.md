@@ -51,16 +51,19 @@ issue番号のないbranchも存在するため、取得できなかった場合
 
 ### Step 2: Pull Requestのマージ先を確認
 
-`AskUserQuestion`ツールを使用してユーザにマージ先branch名の確認をする
+以下をもとに`AskUserQuestion`ツールを呼び出してユーザに確認する
 
-**question**: マージ先のbranch名を選択してください
-
-**options**:
-
-- label: main (デフォルト)
-  - description: mainブランチにマージする
-- label: develop
-  - description: developブランチにマージする
+```
+questions:
+  - question: マージ先のbranch名を選択してください
+    header: マージ先
+    multiSelect: false
+    options:
+      - label: main (推奨)
+        description: mainブランチにマージする
+      - label: develop
+        description: developブランチにマージする
+```
 
 Step 3へ進む
 
@@ -97,18 +100,23 @@ git diff origin/<Step 2のマージ先branch>...HEAD
 
 ### Step 4: Pull Requestのタイトルを生成
 
-`AskUserQuestion`ツールを使用してユーザに確認を求める
+`<変更概要>`にはStep 3で取得した変更差分をもとに自動生成した内容を挿入する
 
-<変更概要>にはStep 3で取得した変更差分をもとに自動生成して挿入する
+Step 1でissue番号を取得できている場合のみ、以下をもとに`AskUserQuestion`ツールを呼び出してユーザに確認する
 
-**question**: Pull Requestタイトルの形式を選択してください
+```
+questions:
+  - question: Pull Requestタイトルの形式を選択してください
+    header: タイトル形式
+    multiSelect: false
+    options:
+      - label: 【#<issue番号>】<変更概要>
+        description: GitHub issue番号付きのタイトル
+      - label: <変更概要>
+        description: issue番号なしのタイトル
+```
 
-**options**:
-
-- label: `【#<issue番号>】<変更概要>`
-  - description: GitHub issue番号付きのタイトル。Step 1でissue番号を取得できなかった場合はこの選択肢を提示しない
-- label: `<変更概要>`
-  - description: issue番号なしのタイトル
+issue番号を取得できなかった場合は確認せず `<変更概要>` をそのままタイトルとする
 
 Step 5へ進む
 

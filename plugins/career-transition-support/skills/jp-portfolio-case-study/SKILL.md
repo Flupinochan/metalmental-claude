@@ -5,6 +5,7 @@ license: MIT
 metadata:
   author: MetalMental
   version: "1.0"
+allowed-tools: AskUserQuestion Read Write Edit Glob Grep
 ---
 
 # 個人開発プロジェクトのケーススタディ作成
@@ -68,7 +69,21 @@ WebAssemblyとJavaScriptの境界でのデータ受け渡しコストの見積�
 2. 6セクションに沿って情報を整理する
 3. 数値化できる成果がないか確認する。金額・時間・割合・規模/量・品質・頻度の6カテゴリと、数値が不明な場合の推定手法 (保守的推定、範囲推定など) は jp-resume-writer の「数値化の手法」に準拠する
    個人開発ならではの代替指標 (GitHubスター数、ダウンロード数、利用者からのフィードバック) も併せて検討する
-4. markdownで出力し、GitHub README用かポートフォリオサイト用かを確認して体裁を調整する
+4. 以下をもとに`AskUserQuestion`ツールを呼び出してユーザに確認する
+
+   ```
+   questions:
+     - question: 出力先を教えてください
+       header: 出力先
+       multiSelect: false
+       options:
+         - label: GitHub README用
+           description: GitHubリポジトリのREADME.mdに掲載する体裁で出力する
+         - label: ポートフォリオサイト用
+           description: ポートフォリオサイトに掲載する体裁で出力する
+   ```
+
+   回答に応じて体裁を調整し、markdownで出力する
 
 ## このskillで扱わないもの
 
