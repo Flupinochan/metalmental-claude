@@ -217,11 +217,7 @@ Closes #123
 
 `git commit` には必ず `CLAUDE_COMMIT_ALLOWED=1` と `--no-gpg-sign` をつける
 
-sandbox内では `~/.ssh` が隠され `SSH_AUTH_SOCK` も空になるため、`commit.gpgsign = true` が設定されているとSSH署名に失敗してコミットできない。`--no-gpg-sign` は `commit.gpgSign` の設定を打ち消すため、これを付与してコミットする
-
-> `--no-gpg-sign` is useful to countermand both `commit.gpgSign` configuration variable, and earlier `--gpg-sign`. — [git-commit Documentation](https://git-scm.com/docs/git-commit)
-
-**注記:** `--no-gpg-sign` を付与したコミットは署名なし (`gpgsig` ヘッダなし) のコミットになる。署名が必須のリポジトリでは、コミット後にユーザ自身で `git commit --amend -S` などにより署名し直す必要がある
+`--no-gpg-sign` を付与するため、署名なしのコミットになる
 
 フッターがある場合は `-m` を複数指定する。`-m` ごとに空行が挿入されるため、ヒアドキュメントやコマンド置換 `$()` は使用しない
 
