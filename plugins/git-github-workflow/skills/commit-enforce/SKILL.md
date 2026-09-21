@@ -5,7 +5,7 @@ compatibility: Requires git
 license: MIT
 metadata:
   author: MetalMental
-  version: "1.1"
+  version: "1.2"
 allowed-tools: AskUserQuestion Bash(git diff *) Bash(git add *) Bash(git ls-files *) Bash(git ls-files * | wc -l) Bash(git branch *) Bash(CLAUDE_COMMIT_ALLOWED=1 git commit *) Read
 ---
 
@@ -20,14 +20,14 @@ SKILLのFront Matterにおいて `allowed-tools` で実行を許可するコマ�
 
 ```bash
 # NG: 複数のコマンドを1つのtool callで実行
-git add file1.txt file2.txt && CLAUDE_COMMIT_ALLOWED=1 git commit -m "fix: something"
+git add file1.txt file2.txt && CLAUDE_COMMIT_ALLOWED=1 git commit --no-gpg-sign -m "fix: something"
 git status; git diff HEAD
 ```
 
 ```bash
 # OK: 1コマンドごとに1つのtool callで実行
 git add file1.txt file2.txt # 1回目のtool call
-CLAUDE_COMMIT_ALLOWED=1 git commit -m "fix: something" # 2回目のtool call
+CLAUDE_COMMIT_ALLOWED=1 git commit --no-gpg-sign -m "fix: something" # 2回目のtool call
 ```
 
 同様の理由で、複数行のコミットメッセージもヒアドキュメントやコマンド置換 `$()` は使用せず、Step5に記載の複数 `-m` オプションで組み立てること
@@ -215,7 +215,13 @@ Closes #123
 
 ### Step5: コミットを実行
 
-`git commit` には必ず `CLAUDE_COMMIT_ALLOWED=1` をつける
+`git commit` には必ず `CLAUDE_COMMIT_ALLOWED=1` と `--no-gpg-sign` をつける
+
+sandbox内では `~/.ssh` が隠され `SSH_AUTH_SOCK` も空になるため、`commit.gpgsign = true` が設定されているとSSH署名に失敗してコミットできない。`--no-gpg-sign` は `commit.gpgSign` の設定を打ち消すため、これを付与してコミットする
+
+> `--no-gpg-sign` is useful to countermand both `commit.gpgSign` configuration variable, and earlier `--gpg-sign`. — [git-commit Documentation](https://git-scm.com/docs/git-commit)
+
+**注記:** `--no-gpg-sign` を付与したコミットは署名なし (`gpgsig` ヘッダなし) のコミットになる。署名が必須のリポジトリでは、コミット後にユーザ自身で `git commit --amend -S` などにより署名し直す必要がある
 
 フッターがある場合は `-m` を複数指定する。`-m` ごとに空行が挿入されるため、ヒアドキュメントやコマンド置換 `$()` は使用しない
 
@@ -223,17 +229,17 @@ Closes #123
 
   ```bash
   # フッターなし
-  CLAUDE_COMMIT_ALLOWED=1 git commit -m "<件名>"
+  CLAUDE_COMMIT_ALLOWED=1 git commit --no-gpg-sign -m "<件名>"
 
   # フッターあり
-  CLAUDE_COMMIT_ALLOWED=1 git commit -m "<件名>" -m "BREAKING CHANGE: <破壊的変更の内容>" -m "Closes #<issue番号>"
+  CLAUDE_COMMIT_ALLOWED=1 git commit --no-gpg-sign -m "<件名>" -m "BREAKING CHANGE: <破壊的変更の内容>" -m "Closes #<issue番号>"
   ```
 
 - `workspace` の場合:
 
   ```bash
   git add <このグループのファイル>
-  CLAUDE_COMMIT_ALLOWED=1 git commit -m "<件名>" -m "BREAKING CHANGE: <破壊的変更の内容>"
+  CLAUDE_COMMIT_ALLOWED=1 git commit --no-gpg-sign -m "<件名>" -m "BREAKING CHANGE: <破壊的変更の内容>"
   ```
 
 残りの各グループがある場合は、Step4とStep5を繰り返す。Step3は再実行しない
