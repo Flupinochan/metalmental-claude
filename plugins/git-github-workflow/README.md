@@ -62,6 +62,11 @@ flowchart TD
   worktree automatically
 - Secret-file detection in `commit-enforce` matches file paths only and never reads file
   contents. Sample files such as `.env.example` are excluded
+- `commit-enforce` commits with `--no-gpg-sign`, so the commits it creates are unsigned.
+  Inside the Claude Code sandbox `~/.ssh` is hidden and `SSH_AUTH_SOCK` is empty, so a
+  repository with `commit.gpgsign = true` fails to sign and the commit aborts. Per the
+  [git-commit documentation](https://git-scm.com/docs/git-commit), `--no-gpg-sign`
+  countermands the `commit.gpgSign` configuration variable
 
 ## Cleanup
 
