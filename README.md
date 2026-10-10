@@ -9,6 +9,7 @@ metalmental (ユーザ名) の `claude code` の `plugins` 等をまとめたリ
 | plugin名                  | 説明                                                                                                                            |
 | ------------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
 | ask-user-question-enforce | skill内のユーザー確認をAskUserQuestionツールに統一する記法ルールを提供                                                          |
+| aws-best-practice         | AWSリソースを作成する時の推奨設定を提供                                                                                         |
 | career-transition-support | 日本のITエンジニア転職支援skill、職務経歴書の作成/添削/レビュー、求人票のマッチ度分析、ポートフォリオのケーススタディ作成を行う |
 | git-github-workflow       | git commit実行、worktree/branch作成、GitHub pull request作成をまとめたworkflow                                                  |
 | local-doc-search          | ローカルPCのドキュメントを全文検索とRAG検索で横断検索するMCPプラグイン                                                          |

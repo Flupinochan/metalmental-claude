@@ -1,0 +1,14 @@
+{
+  "name": "aws-best-practice",
+  "description": "AWSリソースを作成、IaC定義する際の推奨設定をリソースごとにまとめたskillプラグイン",
+  "version": "1.0.0",
+  "author": {
+    "name": "MetalMental",
+    "email": "flupino@metalmental.net",
+    "url": "https://github.com/Flupinochan"
+  },
+  "homepage": "https://www.metalmental.net/",
+  "repository": "https://github.com/Flupinochan/metalmental-claude",
+  "license": "MIT",
+  "keywords": ["aws", "best-practice", "iac", "cloudformation", "cloudwatch"]
+}
