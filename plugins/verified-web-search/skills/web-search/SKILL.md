@@ -2,10 +2,6 @@
 name: web-search
 description: このスキルは、ユーザーが「正確な情報をもとに調べてください」「事実をもとに回答してください」「根拠を述べてください」「ソースを教えて」のように質問された場合、WebFetchによる要約された内容の取得では不十分と判断した場合に使用する。ネットで検索した完全な情報をそのまま返却する
 allowed-tools: AskUserQuestion Workflow
-license: MIT
-metadata:
-  author: MetalMental
-  version: "1.0"
 ---
 
 # Web Search

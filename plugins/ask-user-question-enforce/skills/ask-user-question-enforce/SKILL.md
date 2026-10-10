@@ -1,10 +1,6 @@
 ---
 name: ask-user-question-enforce
 description: このスキルは、ユーザーが「SKILLを作成して」「SKILL.mdを修正して」「スキルに確認を追加して」のように、Claude CodeのSKILLを新規作成または編集する場合に使用する。SKILL内でユーザーに確認を求める箇所をAskUserQuestionに統一し、その引数構造の記法を定める
-license: MIT
-metadata:
-  author: MetalMental
-  version: "1.0"
 allowed-tools: AskUserQuestion Read Write Edit Glob Grep
 ---
 

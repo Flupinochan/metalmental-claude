@@ -1,11 +1,6 @@
 ---
 name: create-worktree-and-branch
 description: このスキルは、ユーザーが「worktreeを作成して」「branchを切って」のように、既存のbranchを汚さずにコード修正を始めたい場合に使用する
-compatibility: Requires git
-license: MIT
-metadata:
-  author: MetalMental
-  version: "1.0"
 allowed-tools: AskUserQuestion EnterWorktree Read Edit Write Bash(git rev-parse *) Bash(git fetch origin *) Bash(git worktree *) Bash(git branch *)
 ---
 

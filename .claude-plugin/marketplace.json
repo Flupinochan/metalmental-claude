@@ -1,4 +1,5 @@
 {
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
   "name": "metalmental-plugins-official",
   "description": "A collection of official plugins developed by MetalMental",
   "owner": {
@@ -9,24 +10,14 @@
     {
       "name": "git-github-workflow",
       "description": "A skill plugin bundling git commit enforcement, worktree/branch creation, and GitHub pull request creation into one workflow",
-      "source": "./plugins/git-github-workflow",
-      "version": "1.2.0",
       "author": {
-        "name": "MetalMental"
+        "name": "MetalMental",
+        "email": "flupino@metalmental.net",
+        "url": "https://github.com/Flupinochan"
       },
-      "homepage": "https://www.metalmental.net/",
-      "repository": "https://github.com/Flupinochan/metalmental-claude",
-      "license": "MIT",
+      "source": "./plugins/git-github-workflow",
       "category": "development",
-      "keywords": [
-        "git",
-        "github",
-        "commit",
-        "worktree",
-        "branch",
-        "pull-request",
-        "workflow"
-      ],
+      "homepage": "https://www.metalmental.net/",
       "tags": [
         "git",
         "github",
@@ -39,22 +30,15 @@
     },
     {
       "name": "verified-web-search",
-      "description": "A skill + workflow plugin that fetches candidate documents in full (no summarization), ranks them, and adversarially re-verifies the top candidate independently before returning it",
-      "source": "./plugins/verified-web-search",
-      "version": "1.0.0",
+      "description": "URLごとに要約なしの完全なdocumentを取得・判定し、優先順位の高い候補から独立した敵対的検証を経た1件のみをURL付きで返すworkflowプラグイン",
       "author": {
-        "name": "MetalMental"
+        "name": "MetalMental",
+        "email": "flupino@metalmental.net",
+        "url": "https://github.com/Flupinochan"
       },
-      "homepage": "https://www.metalmental.net/",
-      "repository": "https://github.com/Flupinochan/metalmental-claude",
-      "license": "MIT",
+      "source": "./plugins/verified-web-search",
       "category": "search",
-      "keywords": [
-        "web-search",
-        "research",
-        "workflow",
-        "mcp"
-      ],
+      "homepage": "https://www.metalmental.net/",
       "tags": [
         "web-search",
         "research",
@@ -65,21 +49,14 @@
     {
       "name": "tool-failure-log",
       "description": "Automatically logs PostToolUseFailure events and provides skills to clear logs or investigate settings.json remediation ideas",
-      "source": "./plugins/tool-failure-log",
-      "version": "1.0.1",
       "author": {
-        "name": "MetalMental"
+        "name": "MetalMental",
+        "email": "flupino@metalmental.net",
+        "url": "https://github.com/Flupinochan"
       },
-      "homepage": "https://www.metalmental.net/",
-      "repository": "https://github.com/Flupinochan/metalmental-claude",
-      "license": "MIT",
+      "source": "./plugins/tool-failure-log",
       "category": "development",
-      "keywords": [
-        "hooks",
-        "logging",
-        "failure-analysis",
-        "settings"
-      ],
+      "homepage": "https://www.metalmental.net/",
       "tags": [
         "hooks",
         "logging",
@@ -89,21 +66,15 @@
     },
     {
       "name": "session-daily-report",
-      "description": "Reads Claude Code session history across all projects for a given date and generates a Japanese daily work-report timeline in the terminal",
-      "source": "./plugins/session-daily-report",
-      "version": "1.0.0",
+      "description": "全プロジェクトのセッション履歴JSONLを指定日でJSTに変換・集計し、日本語の日報タイムラインをターミナルに出力するworkflowプラグイン",
       "author": {
-        "name": "MetalMental"
+        "name": "MetalMental",
+        "email": "flupino@metalmental.net",
+        "url": "https://github.com/Flupinochan"
       },
-      "homepage": "https://www.metalmental.net/",
-      "repository": "https://github.com/Flupinochan/metalmental-claude",
-      "license": "MIT",
+      "source": "./plugins/session-daily-report",
       "category": "development",
-      "keywords": [
-        "daily-report",
-        "session-history",
-        "workflow"
-      ],
+      "homepage": "https://www.metalmental.net/",
       "tags": [
         "daily-report",
         "session-history",
@@ -112,23 +83,15 @@
     },
     {
       "name": "local-doc-search",
-      "description": "A skill + MCP plugin that searches local documents (Markdown/text/PDF/Office) by keyword and by meaning, returning only paths and line ranges instead of document text",
-      "source": "./plugins/local-doc-search",
-      "version": "1.0.0",
+      "description": "ローカルPCのドキュメント (Markdown/テキスト/PDF/Office) を全文検索とRAG検索で横断検索し、本文ではなくパスと行番号だけを返すMCPプラグイン",
       "author": {
-        "name": "MetalMental"
+        "name": "MetalMental",
+        "email": "flupino@metalmental.net",
+        "url": "https://github.com/Flupinochan"
       },
-      "homepage": "https://www.metalmental.net/",
-      "repository": "https://github.com/Flupinochan/metalmental-claude",
-      "license": "MIT",
+      "source": "./plugins/local-doc-search",
       "category": "search",
-      "keywords": [
-        "local-search",
-        "full-text-search",
-        "rag",
-        "sqlite",
-        "mcp"
-      ],
+      "homepage": "https://www.metalmental.net/",
       "tags": [
         "local-search",
         "full-text-search",
@@ -140,21 +103,14 @@
     {
       "name": "sandbox-enforce",
       "description": "Scans every Claude Code settings file on the machine for sandbox.enabled and consolidates sandboxing to the user settings after confirmation",
-      "source": "./plugins/sandbox-enforce",
-      "version": "1.0.0",
       "author": {
-        "name": "MetalMental"
+        "name": "MetalMental",
+        "email": "flupino@metalmental.net",
+        "url": "https://github.com/Flupinochan"
       },
-      "homepage": "https://www.metalmental.net/",
-      "repository": "https://github.com/Flupinochan/metalmental-claude",
-      "license": "MIT",
+      "source": "./plugins/sandbox-enforce",
       "category": "development",
-      "keywords": [
-        "sandbox",
-        "security",
-        "settings",
-        "wsl"
-      ],
+      "homepage": "https://www.metalmental.net/",
       "tags": [
         "sandbox",
         "security",
@@ -165,21 +121,14 @@
     {
       "name": "ask-user-question-enforce",
       "description": "Provides authoring rules for Claude Code skills, standardizing how user confirmations inside a skill are expressed with the AskUserQuestion tool",
-      "source": "./plugins/ask-user-question-enforce",
-      "version": "1.0.0",
       "author": {
-        "name": "MetalMental"
+        "name": "MetalMental",
+        "email": "flupino@metalmental.net",
+        "url": "https://github.com/Flupinochan"
       },
-      "homepage": "https://www.metalmental.net/",
-      "repository": "https://github.com/Flupinochan/metalmental-claude",
-      "license": "MIT",
+      "source": "./plugins/ask-user-question-enforce",
       "category": "development",
-      "keywords": [
-        "skill-development",
-        "ask-user-question",
-        "authoring",
-        "meta"
-      ],
+      "homepage": "https://www.metalmental.net/",
       "tags": [
         "skill-development",
         "ask-user-question",
@@ -190,21 +139,14 @@
     {
       "name": "career-transition-support",
       "description": "A skill plugin for Japanese IT engineer career transitions: writes, revises and reviews resumes, analyzes job postings for match rate and gaps, and builds portfolio case studies",
-      "source": "./plugins/career-transition-support",
-      "version": "1.1.0",
       "author": {
-        "name": "MetalMental"
+        "name": "MetalMental",
+        "email": "flupino@metalmental.net",
+        "url": "https://github.com/Flupinochan"
       },
-      "homepage": "https://www.metalmental.net/",
-      "repository": "https://github.com/Flupinochan/metalmental-claude",
-      "license": "MIT",
+      "source": "./plugins/career-transition-support",
       "category": "productivity",
-      "keywords": [
-        "career",
-        "resume",
-        "job-search",
-        "japan"
-      ],
+      "homepage": "https://www.metalmental.net/",
       "tags": [
         "career",
         "resume",
@@ -214,23 +156,15 @@
     },
     {
       "name": "aws-best-practice",
-      "description": "A skill plugin that collects recommended settings per AWS resource to apply when creating resources or defining IaC",
-      "source": "./plugins/aws-best-practice",
-      "version": "1.0.0",
+      "description": "AWSリソースを作成、IaC定義する際の推奨設定をリソースごとにまとめたskillプラグイン",
       "author": {
-        "name": "MetalMental"
+        "name": "MetalMental",
+        "email": "flupino@metalmental.net",
+        "url": "https://github.com/Flupinochan"
       },
-      "homepage": "https://www.metalmental.net/",
-      "repository": "https://github.com/Flupinochan/metalmental-claude",
-      "license": "MIT",
+      "source": "./plugins/aws-best-practice",
       "category": "development",
-      "keywords": [
-        "aws",
-        "best-practice",
-        "iac",
-        "cloudformation",
-        "cloudwatch"
-      ],
+      "homepage": "https://www.metalmental.net/",
       "tags": [
         "aws",
         "best-practice",

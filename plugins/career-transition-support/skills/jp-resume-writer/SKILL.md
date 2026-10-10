@@ -1,10 +1,6 @@
 ---
 name: jp-resume-writer
 description: 日本国内のITエンジニアの中途転職向けに職務経歴書を作成・添削する。職務経歴書、経歴書、レジュメ、実績の書き方、自己PRの作成や添削を頼まれたときに使う。求人票とのマッチ度分析や応募先ごとの調整はjp-job-posting-analyzer、個人開発の詳細なケーススタディはjp-portfolio-case-studyを使う
-license: MIT
-metadata:
-  author: MetalMental
-  version: "1.0"
 allowed-tools: AskUserQuestion Read Write Edit Glob Grep
 ---
 

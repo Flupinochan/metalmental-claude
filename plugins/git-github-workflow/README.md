@@ -12,6 +12,11 @@ A skill plugin for Claude Code
 - Extracts a GitHub issue number from the branch name when present, generates a pull
   request title and body from the diff, and creates it with `gh pr create`
 
+## Requirements
+
+- `git`
+- `gh` (`/create-pull-request` only)
+
 ## Available Skills
 
 | Skill                       | Description                                                                 | Auto-invocation |

@@ -6,9 +6,5 @@
     "name": "MetalMental",
     "email": "flupino@metalmental.net",
     "url": "https://github.com/Flupinochan"
-  },
-  "homepage": "https://www.metalmental.net/",
-  "repository": "https://github.com/Flupinochan/metalmental-claude",
-  "license": "MIT",
-  "keywords": ["aws", "best-practice", "iac", "cloudformation", "cloudwatch"]
+  }
 }

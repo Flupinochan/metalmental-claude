@@ -4,10 +4,6 @@ description: このスキルは、ユーザーが「ツールの失敗ログを�
 disable-model-invocation: true
 context: fork
 agent: settings-fix-advisor
-license: MIT
-metadata:
-  author: MetalMental
-  version: "1.0"
 ---
 
 # Analyze Tool Failures

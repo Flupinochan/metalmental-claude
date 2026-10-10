@@ -1,0 +1,15 @@
+{
+  "mcpServers": {
+    "local-search": {
+      "command": "uv",
+      "args": [
+        "run",
+        "--project",
+        "${CLAUDE_PLUGIN_ROOT}/mcp-server-local-search",
+        "mcp-server-local-search",
+        "--data-dir",
+        "${CLAUDE_PLUGIN_DATA}"
+      ]
+    }
+  }
+}

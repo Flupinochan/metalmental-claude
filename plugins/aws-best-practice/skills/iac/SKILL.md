@@ -1,10 +1,6 @@
 ---
 name: iac
 description: このスキルは、ユーザーが「AWSのリソースを作成して」「CloudFormationを定義して」「TerraformでAWSのリソースを定義して」「AWS CDKを利用して」のように、AWSのリソースを作成、IaC定義したい場合に使用する。AWSリソースの作成時は、必ず本スキルを参照して推奨設定を確認する
-license: MIT
-metadata:
-  author: MetalMental
-  version: "1.0"
 allowed-tools: AskUserQuestion Read
 ---
 

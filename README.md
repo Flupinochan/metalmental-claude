@@ -48,4 +48,4 @@ claude --plugin-dir ./plugins/session-daily-report
 
 ## plugin作成/修正後にすること
 
-plugin を修正した後に必ず `plugin-dev:plugin-validator` 実行して動作確認するかユーザに確認すること
+plugin を修正した後に必ず `plugin-dev:plugin-validator` や `claude plugin validate` 実行して動作確認するかユーザに確認すること

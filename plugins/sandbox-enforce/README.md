@@ -17,6 +17,10 @@ A skill plugin for Claude Code
 - Reports (without modifying) organization `managed-settings.json` policy and missing
   sandbox dependencies (`bubblewrap`, `socat` on Linux/WSL)
 
+## Requirements
+
+- Python 3
+
 ## Available Skills
 
 | Skill | Description | Auto-invocation |

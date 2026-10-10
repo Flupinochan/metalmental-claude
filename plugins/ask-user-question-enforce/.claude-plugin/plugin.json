@@ -6,14 +6,5 @@
     "name": "MetalMental",
     "email": "flupino@metalmental.net",
     "url": "https://github.com/Flupinochan"
-  },
-  "homepage": "https://www.metalmental.net/",
-  "repository": "https://github.com/Flupinochan/metalmental-claude",
-  "license": "MIT",
-  "keywords": [
-    "skill-development",
-    "ask-user-question",
-    "authoring",
-    "meta"
-  ]
+  }
 }

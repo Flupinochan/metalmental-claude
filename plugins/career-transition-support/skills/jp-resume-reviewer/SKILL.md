@@ -1,10 +1,6 @@
 ---
 name: jp-resume-reviewer
 description: 日本国内のITエンジニアの中途転職向けに、既存の職務経歴書をレビュー観点のチェックリストで評価する。完成済みの職務経歴書の評価、改善点の指摘、レビュー観点の確認を頼まれたときに使う
-license: MIT
-metadata:
-  author: MetalMental
-  version: "1.0"
 allowed-tools: AskUserQuestion Read Write Edit Glob Grep
 ---
 

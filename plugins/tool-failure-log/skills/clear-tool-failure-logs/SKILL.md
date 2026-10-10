@@ -2,10 +2,6 @@
 name: clear-tool-failure-logs
 description: このスキルは、ユーザーが「ツール失敗ログを削除して」「ログをクリアして」「ログファイルを片付けて」のように、このプラグインのhookが記録したPostToolUseFailureログファイルを削除したい場合に使用する。破壊的操作のため、ユーザーが明示的に呼び出した場合のみ実行する
 disable-model-invocation: true
-license: MIT
-metadata:
-  author: MetalMental
-  version: "1.0"
 allowed-tools: AskUserQuestion Bash(ls "${CLAUDE_PLUGIN_DATA}"/logs/*.log) Bash(wc -l "${CLAUDE_PLUGIN_DATA}"/logs/*.log) Bash(rm "${CLAUDE_PLUGIN_DATA}"/logs/*.log)
 ---
 

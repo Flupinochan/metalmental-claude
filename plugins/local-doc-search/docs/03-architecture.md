@@ -69,7 +69,7 @@ sequenceDiagram
 | `models/` | BGE-M3のキャッシュ (約4.3GB) |
 
 `${CLAUDE_PLUGIN_DATA}`は`~/.claude/plugins/data/<plugin-name>-<marketplace-name>/`に解決される
-MCPサーバープロセスへ環境変数として渡るかは保証されないため、`plugin.json`の`args`で`--data-dir`として明示的に受け渡す
+MCPサーバープロセスへ環境変数として渡るかは保証されないため、`.mcp.json`の`args`で`--data-dir`として明示的に受け渡す
 未展開の場合 (`${`が残っている場合) は`~/.local/share/local-doc-search/`へフォールバックする
 
 ## DBスキーマ

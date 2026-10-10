@@ -1,11 +1,7 @@
 ---
 name: local-search
 description: このスキルは、ユーザーが「PCの中の資料を探して」「保存してある書類から調べて」「あの文書どこだっけ」「去年の請求書を見つけて」のように、自分のPCに保存されたドキュメント (Markdown/テキスト/PDF/Word/PowerPoint) を探したい場合に使用する。全文検索と意味検索を組み合わせて該当箇所を特定し、必要な範囲だけを読んで回答する
-allowed-tools: mcp__plugin_local-doc-search_local-search__search_hybrid, mcp__plugin_local-doc-search_local-search__search_fulltext, mcp__plugin_local-doc-search_local-search__search_semantic, mcp__plugin_local-doc-search_local-search__list_search_paths, mcp__plugin_local-doc-search_local-search__get_index_status, Read
-license: MIT
-metadata:
-  author: MetalMental
-  version: "1.0"
+allowed-tools: mcp__plugin_local-doc-search_local-search__search_hybrid mcp__plugin_local-doc-search_local-search__search_fulltext mcp__plugin_local-doc-search_local-search__search_semantic mcp__plugin_local-doc-search_local-search__list_search_paths mcp__plugin_local-doc-search_local-search__get_index_status Read
 ---
 
 # Local Search

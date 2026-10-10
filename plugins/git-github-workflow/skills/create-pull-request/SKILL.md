@@ -1,11 +1,6 @@
 ---
 name: create-pull-request
 description: このスキルは、ユーザーが「PRを作成して」「pull requestを作って」のように、現在のbranchの変更をpull requestとして提出したい場合に使用する
-compatibility: Requires git, gh
-license: MIT
-metadata:
-  author: MetalMental
-  version: "1.0"
 allowed-tools: AskUserQuestion Bash(git branch *) Bash(git fetch *) Bash(git log *) Bash(git diff *) Bash(git remote *) Bash(gh pr create *)
 ---
 

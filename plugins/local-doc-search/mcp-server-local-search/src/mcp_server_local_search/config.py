@@ -37,7 +37,7 @@ EXCLUDED_DIR_NAMES = frozenset(
 def resolve_data_dir(raw: str | None) -> Path:
     """Resolve the data directory, falling back when the caller passed an unexpanded value.
 
-    plugin.json passes ${CLAUDE_PLUGIN_DATA}; if Claude Code does not expand it the
+    .mcp.json passes ${CLAUDE_PLUGIN_DATA}; if Claude Code does not expand it the
     literal placeholder arrives here and must not be taken as a real path.
     """
     if raw and "${" not in raw:

@@ -1,10 +1,6 @@
 ---
 name: jp-job-posting-analyzer
 description: 求人票を分析し職務経歴書とのマッチ度を算出、応募先ごとに職務経歴書を調整する。求人票、求人分析、応募先の検討、マッチ度、職務経歴書の調整を頼まれたときに使う
-license: MIT
-metadata:
-  author: MetalMental
-  version: "1.0"
 allowed-tools: AskUserQuestion Read Write Edit Glob Grep
 ---
 

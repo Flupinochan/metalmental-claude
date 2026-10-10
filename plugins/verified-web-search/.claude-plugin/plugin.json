@@ -6,33 +6,5 @@
     "name": "MetalMental",
     "email": "flupino@metalmental.net",
     "url": "https://github.com/Flupinochan"
-  },
-  "homepage": "https://www.metalmental.net/",
-  "repository": "https://github.com/Flupinochan/metalmental-claude",
-  "license": "MIT",
-  "keywords": [
-    "web-search",
-    "research",
-    "workflow",
-    "mcp"
-  ],
-  "mcpServers": {
-    "context7": {
-      "command": "npx",
-      "args": ["-y", "@upstash/context7-mcp"]
-    },
-    "fetch": {
-      "command": "uv",
-      "args": [
-        "run",
-        "--project",
-        "${CLAUDE_PLUGIN_ROOT}/mcp-server-fetch",
-        "mcp-server-fetch"
-      ]
-    },
-    "playwright": {
-      "command": "npx",
-      "args": ["-y", "@playwright/mcp@latest"]
-    }
   }
 }

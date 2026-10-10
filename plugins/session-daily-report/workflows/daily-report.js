@@ -39,7 +39,7 @@ const DISCOVER_SCHEMA = {
     files: {
       type: "array",
       description: "条件Aと条件Bの両方を満たすsessionファイルの絶対パス一覧",
-      items: { type: "string", description: "sessionファイルの絶対パス。例えば/home/metalmental/.claude/projects/-home-metalmental-metalmental-claude/8b1996a2-4158-4515-9385-08e90b914e29.jsonl" },
+      items: { type: "string", description: "sessionファイルの絶対パス。例えば/home/<user>/.claude/projects/-home-<user>-<project>/8b1996a2-4158-4515-9385-08e90b914e29.jsonl" },
     },
   },
 };
@@ -186,7 +186,7 @@ const SUMMARY_SCHEMA = {
   required: ["file", "project", "startTimeUtc", "endTimeUtc", "summary"],
   properties: {
     file: { type: "string", description: "対象ファイルの絶対パス、フルパスをそのまま返す" },
-    project: { type: "string", description: "cwd フィールドの値からパス末尾のディレクトリ名を取ったプロジェクト名。例えばcwdが/home/metalmental/metalmental-claudeならmetalmental-claudeとなる" },
+    project: { type: "string", description: "cwd フィールドの値からパス末尾のディレクトリ名を取ったプロジェクト名。例えばcwdが/home/<user>/my-projectならmy-projectとなる" },
     startTimeUtc: { type: "string", description: "該当行のうち最も早いtimestampの値、UTC ISO8601文字列のまま返す。例えば2026-08-15T11:38:18.394Z" },
     endTimeUtc: { type: "string", description: "該当行のうち最も遅いtimestampの値、UTC ISO8601文字列のまま返す。例えば2026-08-15T13:04:22.100Z" },
     summary: { type: "string", description: "作業内容から経過、結果までが伝わる2〜3行の日本語要約。例えばsession-daily-reportについて修正。並列数の設定で手間どったが修正が完了した" },

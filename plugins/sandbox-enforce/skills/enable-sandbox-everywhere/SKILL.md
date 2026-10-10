@@ -5,11 +5,6 @@ description: |
   「sandbox.enabled を確認/有効化して」のように、PC上の全プロジェクトの
   sandbox.enabled 設定を点検し有効化したい場合に使用する
 disable-model-invocation: true
-compatibility: Requires Python 3
-license: MIT
-metadata:
-  author: MetalMental
-  version: "1.0"
 allowed-tools: AskUserQuestion Bash(python3 "${CLAUDE_PLUGIN_ROOT}/skills/enable-sandbox-everywhere/scripts/scan_sandbox.py" *)
 ---
 

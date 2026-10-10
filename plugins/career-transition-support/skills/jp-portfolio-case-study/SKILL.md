@@ -1,10 +1,6 @@
 ---
 name: jp-portfolio-case-study
 description: 個人開発プロジェクトを詳細なケーススタディ資料としてまとめる。ポートフォリオ、個人開発、事例紹介、ケーススタディ、GitHubのREADME作成、技術ブログ用の実績紹介を頼まれたときに使う。職務経歴書本体の作成・添削はjp-resume-writerを使う
-license: MIT
-metadata:
-  author: MetalMental
-  version: "1.0"
 allowed-tools: AskUserQuestion Read Write Edit Glob Grep
 ---
 

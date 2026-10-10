@@ -61,7 +61,7 @@ context容量を考慮し、デフォルトでは `20万文字` を超える場�
 ### Debugging (MCP Inspector)
 
 ```bash
-cd /home/metalmental/metalmental-claude/plugins/verified-web-search/mcp-server-fetch
+cd plugins/verified-web-search/mcp-server-fetch
 npx @modelcontextprotocol/inspector uv run mcp-server-fetch
 ```
 

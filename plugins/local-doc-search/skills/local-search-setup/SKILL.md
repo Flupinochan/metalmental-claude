@@ -1,11 +1,7 @@
 ---
 name: local-search-setup
 description: このスキルは、ユーザーが「PCの資料を検索できるようにして」「このフォルダを検索対象にして」「インデックスを作り直して」「検索対象を確認したい」のように、ローカル検索の初期設定やインデックス作成、検索対象フォルダの追加削除を求めた場合に使用する。検索そのものはlocal-searchスキルが担当する
-allowed-tools: AskUserQuestion, mcp__plugin_local-doc-search_local-search__add_search_path, mcp__plugin_local-doc-search_local-search__remove_search_path, mcp__plugin_local-doc-search_local-search__list_search_paths, mcp__plugin_local-doc-search_local-search__start_indexing, mcp__plugin_local-doc-search_local-search__get_index_status, mcp__plugin_local-doc-search_local-search__cancel_indexing
-license: MIT
-metadata:
-  author: MetalMental
-  version: "1.0"
+allowed-tools: AskUserQuestion mcp__plugin_local-doc-search_local-search__add_search_path mcp__plugin_local-doc-search_local-search__remove_search_path mcp__plugin_local-doc-search_local-search__list_search_paths mcp__plugin_local-doc-search_local-search__start_indexing mcp__plugin_local-doc-search_local-search__get_index_status mcp__plugin_local-doc-search_local-search__cancel_indexing
 ---
 
 # Local Search Setup

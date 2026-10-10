@@ -1,11 +1,6 @@
 ---
 name: commit-enforce
 description: このスキルは、ユーザーが「コミットして」「commitして」のように、git commitを実行したい場合に使用する
-compatibility: Requires git
-license: MIT
-metadata:
-  author: MetalMental
-  version: "1.2"
 allowed-tools: AskUserQuestion Bash(git diff *) Bash(git add *) Bash(git ls-files *) Bash(git ls-files * | wc -l) Bash(git branch *) Bash(CLAUDE_COMMIT_ALLOWED=1 git commit *) Read
 ---
 

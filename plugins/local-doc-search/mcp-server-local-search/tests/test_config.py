@@ -6,7 +6,7 @@ from mcp_server_local_search import config
 
 
 class TestResolveDataDir:
-    """plugin.json may hand over an unexpanded placeholder instead of a real path."""
+    """.mcp.json may hand over an unexpanded placeholder instead of a real path."""
 
     def test_uses_given_path(self, tmp_path):
         assert config.resolve_data_dir(str(tmp_path)) == tmp_path.resolve()
