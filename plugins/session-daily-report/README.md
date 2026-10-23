@@ -14,6 +14,7 @@ A Workflow Plugin for Claude Code
 | Command                                          | Description                                                |
 | --------------------------------------------------- | -------------------------------------------------------------- |
 | `/session-daily-report:daily-report [YYYY-MM-DD]` | Generates a JST daily work-report timeline; defaults to today |
+| `/session-daily-report:help` | Lists the skills and commands this plugin provides |
 
 ### Arguments
 
@@ -99,6 +100,7 @@ Because qualification is fully decided in Discover, the Summarize stage no longe
 | File                          | Role                                                                    |
 | -------------------------------| ---------------------------------------------------------------------------|
 | `commands/daily-report.md`    | Parses/validates the date argument, invokes the workflow                 |
+| `skills/help/SKILL.md`        | Lists the skills and commands this plugin provides |
 | `workflows/daily-report.js`   | Orchestrates discovery -> per-file haiku summarize -> aggregate          |
 
 ## Notes

@@ -1,7 +1,7 @@
 {
   "name": "aws-best-practice",
   "description": "AWSリソースを作成、IaC定義する際の推奨設定をリソースごとにまとめたskillプラグイン",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "author": {
     "name": "MetalMental",
     "email": "flupino@metalmental.net",

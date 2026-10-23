@@ -14,12 +14,14 @@ A skill plugin for Claude Code
 | Skill | Description | Auto-invocation |
 | --- | --- | --- |
 | `/ask-user-question-enforce` | Applies the AskUserQuestion notation when creating or editing a skill | Enabled |
+| `/help` | Lists the skills and commands this plugin provides | Disabled |
 
 ## File Structure
 
 | File | Role |
 | --- | --- |
 | `skills/ask-user-question-enforce/SKILL.md` | AskUserQuestion argument template, constraints, and examples |
+| `skills/help/SKILL.md` | Lists the skills and commands this plugin provides |
 
 ## Notes
 

@@ -24,6 +24,7 @@ A skill plugin for Claude Code
 | `/commit-enforce`           | Groups changes, generates a Conventional Commits message with optional breaking-change and issue footers, then commits | Enabled |
 | `/create-worktree-and-branch` | Creates a git worktree and branch from an interactively chosen base/prefix/suffix, then switches into it | Enabled |
 | `/create-pull-request`      | Generates a pull request title and body from branch name and diff, then creates it | Enabled |
+| `/help`                     | Lists the skills and commands this plugin provides | Disabled |
 
 ## Workflow
 
@@ -53,6 +54,7 @@ flowchart TD
 | `skills/commit-enforce/references/get-commit-target-files.md` | Retrieves changed files (staged or workspace), aborts if a secret file is detected |
 | `skills/create-worktree-and-branch/SKILL.md`      | Confirms base branch/prefix/suffix, creates the worktree and branch, and switches into it |
 | `skills/create-pull-request/SKILL.md`             | Extracts issue number, confirms merge target/title, generates body, creates PR |
+| `skills/help/SKILL.md`                            | Lists the skills and commands this plugin provides |
 | `hooks/hooks.json`                                | Triggers `SessionStart` to run the install script            |
 | `scripts/install-git-pre-commit-hook.sh`          | Installs the `pre-commit` hook that blocks direct `git commit` unless `CLAUDE_COMMIT_ALLOWED` is set |
 

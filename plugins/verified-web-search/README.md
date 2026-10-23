@@ -14,6 +14,7 @@ A Skill + Workflow Plugin for Claude Code
 | Skill        | Description                                                                                          |
 | ------------- | ------------------------------------------------------------------------------------------------------ |
 | `web-search` | Runs Search → Fetch → Select → Verify and returns one verified document, or reports nothing was found |
+| `help`       | Lists the skills and commands this plugin provides |
 
 Invoke explicitly with `/verified-web-search:web-search <query>`, or let Claude auto-invoke it when it judges that accurate primary-source information is needed (per the skill's `description`).
 
@@ -60,6 +61,7 @@ Requires `npx` and `uv` to be available in the environment. The `fetch` server r
 | File                              | Role                                                                                     |
 | ----------------------------------- | ------------------------------------------------------------------------------------------ |
 | `skills/web-search/SKILL.md`      | Entry point; invokes `workflows/web-search.js` via the `Workflow` tool                    |
+| `skills/help/SKILL.md`            | Lists the skills and commands this plugin provides |
 | `workflows/web-search.js`         | Orchestrates Search → Fetch → Select → Verify                                            |
 | `agents/web-search-scout.md`      | Classifies the query; gets context7 docs or WebSearch candidate URLs, does not fetch them |
 | `agents/web-search-fetcher.md`    | Fetches one URL in full and judges relevance; does not return the full document           |

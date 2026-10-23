@@ -16,8 +16,9 @@ A hooks + skills plugin for Claude Code
 | ---------------------------- | -------------------------------------------------------------------------------| ---------------- |
 | `/clear-tool-failure-logs`   | Deletes all log files, or a specific `YYYYMMDD` log file, after confirmation   | Disabled         |
 | `/analyze-tool-failures`     | Forks `settings-fix-advisor` to analyze logs and propose settings.json changes | Disabled         |
+| `/help`                      | Lists the skills and commands this plugin provides | Disabled         |
 
-Both skills are `disable-model-invocation: true` and only run when explicitly invoked by the
+All skills are `disable-model-invocation: true` and only run when explicitly invoked by the
 user.
 
 ## File Structure
@@ -28,6 +29,7 @@ user.
 | `scripts/log-tool-failure.sh`                | Appends the failure event JSON to `${CLAUDE_PLUGIN_DATA}/logs/`   |
 | `skills/clear-tool-failure-logs/SKILL.md`    | Deletes log files (all or a specific date)                        |
 | `skills/analyze-tool-failures/SKILL.md`      | Forks `settings-fix-advisor` for a read-only investigation        |
+| `skills/help/SKILL.md`                      | Lists the skills and commands this plugin provides |
 | `agents/settings-fix-advisor.md`             | Read-only agent that proposes settings.json changes                |
 
 ## Notes

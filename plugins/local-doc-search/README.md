@@ -15,8 +15,9 @@ A Skill + MCP Plugin for Claude Code
 | --------------------- | ------------------------------------------------------------------------ |
 | `local-search`        | Picks a search mode, reads the matching lines, and answers in Japanese   |
 | `local-search-setup`  | Registers folders, builds the index, and reports progress                |
+| `help`                | Lists the skills and commands this plugin provides |
 
-Invoke explicitly with `/local-doc-search:local-search <query>`, or let Claude auto-invoke either skill from a request like「PCの資料を探して」.
+Invoke explicitly with `/local-doc-search:local-search <query>`, or let Claude auto-invoke `local-search` or `local-search-setup` from a request like「PCの資料を探して」.
 
 ## MCP Tools
 
@@ -80,6 +81,7 @@ Indexing runs on a worker thread: embedding is CPU-bound and would otherwise fre
 | ---------------------------------------- | ---------------------------------------------------------- |
 | `skills/local-search/SKILL.md`           | Search entry point; mode selection and two-phase reading   |
 | `skills/local-search-setup/SKILL.md`     | Folder registration and index building                      |
+| `skills/help/SKILL.md`                   | Lists the skills and commands this plugin provides |
 | `mcp-server-local-search/`               | The MCP server (see its own README)                         |
 | `docs/`                                  | Japanese design documents; start at `docs/README.md`        |
 

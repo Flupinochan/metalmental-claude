@@ -22,6 +22,7 @@ A skill plugin for Claude Code
 | `/jp-resume-reviewer`      | Reviews an existing resume against a viewpoint checklist                   | Enabled         |
 | `/jp-job-posting-analyzer` | Scores match rate against a job posting, analyzes gaps, tailors the resume | Enabled         |
 | `/jp-portfolio-case-study` | Expands a project achievement into a detailed case study                   | Enabled         |
+| `/help`                    | Lists the skills and commands this plugin provides | Disabled        |
 
 ## File Structure
 
@@ -31,6 +32,7 @@ A skill plugin for Claude Code
 | `skills/jp-resume-reviewer/SKILL.md`      | Review viewpoint checklist with weak/strong examples for an existing resume    |
 | `skills/jp-job-posting-analyzer/SKILL.md` | Match-rate scoring, gap analysis, red-flag detection, resume tailoring         |
 | `skills/jp-portfolio-case-study/SKILL.md` | Case-study expansion for GitHub README / portfolio site                        |
+| `skills/help/SKILL.md`                    | Lists the skills and commands this plugin provides |
 
 ## Notes
 

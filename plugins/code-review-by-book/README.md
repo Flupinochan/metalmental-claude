@@ -15,6 +15,7 @@
 | skill         | 説明           |
 | ------------- | -------------- |
 | `code-review` | レビューを実行 |
+| `help`        | このpluginが提供するskill, commandの一覧を表示する |
 
 `/code-review-by-book:code-review [レビュー対象]` で明示的に呼び出す
 
@@ -87,6 +88,7 @@ flowchart TD
 | ファイル                                | 役割                                            |
 | --------------------------------------- | ----------------------------------------------- |
 | `skills/code-review/SKILL.md`           | `workflows/code-review.js` を実行               |
+| `skills/help/SKILL.md`                  | このpluginが提供するskill, commandの一覧を表示する |
 | `skills/code-review/references/**/*.md` | レビュー観点ファイル                            |
 | `workflows/code-review.js`              | Scope → Review の順でagentを実行                |
 | `agents/scope-collector.md`             | レビュー対象を出力するコマンドを確定するagent   |

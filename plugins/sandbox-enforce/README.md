@@ -26,12 +26,14 @@ A skill plugin for Claude Code
 | Skill | Description | Auto-invocation |
 | --- | --- | --- |
 | `/enable-sandbox-everywhere` | Scans the whole machine for `sandbox.enabled` and enables it after confirmation | Enabled |
+| `/help` | Lists the skills and commands this plugin provides | Disabled |
 
 ## File Structure
 
 | File | Role |
 | --- | --- |
 | `skills/enable-sandbox-everywhere/SKILL.md` | Scan -> confirm -> fix workflow |
+| `skills/help/SKILL.md` | Lists the skills and commands this plugin provides |
 | `skills/enable-sandbox-everywhere/scripts/scan_sandbox.py` | Read-only scan (default), `--current`, `--deps`, and the only entry point for writes (`--fix`) |
 
 ## Notes

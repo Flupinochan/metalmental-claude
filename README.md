@@ -37,8 +37,6 @@ claude
 ```bash
 /plugin install git-github-workflow@metalmental-plugins-official
 /git-github-workflow:commit-enforce
-/git-github-workflow:create-worktree-and-branch
-/git-github-workflow:create-pull-request
 ```
 
 ## Local Develop Example
@@ -47,7 +45,8 @@ claude
 claude --plugin-dir ./plugins/session-daily-report
 ```
 
-## plugin作成/修正後にすること
+## 共通ルール (plugin作成/修正後にすること)
 
 - `plugin.json` の `version` を上げること
 - `plugin-dev:plugin-validator` や `claude plugin validate, test, eval` 実行して動作確認するかユーザに確認すること
+- [docs/help-skill-sample.md](docs/help-skill-sample.md) を参考にして `/help` skillを作成すること
