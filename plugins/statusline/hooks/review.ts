@@ -49,7 +49,6 @@ export function readReviewedCommands($: EngineInterface) {
 
 /**
  * ボタンごとの表示用の項目を、定義順に作る
- * 実行済みは green、未実行は red
  * @param reviewedCommands 実行済みのコマンド名
  * @returns 項目ごとの command、label、color
  */

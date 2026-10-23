@@ -11,12 +11,13 @@ const reloadStatusState = atom(
   "idle",
 );
 
-const RELOAD_DONE_MS = 3000;
+const RELOAD_RESULT_MS = 3000;
 
 const RELOAD_INDICATORS = {
   idle: { icon: "↻", color: COLOR.blue },
   loading: { icon: "…", color: COLOR.yellow },
   done: { icon: "✓", color: COLOR.green },
+  failed: { icon: "✗", color: COLOR.red },
 } as const satisfies Record<
   ReloadStatus,
   { readonly icon: string; readonly color: string }
@@ -24,7 +25,6 @@ const RELOAD_INDICATORS = {
 
 /**
  * リロードの状態に対応する、ボタンのアイコンと色を返す
- * idle は ↻ の blue、loading は … の yellow、done は ✓ の green
  * @param status リロードの状態
  * @returns 項目の icon と color
  */
@@ -44,7 +44,6 @@ export function readReloadStatus($: EngineInterface) {
 
 /**
  * ボタンの押下による手動リロードを実行する
- * キャッシュを削除してから更新する。実行中の押下は無視し、完了後は3秒間 done を表示して idle に戻す
  * @param $ engineのインターフェース
  */
 export async function reloadManually($: EngineInterface) {
@@ -61,16 +60,19 @@ export async function reloadManually($: EngineInterface) {
 
   clearCaches();
 
+  let isFailed = false;
+
   try {
     await syncStatusline($);
   } catch (error) {
+    isFailed = true;
     $.ui.log(`reload failed: ${String(error)}`, { to: "debug" });
   } finally {
-    await update($, reloadStatusState, () => "done");
-    // 完了の表示を一定時間後に戻すため、結果を待たずにタイマーで更新する
-    $.clock.after(RELOAD_DONE_MS, () =>
+    await update($, reloadStatusState, () => (isFailed ? "failed" : "done"));
+    // 結果の表示を一定時間後に戻すため、結果を待たずにタイマーで更新する
+    $.clock.after(RELOAD_RESULT_MS, () =>
       update($, reloadStatusState, (status) =>
-        status === "done" ? "idle" : status,
+        status === "done" || status === "failed" ? "idle" : status,
       ),
     );
   }

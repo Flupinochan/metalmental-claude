@@ -12,9 +12,8 @@ const WORKTREE_KEYWORD = "worktree";
 
 /**
  * 絶対パスの末尾のディレクトリ名を取り出す
- * ルートの場合は / を返す
  * @param path 絶対パス
- * @returns ディレクトリ名 例: /home/user/project なら project
+ * @returns ディレクトリ名
  */
 export function directoryName(path: string) {
   return path.split("/").findLast((segment) => segment !== "") ?? "/";
@@ -22,7 +21,6 @@ export function directoryName(path: string) {
 
 /**
  * 作業ディレクトリに対応する色を返す
- * パスに worktree を含む場合は blue、含まない場合は yellow
  * @param path 絶対パス
  * @returns テーマキーで表した色
  */

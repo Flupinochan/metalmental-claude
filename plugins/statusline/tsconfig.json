@@ -1,3 +1,7 @@
 {
-  "extends": "./.claude-plugin/types/tsconfig.json"
+  "extends": "../../tsconfig.json",
+  "include": ["../../types", "types", "hooks", "tests"],
+  "compilerOptions": {
+    "outDir": "dist"
+  }
 }

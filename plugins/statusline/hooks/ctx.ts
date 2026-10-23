@@ -7,9 +7,8 @@ const ctxState = atom({ plugin: "statusline", key: "ctx" } as const, {});
 
 /**
  * ctx使用率を表示用の文字列に整形する
- * 使用率が無い間はプレースホルダーを返す
  * @param percent ctx使用率 0から100。無い場合は undefined
- * @returns 整形後の文字列 例: ctx:42%。使用率が無い場合は ctx:--
+ * @returns 整形後の文字列
  */
 export function formatCtx(percent: number | undefined) {
   return percent === undefined ? "ctx:--" : `ctx:${Math.round(percent)}%`;
@@ -17,7 +16,6 @@ export function formatCtx(percent: number | undefined) {
 
 /**
  * ctx使用率に対応する色を返す
- * 使用率が有る場合は levelColor の色、無い場合は blue
  * @param percent ctx使用率 0から100。無い場合は undefined
  * @returns テーマキーで表した色
  */

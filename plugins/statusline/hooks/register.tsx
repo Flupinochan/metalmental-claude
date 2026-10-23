@@ -1,9 +1,15 @@
 import type { Register } from "claude-code";
 
+import { formatBunVersion, readBunVersion } from "./bun";
 import { COLOR } from "./colors";
 import { ctxColor, formatCtx, readCtx, syncCtx } from "./ctx";
-import { gitStatusColor, readGitStatus } from "./gitStatus";
+import { gitStatusColor, readBranchName, readGitStatus } from "./gitStatus";
+import { formatGoVersion, readGoVersion } from "./go";
 import { formatModel, modelColor, readModelId, syncModelId } from "./model";
+import { formatNodeVersion, readNodeVersion } from "./nodejs";
+import { formatPythonVersion, readPythonVersion } from "./python";
+import { formatRustVersion, readRustVersion } from "./rust";
+import { formatTerraformVersion, readTerraformVersion } from "./terraform";
 import { readOutputStyle, syncOutputStyle } from "./outputStyle";
 import {
   openPullRequest,
@@ -101,6 +107,13 @@ export const register: Register = (on) => {
       reloadStatus,
       gitStatus,
       workingDirectory,
+      branchName,
+      nodeVersion,
+      pythonVersion,
+      rustVersion,
+      goVersion,
+      bunVersion,
+      terraformVersion,
       pullRequests,
       modelId,
       outputStyle,
@@ -111,6 +124,13 @@ export const register: Register = (on) => {
       readReloadStatus($),
       readGitStatus($),
       readWorkingDirectory($),
+      readBranchName($),
+      readNodeVersion($),
+      readPythonVersion($),
+      readRustVersion($),
+      readGoVersion($),
+      readBunVersion($),
+      readTerraformVersion($),
       readPullRequests($),
       readModelId($),
       readOutputStyle($),
@@ -148,6 +168,7 @@ export const register: Register = (on) => {
             </Text>
           </Button>
         )}
+        {branchName !== "" && <Text color={COLOR.indigo}>{branchName}</Text>}
         {summarizePullRequests(pullRequests).map(
           ({ number, url, text, color }) => (
             <Button
@@ -180,6 +201,26 @@ export const register: Register = (on) => {
             <Text color={color}>{label}</Text>
           </Button>
         ))}
+        {nodeVersion !== "" && (
+          <Text color={COLOR.green}>{formatNodeVersion(nodeVersion)}</Text>
+        )}
+        {pythonVersion !== "" && (
+          <Text color={COLOR.yellow}>{formatPythonVersion(pythonVersion)}</Text>
+        )}
+        {rustVersion !== "" && (
+          <Text color={COLOR.orange}>{formatRustVersion(rustVersion)}</Text>
+        )}
+        {goVersion !== "" && (
+          <Text color={COLOR.blue}>{formatGoVersion(goVersion)}</Text>
+        )}
+        {bunVersion !== "" && (
+          <Text color={COLOR.purple}>{formatBunVersion(bunVersion)}</Text>
+        )}
+        {terraformVersion !== "" && (
+          <Text color={COLOR.indigo}>
+            {formatTerraformVersion(terraformVersion)}
+          </Text>
+        )}
       </Box>
     );
   });

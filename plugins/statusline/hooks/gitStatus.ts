@@ -9,6 +9,11 @@ const gitStatusState = atom(
   undefined,
 );
 
+const branchNameState = atom(
+  { plugin: "statusline", key: "branchName" } as const,
+  "",
+);
+
 const GIT_STATUS_COLORS = {
   unpushed: COLOR.red,
   uncommitted: COLOR.red,
@@ -27,7 +32,6 @@ type BranchHeaderKey = "oid" | "head" | "upstream" | "ab";
 
 /**
  * gitの状態に対応する色を返す
- * unpushed と uncommitted は red、clean は green、no-git は blue
  * @param gitStatus gitの状態
  * @returns テーマキーで表した色
  */
@@ -65,7 +69,6 @@ function hasUnpushedCommits(lines: readonly string[]) {
 
 /**
  * git status の結果から、gitの状態を1つに決める
- * 優先順位は、unpushed、uncommitted、clean の順。コマンドが失敗した場合は no-git
  * @param exitCode git status の終了コード
  * @param stdout git status --porcelain=v2 --branch の出力
  * @returns gitの状態
@@ -87,6 +90,32 @@ function classifyGitStatus(exitCode: number, stdout: string): GitStatus {
 }
 
 /**
+ * git status の結果から、ブランチ名を取り出す
+ * @param exitCode git status の終了コード
+ * @param stdout git status --porcelain=v2 --branch の出力
+ * @returns ブランチ名。git でない場合、detached HEAD の場合は空文字
+ */
+function parseBranchName(exitCode: number, stdout: string) {
+  if (exitCode !== 0) {
+    return "";
+  }
+
+  const head = branchHeaderValue(stdout.split("\n"), "head");
+
+  return head === undefined || head === DETACHED_HEAD ? "" : head;
+}
+
+/**
+ * 保存済みのブランチ名を読む
+ * 描画の中で呼ぶと、syncGitStatus による更新時に再描画される
+ * @param $ engineのインターフェース
+ * @returns 保存済みのブランチ名。取得できない間は空文字
+ */
+export function readBranchName($: EngineInterface) {
+  return read($, branchNameState);
+}
+
+/**
  * 保存済みのgitの状態を読む
  * 描画の中で呼ぶと、syncGitStatus による更新時に再描画される
  * @param $ engineのインターフェース
@@ -97,7 +126,7 @@ export function readGitStatus($: EngineInterface) {
 }
 
 /**
- * 作業ディレクトリのgitの状態を取得し、保存済みの値を更新する
+ * 作業ディレクトリのgitの状態とブランチ名を取得し、保存済みの値を更新する
  * @param $ engineのインターフェース
  */
 export async function syncGitStatus($: EngineInterface) {
@@ -113,5 +142,8 @@ export async function syncGitStatus($: EngineInterface) {
   ]);
   await update($, gitStatusState, () =>
     classifyGitStatus(ran.exitCode, ran.stdout),
+  );
+  await update($, branchNameState, () =>
+    parseBranchName(ran.exitCode, ran.stdout),
   );
 }

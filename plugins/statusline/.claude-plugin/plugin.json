@@ -1,7 +1,7 @@
 {
   "name": "statusline",
-  "description": "入力欄の上に手動リロードボタン、gitの状態、作業ディレクトリ名、PR、モデル名、output style、context使用率、5h/7dのレート制限、review/simplify/securityのボタンを常時表示するmodプラグイン",
-  "version": "1.13.7",
+  "description": "入力欄の上にgit状態、ディレクトリ、モデル、使用率、言語のバージョン、reviewボタン等を常時表示するmod",
+  "version": "1.0.0",
   "types": "./types/index.d.ts",
   "author": {
     "name": "MetalMental",

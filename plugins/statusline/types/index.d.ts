@@ -4,7 +4,7 @@ export type RateLimit = {
   readonly resetsAt?: string;
 };
 
-export type ReloadStatus = "idle" | "loading" | "done";
+export type ReloadStatus = "idle" | "loading" | "done" | "failed";
 
 export type GitStatus = "unpushed" | "uncommitted" | "clean" | "no-git";
 
@@ -26,6 +26,13 @@ declare module "claude-code" {
       readonly reloadStatus: ReloadStatus;
       readonly gitStatus?: GitStatus;
       readonly workingDirectory: string;
+      readonly branchName: string;
+      readonly nodeVersion: string;
+      readonly pythonVersion: string;
+      readonly rustVersion: string;
+      readonly goVersion: string;
+      readonly bunVersion: string;
+      readonly terraformVersion: string;
       readonly pullRequests: readonly PullRequest[];
       readonly modelId: string;
       readonly outputStyle: OutputStyle;

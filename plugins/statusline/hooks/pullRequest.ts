@@ -120,7 +120,6 @@ const pullRequestSchedule = new PullRequestSchedule();
 
 /**
  * gh prの1件を、表示用のPRデータに変える
- * OPENでドラフトのものは DRAFT とする
  * @param ghPullRequest gh pr list の1件
  * @returns 表示用のPR
  */
@@ -135,7 +134,6 @@ function toPullRequest({
 
 /**
  * gh pr list の出力から、表示するPRを選ぶ
- * OPEN、DRAFT、MERGED、CLOSED の優先順で、同じ状態なら番号が大きいものを1件選ぶ
  * 開くURLになるため、GitHubのURLのみを対象にする
  * @param stdout gh pr list --json の出力。壊れている場合は例外
  * @returns 表示するPRの配列。PRが無い場合は空配列、ある場合は1件
@@ -209,7 +207,6 @@ async function fetchPullRequestsToShow(
 
 /**
  * PRを、表示用の項目へ変換する
- * 表示は PR #番号、色は状態ごと
  * @param pullRequests 保存済みのPR
  * @returns 項目ごとの number、url、text、color
  */
@@ -260,8 +257,6 @@ export function clearPullRequestCache() {
 
 /**
  * 現在のブランチのPRを取得し、保存済みの値を更新する
- * ブランチが変わったときは、前のブランチのPRを消す
- * 5分以内の再取得はせず、失敗した場合は60秒後まで再取得しない。この間隔は clearPullRequestCache で取り消せる
  * @param $ engineのインターフェース
  */
 export async function syncPullRequests($: EngineInterface) {

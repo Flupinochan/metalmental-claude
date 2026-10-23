@@ -17,8 +17,8 @@ const MODEL_COLORS: readonly (readonly [RegExp, string])[] = [
 /**
  * モデルIDを表示用の短い文字列に整形する
  * 表示名を返すAPIが無いため、IDから組み立てる
- * @param modelId モデルID 例: claude-opus-5-5[1m]
- * @returns 整形後の文字列 例: opus5.5
+ * @param modelId モデルID
+ * @returns 整形後の文字列
  */
 export function formatModel(modelId: string) {
   return modelId
@@ -31,7 +31,6 @@ export function formatModel(modelId: string) {
 
 /**
  * モデルIDに対応する色を返す
- * 該当するモデルが無い場合は blue を返す
  * @param modelId モデルID
  * @returns テーマキーで表した色
  */

@@ -17,14 +17,23 @@ const RATE_LIMIT_LABELS = [
 const MONTH_INDEX_OFFSET = 1;
 
 /**
+ * 数値を2桁にそろえた文字列にする
+ * @param value 0以上の整数
+ * @returns 2桁の文字列
+ */
+function twoDigits(value: number) {
+  return String(value).padStart(2, "0");
+}
+
+/**
  * ISO 8601の日時を、ローカル時刻の時分に整形する
  * @param iso ISO 8601形式の日時
- * @returns 時分の文字列 例: 14:30
+ * @returns 時分の文字列
  */
 function clockOf(iso: string) {
   const date = new Date(iso);
 
-  return `${String(date.getHours()).padStart(2, "0")}:${String(date.getMinutes()).padStart(2, "0")}`;
+  return `${twoDigits(date.getHours())}:${twoDigits(date.getMinutes())}`;
 }
 
 /**
@@ -32,7 +41,7 @@ function clockOf(iso: string) {
  * 5hは時分のみ、7dはリセットが数日先になるため日付も付ける
  * @param kind 制限の種類 five_hour または seven_day
  * @param iso リセット日時のISO 8601形式
- * @returns 整形後の文字列 例: 14:30、10/25 14:30
+ * @returns 整形後の文字列
  */
 function resetOf(kind: string, iso: string) {
   if (kind === "five_hour") {
@@ -41,14 +50,13 @@ function resetOf(kind: string, iso: string) {
 
   const date = new Date(iso);
 
-  return `${date.getMonth() + MONTH_INDEX_OFFSET}/${date.getDate()} ${clockOf(iso)}`;
+  return `${twoDigits(date.getMonth() + MONTH_INDEX_OFFSET)}/${twoDigits(date.getDate())} ${clockOf(iso)}`;
 }
 
 /**
- * レート制限を5hと7dの順に並べた、表示用の項目へ変換する
- * 該当する制限がまだ無い場合は、プレースホルダーと blue にする
+ * レート制限を、表示用の項目へ変換する
  * @param rateLimits 保存済みのレート制限
- * @returns 項目ごとの kind、表示文字列、色。例: 5h:12%(14:30)、7d:40%(10/25 14:30)、5h:--
+ * @returns 項目ごとの kind、表示文字列、色
  */
 export function summarizeRateLimits(rateLimits: readonly RateLimit[]) {
   return RATE_LIMIT_LABELS.map(({ kind, label }) => {

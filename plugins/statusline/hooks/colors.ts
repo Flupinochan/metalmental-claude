@@ -19,7 +19,6 @@ const DANGER_PERCENT = 80;
 
 /**
  * 使用率に対応する色を返す
- * 50%以上で yellow、80%以上で red、それ未満は green
  * @param percent 使用率 0から100
  * @returns テーマキーで表した色
  */
