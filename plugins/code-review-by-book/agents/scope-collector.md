@@ -30,9 +30,9 @@ color: cyan
 #### 0件の場合 (ステージ済みの変更がない場合)
 
 - `git -c core.quotePath=false ls-files --others --exclude-standard`を実行し、未追跡ファイルを確認
-- `stat -c '%n: %F' <ファイル1> <ファイル2>`で種別を確認し、`regular file`以外は対象から除外
+- `find <ファイル1> <ファイル2> -maxdepth 0 -type f`を実行し、出力されたファイルのみを対象とする
 - 通常ファイルが0件の場合、コマンドは`git -c core.quotePath=false diff`とする
-- 通常ファイルが1件以上の場合、コマンドは`git -c core.quotePath=false diff; grep -n '' <ファイル1> <ファイル2>`とする
+- 通常ファイルが1件以上の場合、コマンドは`git -c core.quotePath=false diff; grep -n -I '' <ファイル1> <ファイル2>`とする
 - Step2に進む
 
 ### mode: pr の場合
@@ -49,7 +49,7 @@ Step2に進む
 
 `target`のファイルを特定し、その内容を出力するコマンドとする
 
-ファイル名と行番号が各行に付くよう、`grep -n '' <ファイル1> <ファイル2>`や`grep -rn '' <ディレクトリ>`形式を基本とする
+ファイル名と行番号が各行に付くよう、`grep -n -I '' <ファイル1> <ファイル2>`や`grep -rn -I '' <ディレクトリ>`形式を基本とする
 
 パスは実行ディレクトリを起点とした相対パスで指定する
 

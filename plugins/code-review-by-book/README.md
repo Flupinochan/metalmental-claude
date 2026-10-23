@@ -65,9 +65,9 @@ flowchart TD
     subgraph S1["Step1: レビュー対象を出力するコマンドを確定"]
         B -- local --> C{"ステージ済みの変更は1件以上か"}
         C -- 1件以上 --> D["git diff --cached"]
-        C -- 0件 --> E["git diff と未追跡の通常ファイルの grep -n '' 出力"]
+        C -- 0件 --> E["git diff と未追跡の通常ファイルの grep -n -I '' 出力"]
         B -- pr --> F["gh pr diff target"]
-        B -- free --> G["targetからファイルを特定し grep -n '' で出力"]
+        B -- free --> G["targetからファイルを特定し grep -n -I '' で出力"]
     end
 
     D --> H["Step2: コマンドを実行"]

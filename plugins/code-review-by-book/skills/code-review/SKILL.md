@@ -2,7 +2,7 @@
 name: code-review
 description: このスキルは、技術書をもとにしたレビュー観点をもとにコードレビューしたい場合に使用する
 disable-model-invocation: true
-allowed-tools: AskUserQuestion Glob Workflow Bash(gh pr list *)
+allowed-tools: AskUserQuestion Glob Workflow Bash(find *) Bash(gh pr list *)
 ---
 
 # 書籍ベースのコードレビュー
@@ -11,7 +11,10 @@ allowed-tools: AskUserQuestion Glob Workflow Bash(gh pr list *)
 
 ### Step1: レビュー観点ファイルの収集
 
-`Glob`ツールを `pattern: "${CLAUDE_PLUGIN_ROOT}/skills/code-review/references/**/*.md"` で呼び出し、レビュー観点ファイルの絶対パス一覧を取得
+レビュー観点ファイルの絶対パス一覧を取得
+
+- `Glob`ツールが利用できる場合: `Glob`ツールを `pattern: "${CLAUDE_PLUGIN_ROOT}/skills/code-review/references/**/*.md"` で実行
+- `Glob`ツールが利用できない場合: `Bash`ツールで `find "${CLAUDE_PLUGIN_ROOT}/skills/code-review/references" -name '*.md' -type f` を実行
 
 0件の場合は、`レビュー観点ファイルがありません。このskillのStep1に記載されているパスを修正してください` を伝えて処理を終了
 

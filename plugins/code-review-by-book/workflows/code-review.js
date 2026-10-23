@@ -77,7 +77,7 @@ const scopeResponse = await agent(scopePrompt, {
       reviewTargetCommand: {
         type: "string",
         description:
-          "レビュー対象を出力するコマンド。例: git diff --cached、grep -n '' src/main.ts",
+          "レビュー対象を出力するコマンド。例: git diff --cached、grep -n -I '' src/main.ts",
       },
     },
   },
@@ -105,7 +105,7 @@ log(
 
 const viewpointFiles = reviewViewpointFiles.map((viewpointFilePath) => ({
   viewpointFileName: (
-    viewpointFilePath.split("/").pop() || viewpointFilePath
+    viewpointFilePath.split(/[\\/]/).pop() || viewpointFilePath
   ).replace(/\.md$/, ""),
   viewpointFilePath,
 }));
