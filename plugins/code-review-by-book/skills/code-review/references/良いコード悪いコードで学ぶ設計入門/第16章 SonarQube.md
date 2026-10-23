@@ -19,4 +19,7 @@
 
 対応言語に無い拡張子のファイルは、解析しない
 
-SonarQube MCPが利用できない場合は、レビュー対象の先頭ファイルの1行目への指摘として`SonarQube MCPを設定してください`を返すこと
+`analyze_code_snippet`が初期化中のエラー (`Server initialization is taking longer than expected`) を返した場合は、`Bash`ツールで`sleep 15`を実行して待機し、再度呼び出す
+再試行は最大3回までとする
+
+再試行しても SonarQube MCPが利用できない場合は、レビュー対象の先頭ファイルの1行目への指摘として`SonarQube MCPを設定してください`を返すこと
