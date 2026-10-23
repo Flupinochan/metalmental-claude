@@ -8,14 +8,14 @@
   },
   "plugins": [
     {
-      "name": "git-github-workflow",
-      "description": "A skill plugin bundling git commit enforcement, worktree/branch creation, and GitHub pull request creation into one workflow",
+      "name": "git-github",
+      "description": "A skill plugin bundling git and GitHub skills: commit enforcement, worktree/branch creation, and pull request creation",
       "author": {
         "name": "MetalMental",
         "email": "flupino@metalmental.net",
         "url": "https://github.com/Flupinochan"
       },
-      "source": "./plugins/git-github-workflow",
+      "source": "./plugins/git-github",
       "category": "development",
       "homepage": "https://www.metalmental.net/",
       "tags": [
@@ -24,8 +24,7 @@
         "commit",
         "worktree",
         "branch",
-        "pull-request",
-        "workflow"
+        "pull-request"
       ]
     },
     {

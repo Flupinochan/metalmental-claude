@@ -1,4 +1,4 @@
-# git-github-workflow
+# git-github
 
 ## Overview
 
