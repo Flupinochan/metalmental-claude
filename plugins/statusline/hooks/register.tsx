@@ -1,0 +1,186 @@
+import type { Register } from "claude-code";
+
+import { COLOR } from "./colors";
+import { ctxColor, formatCtx, readCtx, syncCtx } from "./ctx";
+import { gitStatusColor, readGitStatus } from "./gitStatus";
+import { formatModel, modelColor, readModelId, syncModelId } from "./model";
+import { readOutputStyle, syncOutputStyle } from "./outputStyle";
+import {
+  openPullRequest,
+  readPullRequests,
+  summarizePullRequests,
+} from "./pullRequest";
+import {
+  readRateLimits,
+  summarizeRateLimits,
+  syncRateLimits,
+} from "./rateLimits";
+import { readReloadStatus, reloadManually, summarizeReload } from "./reload";
+import { pressReview, readReviewedCommands, summarizeReviews } from "./review";
+import { syncStatusline } from "./syncStatusline";
+import {
+  copyWorkingDirectory,
+  directoryName,
+  readWorkingDirectory,
+  workingDirectoryColor,
+} from "./workingDirectory";
+
+const COMMANDS_TO_RESYNC = [
+  "cd",
+  "clear",
+  "resume",
+  "branch",
+  "rewind",
+] as const;
+
+export const register: Register = (on) => {
+  on("session.start", async ($, event, next) => {
+    await syncStatusline($);
+
+    return next(event);
+  });
+
+  on("turn.complete", async ($, event, next) => {
+    if (event.agentId === undefined) {
+      await syncStatusline($);
+    }
+
+    return next(event);
+  });
+
+  on("session.measure", async ($, event, next) => {
+    if (event.changed.includes("context")) {
+      await syncCtx($);
+    }
+
+    if (event.changed.includes("rateLimits")) {
+      await syncRateLimits($);
+    }
+
+    return next(event);
+  });
+
+  on("classic.PostCompact", async ($, event, next) => {
+    await syncCtx($);
+
+    return next(event);
+  });
+
+  on("config.set", async ($, event, next) => {
+    const result = await next(event);
+    await syncOutputStyle($);
+
+    return result;
+  });
+
+  on("command.run", { command: "model" }, async ($, event, next) => {
+    const ran = await next(event);
+    await syncModelId($);
+
+    return ran;
+  });
+
+  on("command.run", { command: "output-style" }, async ($, event, next) => {
+    const ran = await next(event);
+    await syncOutputStyle($);
+
+    return ran;
+  });
+
+  for (const command of COMMANDS_TO_RESYNC) {
+    on("command.run", { command }, async ($, event, next) => {
+      const ran = await next(event);
+      $.clock.after(0, () => syncStatusline($));
+
+      return ran;
+    });
+  }
+
+  on("ui.render", { component: "AbovePrompt" }, async ($, event, next) => {
+    const [
+      reloadStatus,
+      gitStatus,
+      workingDirectory,
+      pullRequests,
+      modelId,
+      outputStyle,
+      ctxPercent,
+      rateLimits,
+      reviewedCommands,
+    ] = await Promise.all([
+      readReloadStatus($),
+      readGitStatus($),
+      readWorkingDirectory($),
+      readPullRequests($),
+      readModelId($),
+      readOutputStyle($),
+      readCtx($),
+      readRateLimits($),
+      readReviewedCommands($),
+    ]);
+
+    if (event.props.hasSurvey || event.surface === "mobile") {
+      return next(event);
+    }
+
+    const { Box, Button, Text } = $.ui.resolve(event);
+    const { icon: reloadIcon, color: reloadColor } =
+      summarizeReload(reloadStatus);
+
+    return (
+      <Box flexDirection="row" columnGap={1}>
+        <Button key="reload" plain onPress={() => void reloadManually($)}>
+          <Text color={reloadColor}>{reloadIcon}</Text>
+        </Button>
+        {gitStatus !== undefined && (
+          <Text color={gitStatusColor(gitStatus)}>{gitStatus}</Text>
+        )}
+        {workingDirectory !== "" && (
+          <Button
+            key="working-directory"
+            plain
+            onPress={(press) =>
+              void copyWorkingDirectory($, workingDirectory, press.surface)
+            }
+          >
+            <Text color={workingDirectoryColor(workingDirectory)}>
+              {directoryName(workingDirectory)}
+            </Text>
+          </Button>
+        )}
+        {summarizePullRequests(pullRequests).map(
+          ({ number, url, text, color }) => (
+            <Button
+              key={`pull-request-${number}`}
+              plain
+              onPress={() => void openPullRequest($, url)}
+            >
+              <Text color={color}>{text}</Text>
+            </Button>
+          ),
+        )}
+        {modelId !== "" && (
+          <Text color={modelColor(modelId)}>{formatModel(modelId)}</Text>
+        )}
+        {outputStyle !== undefined && (
+          <Text color={COLOR.orange}>{outputStyle}</Text>
+        )}
+        <Text color={ctxColor(ctxPercent)}>{formatCtx(ctxPercent)}</Text>
+        {summarizeRateLimits(rateLimits).map(({ kind, text, color }) => (
+          <Text key={kind} color={color}>
+            {text}
+          </Text>
+        ))}
+        {summarizeReviews(reviewedCommands).map(({ command, label, color }) => (
+          <Button
+            key={label}
+            plain
+            onPress={() => void pressReview($, command)}
+          >
+            <Text color={color}>{label}</Text>
+          </Button>
+        ))}
+      </Box>
+    );
+  });
+};
