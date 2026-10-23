@@ -155,6 +155,24 @@
       ]
     },
     {
+      "name": "code-review-by-book",
+      "description": "読んだ技術書ごとに学んだ内容とレビュー観点をmarkdownで蓄積し、レビュー観点ファイル1件につき1つのsubagentで並行コードレビューするworkflowプラグイン",
+      "author": {
+        "name": "MetalMental",
+        "email": "flupino@metalmental.net",
+        "url": "https://github.com/Flupinochan"
+      },
+      "source": "./plugins/code-review-by-book",
+      "category": "development",
+      "homepage": "https://www.metalmental.net/",
+      "tags": [
+        "code-review",
+        "book",
+        "workflow",
+        "knowledge-base"
+      ]
+    },
+    {
       "name": "aws-best-practice",
       "description": "AWSリソースを作成、IaC定義する際の推奨設定をリソースごとにまとめたskillプラグイン",
       "author": {
