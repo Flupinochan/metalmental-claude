@@ -153,7 +153,7 @@ export const register: Register = (on) => {
       summarizeReload(reloadStatus);
 
     return (
-      <Box flexDirection="row" columnGap={1}>
+      <Box flexDirection="row" flexWrap="wrap" columnGap={1}>
         <Button key="reload" plain onPress={() => void reloadManually($)}>
           <Text color={reloadColor}>{reloadIcon}</Text>
         </Button>
