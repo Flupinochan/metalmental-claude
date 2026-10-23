@@ -11,7 +11,7 @@ metalmental (ユーザ名) の `claude code` の `plugins` 等をまとめたリ
 | ask-user-question-enforce | skill内のユーザー確認をAskUserQuestionツールに統一する記法ルールを提供                                                          |
 | aws-best-practice         | AWSリソースを作成する時の推奨設定を提供                                                                                         |
 | career-transition-support | 日本のITエンジニア転職支援skill、職務経歴書の作成/添削/レビュー、求人票のマッチ度分析、ポートフォリオのケーススタディ作成を行う |
-| code-review-by-book       | 読んだ技術書ごとのレビュー観点をmarkdownで蓄積し、レビュー観点ファイル1件につき1つのsubagentで並行コードレビューするworkflow              |
+| code-review-by-book       | 読んだ技術書ごとのレビュー観点をmarkdownで蓄積し、レビュー観点ファイル1件につき1つのsubagentで並行コードレビューするworkflow    |
 | git-github-workflow       | git commit実行、worktree/branch作成、GitHub pull request作成をまとめたworkflow                                                  |
 | local-doc-search          | ローカルPCのドキュメントを全文検索とRAG検索で横断検索するMCPプラグイン                                                          |
 | sandbox-enforce           | 全設定ファイルのsandbox.enabledをスキャンし、確認の上でuser設定へ統一する                                                       |
@@ -49,4 +49,5 @@ claude --plugin-dir ./plugins/session-daily-report
 
 ## plugin作成/修正後にすること
 
-plugin を修正した後に必ず `plugin-dev:plugin-validator` や `claude plugin validate` 実行して動作確認するかユーザに確認すること
+- `plugin.json` の `version` を上げること
+- `plugin-dev:plugin-validator` や `claude plugin validate, test, eval` 実行して動作確認するかユーザに確認すること
