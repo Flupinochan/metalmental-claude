@@ -2,3 +2,6 @@ tmp/
 __pycache__/
 *.pyc
 .vscode
+node_modules/
+.claude/worktrees/
+dist/

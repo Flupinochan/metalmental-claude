@@ -189,6 +189,23 @@
         "cloudformation",
         "cloudwatch"
       ]
+    },
+    {
+      "name": "statusline",
+      "description": "入力欄の上にgit状態、ディレクトリ、モデル、使用率、言語のバージョン、reviewボタン等を常時表示するmod",
+      "author": {
+        "name": "MetalMental",
+        "email": "flupino@metalmental.net",
+        "url": "https://github.com/Flupinochan"
+      },
+      "source": "./plugins/statusline",
+      "category": "development",
+      "homepage": "https://www.metalmental.net/",
+      "tags": [
+        "mod",
+        "statusline",
+        "model"
+      ]
     }
   ]
 }

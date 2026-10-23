@@ -1,0 +1,13 @@
+{
+  "name": "metalmental-claude",
+  "private": true,
+  "scripts": {
+    "format": "prettier --write \"plugins/statusline/**/*.{ts,tsx}\"",
+    "format:check": "prettier --check \"plugins/statusline/**/*.{ts,tsx}\"",
+    "typecheck": "tsc -p tsconfig.json"
+  },
+  "devDependencies": {
+    "prettier": "3.9.10",
+    "typescript": "7.0.2"
+  }
+}
