@@ -16,7 +16,7 @@ metalmental (ユーザ名) の `claude code` の `plugins` 等をまとめたリ
 | local-doc-search          | ローカルPCのファイルを全文検索やRAG検索するMCP                                  |
 | sandbox-enforce           | 全claude設定ファイルでsandbox.enabledにするSkill                                |
 | session-daily-report      | 全プロジェクトのセッション履歴から日報を出力するWorkflow                        |
-| statusline                | 入力欄の上にディレクトリ名、モデル名、使用率、review等のボタンを常時表示するmod |
+| statusline                | ModelやBranch名、Python等のversionを表示するstatusline Mod                      |
 | tool-failure-log          | PostToolUseFailureを記録し、Toolの実行エラーを調査可能にするSkill               |
 | verified-web-search       | 検索したURLの完全なページを取得し、正確な1件のみ返すWorkflow                    |
 
