@@ -11,6 +11,8 @@ for (const [path, expected] of [
   ["/home/u/project", "project"],
   ["/home/u/project/", "project"],
   ["/", "/"],
+  ["C:\\Users\\u\\project", "project"],
+  ["C:\\Users\\u\\project\\", "project"],
 ] as const) {
   test(`DIR-1: ${path} は ${expected} と表示する`, () => {
     expect(directoryName(path)).toBe(expected);

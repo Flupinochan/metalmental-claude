@@ -39,6 +39,11 @@ const COMMANDS_TO_RESYNC = [
   "rewind",
 ] as const;
 
+/**
+ * statusline の各イベントのフックと、入力欄の上の描画を登録する
+ * @param on フックを登録する関数
+ * @returns なし
+ */
 export const register: Register = (on) => {
   on("session.start", async ($, event, next) => {
     await syncStatusline($);

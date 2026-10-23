@@ -27,7 +27,7 @@
 | RL-4     | 正常系 | 並び             | 5h、7d の順に固定。それ以外の種類は表示しない                                                                                                                    | `RATE_LIMIT_LABELS`      |
 | MD-1     | 正常系 | モデル名         | `claude-opus-5-5[1m]` → `opus5.5`。`claude-sonnet-5-5` → `sonnet5.5`。`claude-fable-5-1` → `fable5.1`。Claude 5 以降の命名のみを対象とし、5 より前の形式は対象外 | `formatModel`            |
 | MD-2     | 正常系 | モデルの色       | sonnet → green、opus → yellow、fable → red、それ以外(haiku を含む) → blue。大文字小文字は区別しない                                                              | `modelColor`             |
-| DIR-1    | 正常系 | ディレクトリ名   | `/home/u/project` → `project`。末尾が `/` でも同じ。ルート → `/`                                                                                                 | `directoryName`          |
+| DIR-1    | 正常系 | ディレクトリ名   | `/home/u/project` → `project`。末尾が `/` でも同じ。ルート → `/`。Windows の `C:\Users\u\project` → `project`                                                    | `directoryName`          |
 | DIR-2    | 正常系 | ディレクトリの色 | パスに `worktree` を含む → blue、含まない → yellow                                                                                                               | `workingDirectoryColor`  |
 | BRANCH-1 | 正常系 | ブランチ名       | `branch.head` を indigo で表示。detached HEAD、git でない場合は表示しない                                                                                        | `parseBranchName`        |
 | GIT-1    | 正常系 | git 状態の色     | unpushed と uncommitted → red、clean → green、no-git → blue                                                                                                      | `gitStatusColor`         |

@@ -12,11 +12,12 @@ const WORKTREE_KEYWORD = "worktree";
 
 /**
  * 絶対パスの末尾のディレクトリ名を取り出す
+ * 区切りは / と \ の両方を扱う
  * @param path 絶対パス
  * @returns ディレクトリ名
  */
 export function directoryName(path: string) {
-  return path.split("/").findLast((segment) => segment !== "") ?? "/";
+  return path.split(/[\\/]/).findLast((segment) => segment !== "") ?? "/";
 }
 
 /**
