@@ -18,7 +18,14 @@
       "source": "./plugins/git-github",
       "category": "development",
       "homepage": "https://www.metalmental.net/",
-      "tags": ["git", "github", "commit", "worktree", "branch", "pull-request"]
+      "tags": [
+        "git",
+        "github",
+        "commit",
+        "worktree",
+        "branch",
+        "pull-request"
+      ]
     },
     {
       "name": "verified-web-search",
@@ -31,7 +38,12 @@
       "source": "./plugins/verified-web-search",
       "category": "search",
       "homepage": "https://www.metalmental.net/",
-      "tags": ["web-search", "research", "workflow", "mcp"]
+      "tags": [
+        "web-search",
+        "research",
+        "workflow",
+        "mcp"
+      ]
     },
     {
       "name": "tool-failure-log",
@@ -44,7 +56,12 @@
       "source": "./plugins/tool-failure-log",
       "category": "development",
       "homepage": "https://www.metalmental.net/",
-      "tags": ["hooks", "logging", "failure-analysis", "settings"]
+      "tags": [
+        "hooks",
+        "logging",
+        "failure-analysis",
+        "settings"
+      ]
     },
     {
       "name": "session-daily-report",
@@ -57,7 +74,11 @@
       "source": "./plugins/session-daily-report",
       "category": "development",
       "homepage": "https://www.metalmental.net/",
-      "tags": ["daily-report", "session-history", "workflow"]
+      "tags": [
+        "daily-report",
+        "session-history",
+        "workflow"
+      ]
     },
     {
       "name": "local-doc-search",
@@ -70,7 +91,13 @@
       "source": "./plugins/local-doc-search",
       "category": "search",
       "homepage": "https://www.metalmental.net/",
-      "tags": ["local-search", "full-text-search", "rag", "sqlite", "mcp"]
+      "tags": [
+        "local-search",
+        "full-text-search",
+        "rag",
+        "sqlite",
+        "mcp"
+      ]
     },
     {
       "name": "sandbox-enforce",
@@ -83,7 +110,12 @@
       "source": "./plugins/sandbox-enforce",
       "category": "development",
       "homepage": "https://www.metalmental.net/",
-      "tags": ["sandbox", "security", "settings", "wsl"]
+      "tags": [
+        "sandbox",
+        "security",
+        "settings",
+        "wsl"
+      ]
     },
     {
       "name": "ask-user-question-enforce",
@@ -96,7 +128,12 @@
       "source": "./plugins/ask-user-question-enforce",
       "category": "development",
       "homepage": "https://www.metalmental.net/",
-      "tags": ["skill-development", "ask-user-question", "authoring", "meta"]
+      "tags": [
+        "skill-development",
+        "ask-user-question",
+        "authoring",
+        "meta"
+      ]
     },
     {
       "name": "career-transition-support",
@@ -109,7 +146,12 @@
       "source": "./plugins/career-transition-support",
       "category": "productivity",
       "homepage": "https://www.metalmental.net/",
-      "tags": ["career", "resume", "job-search", "japan"]
+      "tags": [
+        "career",
+        "resume",
+        "job-search",
+        "japan"
+      ]
     },
     {
       "name": "code-review-by-book",
@@ -122,7 +164,12 @@
       "source": "./plugins/code-review-by-book",
       "category": "development",
       "homepage": "https://www.metalmental.net/",
-      "tags": ["code-review", "book", "workflow", "knowledge-base"]
+      "tags": [
+        "code-review",
+        "book",
+        "workflow",
+        "knowledge-base"
+      ]
     },
     {
       "name": "aws-best-practice",
@@ -135,11 +182,17 @@
       "source": "./plugins/aws-best-practice",
       "category": "development",
       "homepage": "https://www.metalmental.net/",
-      "tags": ["aws", "best-practice", "iac", "cloudformation", "cloudwatch"]
+      "tags": [
+        "aws",
+        "best-practice",
+        "iac",
+        "cloudformation",
+        "cloudwatch"
+      ]
     },
     {
       "name": "statusline",
-      "description": "ModelやBranch名、Python等のversionを表示するstatusline Mod",
+      "description": "入力欄の上にgit状態、ディレクトリ、モデル、使用率、言語のバージョン、reviewボタン等を常時表示するmod",
       "author": {
         "name": "MetalMental",
         "email": "flupino@metalmental.net",
@@ -148,7 +201,11 @@
       "source": "./plugins/statusline",
       "category": "development",
       "homepage": "https://www.metalmental.net/",
-      "tags": ["mod", "statusline", "model"]
+      "tags": [
+        "mod",
+        "statusline",
+        "model"
+      ]
     },
     {
       "name": "ui-plus",
@@ -161,7 +218,11 @@
       "source": "./plugins/ui-plus",
       "category": "development",
       "homepage": "https://www.metalmental.net/",
-      "tags": ["mod", "ui", "copy"]
+      "tags": [
+        "mod",
+        "ui",
+        "copy"
+      ]
     }
   ]
 }
