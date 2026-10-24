@@ -122,7 +122,7 @@ function scheduleCopyResultClear($: EngineInterface, id: string) {
  * @param id コピー対象の識別子
  * @param result コピーの結果
  */
-async function syncCopyResult(
+async function storeCopyResult(
   $: EngineInterface,
   id: string,
   result: CopyResult,
@@ -132,7 +132,6 @@ async function syncCopyResult(
     ...results,
     [id]: result,
   }));
-  // 結果の表示を一定時間後に戻すため、結果を待たずにタイマーで更新する
   scheduleCopyResultClear($, id);
 }
 
@@ -163,5 +162,5 @@ export async function copyText(
     $.ui.log(`copy failed: ${String(error)}`, { to: "debug" });
   }
 
-  await syncCopyResult($, id, result);
+  await storeCopyResult($, id, result);
 }
