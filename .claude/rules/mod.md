@@ -19,4 +19,5 @@ paths:
 - ログ出力は `$.ui.log` を利用すること
   - `claude --debug-file /tmp/mod-debug.log --plugin-dir "$(pwd)/plugins/<plugin名>"` のように起動するとログを確認しながら動作確認が可能
 - UIの配色は `colors.ts` を利用すること
+- atom の変数名は `xxxState`、保存済みの値を読む関数は `readXxx`、外部の情報を取得して保存済みの値を更新する関数は `syncXxx` と命名すること
 - エンジンの更新時は、各 mod の `.claude-plugin/types/` の `claude-code/index.d.ts` と `claude-code-tools/index.d.ts` を、ルートの `types/` の同名のディレクトリに再コピーすること
