@@ -11,6 +11,7 @@ declare module "claude-code" {
     "ui-plus": {
       readonly copyResults: Readonly<Record<string, CopyResult>>;
       readonly turn: TurnState;
+      readonly foldOverrides: Readonly<Record<string, boolean>>;
     };
   }
 }

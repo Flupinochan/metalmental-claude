@@ -72,22 +72,37 @@ export function stubWorld(on: On, overrides: Partial<State> = {}) {
   return { state, calls, clock };
 }
 
+let requestCount = 0;
+
+/**
+ * 他のテストと重ならない、描画する行の識別子を作る
+ * @param prefix 識別子の先頭
+ * @returns 識別子
+ */
+export function nextRequestId(prefix: string) {
+  requestCount += 1;
+
+  return `${prefix}-${requestCount}`;
+}
+
 /**
  * 回答を描画する対象を作る
  * @param text 回答の Markdown
  * @param props 既定の props から変える項目
  * @param props.isFirstOfReply 返信の最初の回答か
  * @param props.isSummary 要約の回答か
+ * @param requestId 回答の識別子。省略すると、他のテストと重ならない識別子にする
  * @returns ui.mount に渡す対象
  */
 export function reply(
   text: string,
   props: { isFirstOfReply?: boolean; isSummary?: true } = {},
+  requestId = nextRequestId("reply"),
 ) {
   return {
     plugin: "ui-plus",
     component: "AssistantMessage",
-    requestId: "reply-1",
+    requestId,
     props: { text, isFirstOfReply: true, ...props },
     surface: "terminal",
     viewport: { columns: COLUMNS, rows: 24, isFullscreen: false },
@@ -109,6 +124,7 @@ export async function mountReply(
   overrides: Partial<State> = {},
 ) {
   const world = stubWorld(on, overrides);
+  await startTurn($, nextRequestId("turn"));
   const ui = await $.ui.mount(reply(text));
 
   return { ui, ...world };
@@ -308,4 +324,35 @@ export async function callTool($: Engine, calls: Calls) {
   await $.tool.call({ tool: "Read", file_path: "/repo/a.ts" });
 
   return calls.toolUseIds.at(-1) ?? "";
+}
+
+/**
+ * 質問を描画する対象を作る
+ * @param text 質問の文章
+ * @param options 既定から変える項目
+ * @param options.requestId 質問の識別子。省略すると、他のテストと重ならない識別子にする
+ * @param options.origin 質問の出どころ。省略すると、入力欄から送った質問にする
+ * @param options.isExpanded 全体表示か
+ * @returns ui.mount に渡す対象
+ */
+export function question(
+  text: string,
+  options: {
+    requestId?: string;
+    origin?: { kind: "composer" } | { kind: "unclassified" };
+    isExpanded?: boolean;
+  } = {},
+) {
+  return {
+    plugin: "ui-plus",
+    component: "UserMessage",
+    requestId: options.requestId ?? nextRequestId("question"),
+    props: {
+      text,
+      origin: options.origin ?? { kind: "composer" },
+      isExpanded: options.isExpanded ?? false,
+    },
+    surface: "terminal",
+    viewport: VIEWPORT,
+  } as const;
 }

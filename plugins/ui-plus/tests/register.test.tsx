@@ -14,8 +14,21 @@ import {
 
 const OTHER_TABLE = "| x |\n| - |\n| 1 |";
 
-const labelsOf = async (ui: Awaited<ReturnType<typeof mountReply>>["ui"]) =>
-  (await ui.findAll({ type: "Button" })).map(({ text }) => text.trim());
+type Ui = Awaited<ReturnType<typeof mountReply>>["ui"];
+
+const copyButtonsOf = async (ui: Ui) =>
+  (await ui.findAll({ type: "Button" })).filter(({ key }) => key !== "toggle");
+
+const labelsOf = async (ui: Ui) =>
+  (await copyButtonsOf(ui)).map(({ text }) => text.trim());
+
+const orderOf = async (ui: Ui) =>
+  (await ui.findAll({}))
+    .filter(
+      ({ type, key }) =>
+        (type === "Button" && key !== "toggle") || type === "Markdown",
+    )
+    .map(({ type, text }) => (type === "Button" ? "ボタン" : text));
 
 for (const [result, label, color, hoverColor] of [
   [undefined, "COPY TABLE", "white", "indigo"],
@@ -47,20 +60,17 @@ test("LBL-3: 横幅が分からないときは、文言をそのまま返す", (
   expect(padLabelToWidth("COPY TABLE", undefined)).toBe("COPY TABLE");
 });
 
-test("UI-1: 表がない回答は、標準の描画にする", async ($, on) => {
-  const { ui } = await mountReply($, on, "表のない回答\n2行目");
+test("UI-1: 表がない1行の回答は、ボタンを出さず、文字だけで表示する", async ($, on) => {
+  const { ui } = await mountReply($, on, "1行の回答");
 
-  expect(await ui.find({ type: "Text", text: "標準の表示" })).toBeDefined();
+  expect(await ui.find({ type: "Text", text: "1行の回答" })).toBeDefined();
   expect(await ui.findAll({ type: "Button" })).toHaveLength(0);
 });
 
 test("UI-2: 表の上に COPY TABLE ボタンを表示する", async ($, on) => {
   const { ui } = await mountReply($, on, `前\n\n${TABLE}\n\n後`);
-  const order = (await ui.findAll({}))
-    .filter(({ type }) => type === "Button" || type === "Markdown")
-    .map(({ type, text }) => (type === "Button" ? "ボタン" : text));
 
-  expect(order).toEqual(["前", "ボタン", TABLE, "後"]);
+  expect(await orderOf(ui)).toEqual(["前", "ボタン", TABLE, "後"]);
 });
 
 test("UI-3: 表を含む回答でも、表以外の文章は表示する", async ($, on) => {
@@ -80,7 +90,7 @@ test("UI-4: 要約の回答は、標準の描画にする", async ($, on) => {
 
 test("UI-5: ボタンの幅は、端末の横幅から余白 6 を引いた幅にそろえる", async ($, on) => {
   const { ui } = await mountReply($, on, TABLE);
-  const [button] = await ui.findAll({ type: "Button" });
+  const [button] = await copyButtonsOf(ui);
 
   expect(button?.text.length).toBe(COLUMNS - 6);
 });
@@ -153,11 +163,8 @@ test("BTN-6: 結果の表示中にもう一度押すと、表示の時間を数�
 
 test("CODE-1: コードブロックの上に COPY CODE ボタンを表示し、コードブロックはそのまま表示する", async ($, on) => {
   const { ui } = await mountReply($, on, `前\n\n${CODE_BLOCK}\n\n後`);
-  const order = (await ui.findAll({}))
-    .filter(({ type }) => type === "Button" || type === "Markdown")
-    .map(({ type, text }) => (type === "Button" ? "ボタン" : text));
 
-  expect(order).toEqual(["前", "ボタン", CODE_BLOCK, "後"]);
+  expect(await orderOf(ui)).toEqual(["前", "ボタン", CODE_BLOCK, "後"]);
   expect(await labelsOf(ui)).toEqual(["COPY CODE"]);
 });
 
