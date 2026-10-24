@@ -13,19 +13,3 @@ export const COLOR = {
   black: "inverseText",
   orange: "#ff8700",
 } as const;
-
-const WARNING_PERCENT = 50;
-const DANGER_PERCENT = 80;
-
-/**
- * 使用率に対応する色を返す
- * @param percent 使用率 0から100
- * @returns テーマキーで表した色
- */
-export function levelColor(percent: number) {
-  if (percent >= DANGER_PERCENT) {
-    return COLOR.red;
-  }
-
-  return percent >= WARNING_PERCENT ? COLOR.yellow : COLOR.green;
-}
