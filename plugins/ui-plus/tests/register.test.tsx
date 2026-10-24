@@ -1,8 +1,16 @@
 import { expect, test } from "claude-code/testing";
 
 import { COLOR } from "../hooks/colors";
-import { padLabelToWidth, getCopyButtonStyle } from "../hooks/tableCopy";
-import { COLUMNS, TABLE, mountReply, reply, stubWorld } from "./helpers";
+import { padLabelToWidth, getCopyButtonStyle } from "../hooks/copyButton";
+import {
+  CODE,
+  CODE_BLOCK,
+  COLUMNS,
+  TABLE,
+  mountReply,
+  reply,
+  stubWorld,
+} from "./helpers";
 
 const OTHER_TABLE = "| x |\n| - |\n| 1 |";
 
@@ -15,7 +23,7 @@ for (const [result, label, color, hoverColor] of [
   ["failed", "COPY FAILED", "red", "red"],
 ] as const) {
   test(`LBL-1: ${result ?? "未押下"} は ${label} を ${color} (ポインタが乗ると ${hoverColor}) で表示する`, () => {
-    expect(getCopyButtonStyle(result)).toEqual({
+    expect(getCopyButtonStyle("table", result)).toEqual({
       label,
       color: COLOR[color],
       hoverColor: COLOR[hoverColor],
@@ -141,4 +149,77 @@ test("BTN-6: 結果の表示中にもう一度押すと、表示の時間を数�
   await clock.advance(1100);
 
   expect(await labelsOf(ui)).toEqual(["COPY TABLE"]);
+});
+
+test("CODE-1: コードブロックの上に COPY CODE ボタンを表示し、コードブロックはそのまま表示する", async ($, on) => {
+  const { ui } = await mountReply($, on, `前\n\n${CODE_BLOCK}\n\n後`);
+  const order = (await ui.findAll({}))
+    .filter(({ type }) => type === "Button" || type === "Markdown")
+    .map(({ type, text }) => (type === "Button" ? "ボタン" : text));
+
+  expect(order).toEqual(["前", "ボタン", CODE_BLOCK, "後"]);
+  expect(await labelsOf(ui)).toEqual(["COPY CODE"]);
+});
+
+test("CODE-2: 押すと、フェンス行を除いたコードをコピーする", async ($, on) => {
+  const { ui, calls } = await mountReply($, on, CODE_BLOCK);
+  await ui.press({ key: "copy-code-0" });
+
+  expect(calls.copies).toEqual([{ text: CODE, surface: "terminal" }]);
+});
+
+test("CODE-3: コピーできたら CODE COPIED を 3 秒間表示して、COPY CODE に戻る", async ($, on) => {
+  const { ui, clock } = await mountReply($, on, CODE_BLOCK);
+  await ui.press({ key: "copy-code-0" });
+
+  expect(await labelsOf(ui)).toEqual(["CODE COPIED"]);
+
+  await clock.advance(3100);
+
+  expect(await labelsOf(ui)).toEqual(["COPY CODE"]);
+});
+
+test("CODE-4: コピーに失敗したら COPY FAILED を表示する", async ($, on) => {
+  const { ui } = await mountReply($, on, CODE_BLOCK, {
+    copy: { isCopied: false, reason: "refused" },
+  });
+  await ui.press({ key: "copy-code-0" });
+
+  expect(await labelsOf(ui)).toEqual(["COPY FAILED"]);
+});
+
+test("CODE-5: 表とコードの結果は、別々に表示する", async ($, on) => {
+  const { ui } = await mountReply($, on, `${TABLE}\n\n${CODE_BLOCK}`);
+  await ui.press({ key: "copy-code-1" });
+
+  expect(await labelsOf(ui)).toEqual(["COPY TABLE", "CODE COPIED"]);
+});
+
+test("CODE-6: 言語によらず、コードブロックの上にボタンを表示する", async ($, on) => {
+  const { ui } = await mountReply($, on, "```ts\nconst a = 1;\n```");
+
+  expect(await labelsOf(ui)).toEqual(["COPY CODE"]);
+});
+
+test("CODE-7: コードブロックを、ボタンと同じ色の枠線で囲む", async ($, on) => {
+  const { ui } = await mountReply($, on, CODE_BLOCK);
+  const frame = await ui.find({ key: "code-frame-0" });
+
+  expect(frame?.props).toMatchObject({
+    borderStyle: "round",
+    borderColor: COLOR.white,
+  });
+  expect(await ui.find({ type: "Markdown", text: CODE_BLOCK })).toBeDefined();
+
+  await ui.press({ key: "copy-code-0" });
+
+  expect((await ui.find({ key: "code-frame-0" }))?.props).toMatchObject({
+    borderColor: COLOR.green,
+  });
+});
+
+test("CODE-8: 表は、枠線で囲まない", async ($, on) => {
+  const { ui } = await mountReply($, on, TABLE);
+
+  expect(await ui.find({ key: "code-frame-0" })).toBeUndefined();
 });

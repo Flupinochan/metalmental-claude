@@ -1,12 +1,12 @@
 import type { Register } from "claude-code";
 
-import { splitTablesFromAssistantMessage } from "./splitTablesFromAssistantMessage";
 import {
-  copyTable,
+  copyText,
+  getCopyButtonStyle,
   padLabelToWidth,
   readCopyResults,
-  getCopyButtonStyle,
-} from "./tableCopy";
+} from "./copyButton";
+import { splitCopyTargetsFromAssistantMessage } from "./splitCopyTargetsFromAssistantMessage";
 
 /**
  * ui-plus の描画を登録する
@@ -18,9 +18,9 @@ export const register: Register = (on) => {
       return next(event);
     }
 
-    const messageParts = splitTablesFromAssistantMessage(event.props.text);
+    const messageParts = splitCopyTargetsFromAssistantMessage(event.props.text);
 
-    if (!messageParts.some((part) => part.kind === "table")) {
+    if (!messageParts.some((part) => part.kind !== "plain")) {
       return next(event);
     }
 
@@ -38,22 +38,27 @@ export const register: Register = (on) => {
 
             const id = `${event.requestId}:${index}`;
             const { label, color, hoverColor } = getCopyButtonStyle(
+              part.kind,
               results[id],
             );
-            const hover = { scope: `copy-table:${id}` };
+            const hover = { scope: `copy-${part.kind}:${id}` };
+            const textToCopy =
+              part.kind === "table" ? part.tableText : part.codeText;
+            const displayedText =
+              part.kind === "table" ? part.tableText : part.codeBlockText;
 
             return (
-              <Box key={`table-${index}`} flexDirection="column">
+              <Box key={`${part.kind}-${index}`} flexDirection="column">
                 <Box
                   borderStyle="round"
                   borderColor={color}
                   hover={{ ...hover, borderColor: hoverColor }}
                 >
                   <Button
-                    key={`copy-table-${index}`}
+                    key={`copy-${part.kind}-${index}`}
                     plain
                     onPress={(press) =>
-                      void copyTable($, id, part.tableText, press.surface)
+                      void copyText($, id, textToCopy, press.surface)
                     }
                   >
                     <Text color={color} hover={{ ...hover, color: hoverColor }}>
@@ -61,7 +66,17 @@ export const register: Register = (on) => {
                     </Text>
                   </Button>
                 </Box>
-                <Markdown key={`table-text-${index}`} text={part.tableText} />
+                {part.kind === "code" ? (
+                  <Box
+                    key={`code-frame-${index}`}
+                    borderStyle="round"
+                    borderColor={color}
+                  >
+                    <Markdown key={`code-text-${index}`} text={displayedText} />
+                  </Box>
+                ) : (
+                  <Markdown key={`table-text-${index}`} text={displayedText} />
+                )}
               </Box>
             );
           })}

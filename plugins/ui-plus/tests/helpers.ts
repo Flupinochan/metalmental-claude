@@ -4,6 +4,10 @@ import { mock } from "claude-code/testing";
 
 export const TABLE = "| 名前 | 値 |\n| --- | --- |\n| a | 1 |\n| b | 2 |";
 
+export const CODE = "git status\ngit diff";
+
+export const CODE_BLOCK = `\`\`\`bash\n${CODE}\n\`\`\``;
+
 export const COLUMNS = 80;
 
 /**

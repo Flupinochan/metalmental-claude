@@ -1,11 +1,11 @@
 import type { EngineInterface, RenderSurface, Timer } from "claude-code";
 import { atom, read, update } from "claude-code";
 
-import type { TableCopyResult } from "../types";
+import type { CopyResult } from "../types";
 import { COLOR } from "./colors";
 
 const copyResultsState = atom(
-  { plugin: "ui-plus", key: "tableCopyResults" } as const,
+  { plugin: "ui-plus", key: "copyResults" } as const,
   {},
 );
 
@@ -13,34 +13,42 @@ const COPY_RESULT_MS = 3000;
 // ボタンの外側の字下げ 2 と、枠線 2 と、折り返さないための余裕 2
 const LABEL_WIDTH_OFFSET = 6;
 // 行末の通常の空白は描画時に削られるため、削られないノーブレークスペースで埋める
-const NO_BREAK_SPACE = "\u00a0";
+const NO_BREAK_SPACE = " ";
 
-const COPY_BUTTON_STYLES = {
-  idle: { label: "COPY TABLE", color: COLOR.white, hoverColor: COLOR.indigo },
-  success: {
-    label: "TABLE COPIED",
-    color: COLOR.green,
-    hoverColor: COLOR.green,
+const COPY_LABELS = {
+  table: {
+    idle: "COPY TABLE",
+    success: "TABLE COPIED",
+    failed: "COPY FAILED",
   },
-  failed: { label: "COPY FAILED", color: COLOR.red, hoverColor: COLOR.red },
-} as const satisfies Record<
-  "idle" | TableCopyResult,
-  {
-    readonly label: string;
-    readonly color: string;
-    readonly hoverColor: string;
-  }
->;
+  code: {
+    idle: "COPY CODE",
+    success: "CODE COPIED",
+    failed: "COPY FAILED",
+  },
+} as const;
+
+const COPY_COLORS = {
+  idle: { color: COLOR.white, hoverColor: COLOR.indigo },
+  success: { color: COLOR.green, hoverColor: COLOR.green },
+  failed: { color: COLOR.red, hoverColor: COLOR.red },
+} as const;
 
 const resultClearTimers = new Map<string, Timer>();
 
 /**
- * コピーの結果に対応する、ボタンの文言と色を返す
+ * コピー対象の種類とコピーの結果に対応する、ボタンの文言と色を返す
+ * @param kind コピー対象の種類 (表またはコード)
  * @param result コピーの結果。まだ押されていない場合は undefined
  * @returns 項目の label と color と hoverColor (ポインタが乗ったときの色)
  */
-export function getCopyButtonStyle(result: TableCopyResult | undefined) {
-  return COPY_BUTTON_STYLES[result ?? "idle"];
+export function getCopyButtonStyle(
+  kind: "table" | "code",
+  result: CopyResult | undefined,
+) {
+  const state = result ?? "idle";
+
+  return { label: COPY_LABELS[kind][state], ...COPY_COLORS[state] };
 }
 
 /**
@@ -67,18 +75,18 @@ export function padLabelToWidth(label: string, columns: number | undefined) {
 
 /**
  * 保存済みのコピー結果を読む
- * 描画の中で呼ぶと、copyTable による更新時に再描画される
+ * 描画の中で呼ぶと、copyText による更新時に再描画される
  * @param $ engineのインターフェース
- * @returns 表の識別子ごとのコピー結果。押されていない表は含まれない
+ * @returns コピー対象の識別子ごとのコピー結果。押されていないものは含まれない
  */
 export function readCopyResults($: EngineInterface) {
   return read($, copyResultsState);
 }
 
 /**
- * 表のコピー結果を、保存済みの結果から消す
+ * コピー結果を、保存済みの結果から消す
  * @param $ engineのインターフェース
- * @param id 表の識別子
+ * @param id コピー対象の識別子
  */
 async function clearCopyResult($: EngineInterface, id: string) {
   resultClearTimers.delete(id);
@@ -88,8 +96,8 @@ async function clearCopyResult($: EngineInterface, id: string) {
 }
 
 /**
- * 表のコピー結果を消すタイマーを取り消す
- * @param id 表の識別子
+ * コピー結果を消すタイマーを取り消す
+ * @param id コピー対象の識別子
  */
 function cancelCopyResultClear(id: string) {
   resultClearTimers.get(id)?.cancel();
@@ -97,9 +105,9 @@ function cancelCopyResultClear(id: string) {
 }
 
 /**
- * 一定時間後に、表のコピー結果を消すタイマーを登録する
+ * 一定時間後に、コピー結果を消すタイマーを登録する
  * @param $ engineのインターフェース
- * @param id 表の識別子
+ * @param id コピー対象の識別子
  */
 function scheduleCopyResultClear($: EngineInterface, id: string) {
   resultClearTimers.set(
@@ -111,13 +119,13 @@ function scheduleCopyResultClear($: EngineInterface, id: string) {
 /**
  * コピー結果を保存し、一定時間後に消す
  * @param $ engineのインターフェース
- * @param id 表の識別子
+ * @param id コピー対象の識別子
  * @param result コピーの結果
  */
 async function syncCopyResult(
   $: EngineInterface,
   id: string,
-  result: TableCopyResult,
+  result: CopyResult,
 ) {
   cancelCopyResultClear(id);
   await update($, copyResultsState, (results) => ({
@@ -129,22 +137,22 @@ async function syncCopyResult(
 }
 
 /**
- * 表の Markdown をクリップボードへコピーし、結果をボタンに反映する
+ * 文字列をクリップボードへコピーし、結果をボタンに反映する
  * @param $ engineのインターフェース
- * @param id 表の識別子
- * @param tableText コピーする表の Markdown
+ * @param id コピー対象の識別子
+ * @param textToCopy コピーする文字列 (表の Markdown またはコード)
  * @param surface ボタンが押された描画先
  */
-export async function copyTable(
+export async function copyText(
   $: EngineInterface,
   id: string,
-  tableText: string,
+  textToCopy: string,
   surface: RenderSurface,
 ) {
-  let result: TableCopyResult = "failed";
+  let result: CopyResult = "failed";
 
   try {
-    const copied = await $.ui.copy({ text: tableText, surface });
+    const copied = await $.ui.copy({ text: textToCopy, surface });
 
     if (copied.isCopied) {
       result = "success";
