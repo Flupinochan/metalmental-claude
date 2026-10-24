@@ -2,8 +2,8 @@
   "name": "metalmental-claude",
   "private": true,
   "scripts": {
-    "format": "prettier --write \"plugins/statusline/**/*.{ts,tsx}\"",
-    "format:check": "prettier --check \"plugins/statusline/**/*.{ts,tsx}\"",
+    "format": "prettier --write \"plugins/{statusline,ui-plus}/**/*.{ts,tsx}\"",
+    "format:check": "prettier --check \"plugins/{statusline,ui-plus}/**/*.{ts,tsx}\"",
     "typecheck": "tsc -p tsconfig.json"
   },
   "devDependencies": {
