@@ -121,12 +121,12 @@ function textColorOf(button: unknown) {
   return (text as Described | undefined)?.props.color;
 }
 
-type Described = {
+interface Described {
   type: string;
   props: Record<string, unknown>;
   hover?: unknown;
   children?: unknown[];
-};
+}
 
 const CHANGED = {
   ctx: "ctx:77%",

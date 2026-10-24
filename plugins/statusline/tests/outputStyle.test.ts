@@ -11,7 +11,7 @@ test("OS-1: 設定が文字列なら、その名前を orange で表示する", 
 });
 
 for (const outputStyle of [undefined, 123, {}]) {
-  test(`OS-1: 設定が文字列でない (${JSON.stringify(outputStyle) ?? "undefined"}) なら、表示しない`, async ($, on) => {
+  test(`OS-1: 設定が文字列でない (${outputStyle === undefined ? "undefined" : JSON.stringify(outputStyle)}) なら、表示しない`, async ($, on) => {
     await startLoadedSession($, on, { outputStyle });
     const ui = await $.ui.mount(BAND);
     const texts = await shownTexts(ui);

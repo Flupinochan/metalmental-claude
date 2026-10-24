@@ -54,6 +54,8 @@ export async function reloadManually($: EngineInterface) {
     return "loading";
   });
 
+  // update のコールバック内の代入を、TypeScript の制御フロー解析が追えない
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
   if (!isStarted) {
     return;
   }
