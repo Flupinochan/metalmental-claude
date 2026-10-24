@@ -1,7 +1,7 @@
 {
   "name": "ask-user-question-enforce",
   "description": "Provides authoring rules for Claude Code skills, standardizing how user confirmations inside a skill are expressed with the AskUserQuestion tool",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "author": {
     "name": "MetalMental",
     "email": "flupino@metalmental.net",

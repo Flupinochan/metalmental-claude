@@ -1,7 +1,7 @@
 {
   "name": "session-daily-report",
   "description": "全プロジェクトのセッション履歴JSONLを指定日でJSTに変換・集計し、日本語の日報タイムラインをターミナルに出力するworkflowプラグイン",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "author": {
     "name": "MetalMental",
     "email": "flupino@metalmental.net",
