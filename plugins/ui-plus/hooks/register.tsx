@@ -26,6 +26,7 @@ import {
 import { splitCopyTargetsFromAssistantMessage } from "./splitCopyTargetsFromAssistantMessage";
 import {
   endTurn,
+  isAgentRowShown,
   isInfoNoticeShown,
   isToolGroupShown,
   isToolShown,
@@ -186,6 +187,18 @@ export const register: Register = (on) => {
   });
 
   on("ui.render", { component: "UserMessage" }, async ($, event, next) => {
+    if (event.props.from !== undefined || event.props.task !== undefined) {
+      const turn = await readTurnState($);
+
+      if (event.props.isExpanded || isAgentRowShown(turn, event.requestId)) {
+        return next(event);
+      }
+
+      const { Box } = $.ui.resolve(event);
+
+      return <Box />;
+    }
+
     if (event.props.origin.kind !== "composer" || event.props.isExpanded) {
       return next(event);
     }

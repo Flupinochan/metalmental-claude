@@ -95,10 +95,15 @@
 | HID-6  | 正常系 | 回答の所要時間の行 (TurnDuration) は、常に非表示にする                               | `register.tsx`      |
 | HID-7  | 正常系 | ツールの進行の行 (ToolProgress) は、今の回答のツールの間だけ表示する                 | `isToolShown`       |
 | HID-8  | 正常系 | 起動時のお知らせ (InfoNotice) は、最初の回答が終わるまで表示し、終わると非表示にする | `isInfoNoticeShown` |
-| HID-9  | 正常系 | 全体表示 (ctrl+o) のときは、非表示の対象も表示する                                   | `register.tsx`      |
+| HID-9  | 正常系 | 全体表示 (ctrl+o) のときは、ToolUse、ToolResult、ToolGroup、TurnDuration を表示する。ToolProgress と InfoNotice は、全体表示かを判定できないため、表示できない | `register.tsx`      |
 | HID-10 | 正常系 | サブエージェントの回答の開始と終了では、メインの回答中の状態を変えない               | `register.tsx`      |
 | HID-11 | 正常系 | 中断やエラーで終わった回答のツールの行も、非表示にする                               | `endTurn`           |
 | HID-12 | 正常系 | スラッシュコマンドの出力の行 (CommandOutput) は、回答の終了後も表示する              | `register.tsx`      |
+| HID-13 | 正常系 | サブエージェントの行 (他のエージェントからのメッセージと、バックグラウンドタスクの通知の UserMessage) は、回答中は表示し、回答の終了後は非表示にする | `isAgentRowShown`   |
+| HID-14 | 正常系 | 回答の開始前に描画した行も、その回答が始まれば表示する                               | `isAgentRowShown`   |
+| HID-15 | 正常系 | 次の回答が始まっても、前の回答までに描画した行は表示に戻らない                       | `endTurn`           |
+| HID-16 | 正常系 | サブエージェントの行も、全体表示 (ctrl+o) のときは表示する                           | `register.tsx`      |
+| HID-17 | 正常系 | UserMessage の from と task がない、入力欄以外の行は、回答の終了後も表示する        | `register.tsx`      |
 
 ## 7. 折りたたみ
 
