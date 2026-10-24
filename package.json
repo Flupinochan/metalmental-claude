@@ -4,10 +4,17 @@
   "scripts": {
     "format": "prettier --write \"plugins/statusline/**/*.{ts,tsx}\"",
     "format:check": "prettier --check \"plugins/statusline/**/*.{ts,tsx}\"",
+    "lint": "eslint --fix \"plugins/statusline/**/*.{ts,tsx}\"",
+    "lint:check": "eslint \"plugins/statusline/**/*.{ts,tsx}\"",
     "typecheck": "tsc -p tsconfig.json"
   },
   "devDependencies": {
+    "@eslint/js": "10.0.1",
+    "eslint": "10.13.0",
+    "eslint-config-prettier": "10.1.8",
+    "eslint-plugin-jsdoc": "63.3.3",
     "prettier": "3.9.10",
-    "typescript": "7.0.2"
+    "typescript": "6.0.3",
+    "typescript-eslint": "8.72.0"
   }
 }

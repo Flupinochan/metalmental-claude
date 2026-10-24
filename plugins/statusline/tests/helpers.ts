@@ -50,7 +50,7 @@ const RATE_LIMITS = [
 /**
  * stub が返す、テストごとに書き換えられる世界の状態
  */
-export type State = {
+export interface State {
   cwd: string;
   branch: string;
   gitExitCode: number;
@@ -87,12 +87,12 @@ export type State = {
     string,
     { stdout?: string; stderr?: string; exitCode?: number; fails?: boolean }
   >;
-};
+}
 
 /**
  * stub が受けた呼び出しの記録
  */
-export type Calls = {
+export interface Calls {
   gitStatus: string[][];
   pullRequestList: { argv: string[]; timeoutMs: number | undefined }[];
   pullRequestView: string[][];
@@ -132,7 +132,7 @@ export type Calls = {
     timeoutMs: number | undefined;
   }[];
   logs: string[];
-};
+}
 
 /**
  * 終了コードと出力から、process.run の stub の結果を作る
@@ -365,7 +365,7 @@ export function stubWorld(on: On, overrides: Partial<State> = {}) {
     return ran(state.gitStatus, state.gitExitCode);
   });
   on("prompt.fill", (_, e) => {
-    calls.fills.push({ text: e.text, mode: e.mode ?? "" });
+    calls.fills.push({ text: e.text, mode: e.mode });
 
     return state.fill;
   });
@@ -465,10 +465,10 @@ export function stubStandardBand(on: On) {
   }));
 }
 
-type Mounted = {
+interface Mounted {
   find: (query: ElementQuery) => Promise<FoundElement | undefined>;
   findAll: (query: ElementQuery) => Promise<FoundElement[]>;
-};
+}
 
 /**
  * 描画された Text の表示文字列を、文書順に集める
