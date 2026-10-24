@@ -2,14 +2,21 @@
 
 input=$(cat)
 
-# 修正を促した直後の再実行では何もせず、停止を許可して無限ループを防ぐ
 if grep -Eq '"stop_hook_active"[[:space:]]*:[[:space:]]*true' <<<"$input"; then
   exit 0
 fi
 
-cd "${CLAUDE_PROJECT_DIR:-.}" || exit 0
+# CLAUDE_PROJECT_DIR は worktree に入っても変わらないため、入力の cwd を使う
+cwd=$(node -e 'process.stdout.write(JSON.parse(require("fs").readFileSync(0, "utf8")).cwd ?? "")' <<<"$input" 2>/dev/null)
+cd "${cwd:-${CLAUDE_PROJECT_DIR:-.}}" || exit 0
+cd "$(git rev-parse --show-toplevel)" || exit 0
 
-if [ -z "$(git status --porcelain -- plugins/statusline eslint.config.mjs package.json tsconfig.json types)" ]; then
+if ! status=$(git status --porcelain -- plugins/statusline eslint.config.mjs package.json tsconfig.json types); then
+  echo "git status に失敗しました" >&2
+  exit 2
+fi
+
+if [ -z "$status" ]; then
   exit 0
 fi
 

@@ -95,7 +95,7 @@ jobs:
       - uses: SonarSource/sonarqube-quality-gate-action@7a5fffe8e523c40e0c740b6bc2712ab503e52efa # v1.2.1
         timeout-minutes: 5
         with:
-          pollingTimeoutSec: 600
+          pollingTimeoutSec: 300
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
@@ -109,6 +109,7 @@ jobs:
 ```ini
 sonar.sourceEncoding=UTF-8
 sonar.sources=.
+sonar.tests=.
 sonar.exclusions=**/node_modules/**,**/.venv/**,**/types/**,**/*.d.ts,**/package-lock.json,**/uv.lock,**/docs/**
 sonar.test.inclusions=**/tests/**,**/*.test.ts,**/*.test.tsx
 ```
