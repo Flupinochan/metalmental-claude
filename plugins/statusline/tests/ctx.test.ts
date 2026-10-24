@@ -10,7 +10,7 @@ for (const [percent, expected] of [
   [100, "ctx:100%"],
   [undefined, "ctx:--"],
 ] as const) {
-  test(`CTX-1: ${percent} は ${expected} と表示する`, () => {
+  test(`CTX-1: ${String(percent)} は ${expected} と表示する`, () => {
     expect(formatCtx(percent)).toBe(expected);
   });
 }
@@ -24,7 +24,7 @@ for (const [percent, expected] of [
   [80, "red"],
   [100, "red"],
 ] as const) {
-  test(`CTX-2: ${percent} の色は ${expected} にする`, () => {
+  test(`CTX-2: ${String(percent)} の色は ${expected} にする`, () => {
     expect(ctxColor(percent)).toBe(COLOR[expected]);
   });
 }

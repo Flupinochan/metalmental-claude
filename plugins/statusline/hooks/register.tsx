@@ -42,7 +42,6 @@ const COMMANDS_TO_RESYNC = [
 /**
  * statusline の各イベントのフックと、入力欄の上の描画を登録する
  * @param on フックを登録する関数
- * @returns なし
  */
 export const register: Register = (on) => {
   on("session.start", async ($, event, next) => {
@@ -153,7 +152,12 @@ export const register: Register = (on) => {
       summarizeReload(reloadStatus);
 
     return (
-      <Box flexDirection="row" flexWrap="wrap" columnGap={1}>
+      <Box
+        flexDirection="row"
+        flexWrap="wrap"
+        columnGap={1}
+        position="relative"
+      >
         <Button key="reload" plain onPress={() => void reloadManually($)}>
           <Text color={reloadColor}>{reloadIcon}</Text>
         </Button>
@@ -164,6 +168,7 @@ export const register: Register = (on) => {
           <Button
             key="working-directory"
             plain
+            hover={{ scope: "working-directory" }}
             onPress={(press) =>
               void copyWorkingDirectory($, workingDirectory, press.surface)
             }
@@ -225,6 +230,30 @@ export const register: Register = (on) => {
           <Text color={COLOR.indigo}>
             {formatTerraformVersion(terraformVersion)}
           </Text>
+        )}
+        {workingDirectory !== "" && (
+          <Box
+            position="absolute"
+            top={0}
+            bottom={0}
+            left={0}
+            right={0}
+            display="none"
+            backgroundColor={COLOR.blue}
+            hover={{ scope: "working-directory", display: "flex" }}
+          >
+            <Button
+              key="working-directory-path"
+              plain
+              onPress={(press) =>
+                void copyWorkingDirectory($, workingDirectory, press.surface)
+              }
+            >
+              <Text color={workingDirectoryColor(workingDirectory)}>
+                {workingDirectory}
+              </Text>
+            </Button>
+          </Box>
         )}
       </Box>
     );

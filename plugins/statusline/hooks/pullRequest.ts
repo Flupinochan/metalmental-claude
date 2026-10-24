@@ -28,12 +28,12 @@ const PULL_REQUEST_PRIORITY = [
   "CLOSED",
 ] as const satisfies readonly PullRequestState[];
 
-type GhPullRequest = {
+interface GhPullRequest {
   readonly number: number;
   readonly state: Exclude<PullRequestState, "DRAFT">;
   readonly url: string;
   readonly isDraft: boolean;
-};
+}
 
 /**
  * PRの取得の予定を管理する
@@ -123,12 +123,9 @@ const pullRequestSchedule = new PullRequestSchedule();
  * @param ghPullRequest gh pr list の1件
  * @returns 表示用のPR
  */
-function toPullRequest({
-  number,
-  state,
-  url,
-  isDraft,
-}: GhPullRequest): PullRequest {
+function toPullRequest(ghPullRequest: GhPullRequest): PullRequest {
+  const { number, state, url, isDraft } = ghPullRequest;
+
   return { number, url, state: state === "OPEN" && isDraft ? "DRAFT" : state };
 }
 
@@ -139,7 +136,7 @@ function toPullRequest({
  * @returns 表示するPRの配列。PRが無い場合は空配列、ある場合は1件
  */
 function pickPullRequests(stdout: string) {
-  const ghPullRequests: GhPullRequest[] = JSON.parse(stdout);
+  const ghPullRequests = JSON.parse(stdout) as GhPullRequest[];
 
   return ghPullRequests
     .filter(({ url }) => url.startsWith(GITHUB_URL_PREFIX))
