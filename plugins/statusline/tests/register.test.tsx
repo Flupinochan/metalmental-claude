@@ -84,8 +84,37 @@ test("UI-5: 押せるのは、リロード、ディレクトリ、PR、review �
     "review",
     "simplify",
     "security",
+    "working-directory-path",
   ]);
 });
+
+test("UI-6: ディレクトリ名に hover すると、絶対パスだけを全体に重ねて表示する", async ($, on) => {
+  await startLoadedSession($, on);
+  const ui = await $.ui.mount(BAND);
+  const root = await ui.find({ type: "Box" });
+  const children = (root?.children ?? []) as Described[];
+  const name = children.find(({ props }) => props.key === "working-directory");
+  const overlay = children.find(({ type }) => type === "Box");
+
+  expect(name?.hover).toEqual({ scope: "working-directory" });
+  expect(root?.props.position).toBe("relative");
+  expect(overlay?.props).toMatchObject({
+    position: "absolute",
+    display: "none",
+  });
+  expect(overlay?.hover).toEqual({
+    scope: "working-directory",
+    display: "flex",
+  });
+  expect(JSON.stringify(overlay?.children)).toContain("/home/x/proj");
+});
+
+type Described = {
+  type: string;
+  props: Record<string, unknown>;
+  hover?: unknown;
+  children?: unknown[];
+};
 
 const CHANGED = {
   ctx: "ctx:77%",

@@ -14,6 +14,7 @@
 | UI-3 | 正常系 | 未取得の間は、git、ディレクトリ、ブランチ名、node、python、rust、go、bun、terraform、PR、モデル、output style を表示しない。他の項目は常に表示する | `register.tsx` |
 | UI-4 | 正常系 | terminal と desktop で表示する。vscode と mobile では表示されない(Claude Code が帯を描画しない)                                                    | `register.tsx` |
 | UI-5 | 正常系 | 押せるのは、リロード、ディレクトリ、PR、review の3ボタン。それ以外は押せない                                                                       | `register.tsx` |
+| UI-6 | 正常系 | ディレクトリ名に hover している間は、帯の全体を覆って、作業ディレクトリの絶対パスだけを表示する。押すと、絶対パスをコピーする                      | `register.tsx` |
 
 ## 2. 各項目の表示
 
@@ -165,7 +166,7 @@ starship の `terraform` モジュールに合わせる。starship の既定の�
 
 | テストファイル             | 対応する ID                |
 | -------------------------- | -------------------------- |
-| `register.test.tsx`        | UI-1〜5、EV-1〜11          |
+| `register.test.tsx`        | UI-1〜6、EV-1〜11          |
 | `ctx.test.ts`              | CTX-1、CTX-2               |
 | `nodejs.test.ts`           | NODE-1〜5                  |
 | `python.test.ts`           | PY-1〜5                    |
@@ -194,7 +195,7 @@ starship の `terraform` モジュールに合わせる。starship の既定の�
 | 5    | 狭い幅での表示と、帯を畳んだ状態の動作は、仕様として未定義                                                                                                                                   |
 | 6    | `formatModel` は、末尾の日付(`-20251001` など)を削除する処理を持つ。Claude 5 以降の ID に日付が付くか未確認で、不要な可能性                                                                  |
 | 7    | haiku の色は、blue(未知のモデルと同じ)と仮定している                                                                                                                                         |
-| 8    | UI-5 の「3ボタン」は、種類の数。押せる項目は、PR を含めて最大 6 つ                                                                                                                           |
+| 8    | UI-5 の「3ボタン」は、種類の数。押せる項目は、PR を含めて最大 6 つ。UI-6 の絶対パス表示のボタンは、ディレクトリのボタンと同じ種類                                                           |
 | 9    | Node.js の表示は `node:22.1.0`(starship の `v` 付きと異なる)と green で、私の案。形式と色の確認が必要                                                                                        |
 | 10   | Node.js の判定は、starship の既定に合わせた(カレントのみ、deno・bun・esy の除外、取得失敗は非表示。タイムアウトは 3000ms)。`engines.node` による色の変更は対象外                             |
 | 11   | Python の表示は `python:3.12.3` と yellow で、node の右に置いた(私の案)。形式、色、位置の確認が必要                                                                                          |
@@ -208,3 +209,4 @@ starship の `terraform` モジュールに合わせる。starship の既定の�
 | 19   | 版の取得のタイムアウトは、4 言語で共通の 3000ms(starship の既定は 500ms)。`go` が snap や shim 経由で遅く、500ms で打ち切られたため                                                          |
 | 20   | bun の表示は `bun:1.2.3` と purple で、go の右(一番右)に置いた(私の案)。形式、色、位置の確認が必要                                                                                           |
 | 21   | Terraform の表示は `terraform:1.9.5` と indigo で、bun の右(一番右)に置いた(私の案)。OpenTofu の場合も `terraform:` と表示する。ワークスペース名は表示しない。形式、色、位置の確認が必要     |
+| 22   | UI-6 の hover による全体表示は、テストキット上のツリー(`hover` の scope と `display: "flex"`、絶対配置)のみを確認している。実機での hover の届き方、折り返し時の覆い方、背景色 blue の見た目は未確認。端末の背景色は取得できないため、blue に固定した |
