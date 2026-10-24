@@ -1,0 +1,11 @@
+{
+  "name": "ui-plus",
+  "description": "UIに表のコピーや会話の折りたたみボタン追加するMod",
+  "version": "1.0.0",
+  "types": "./types/index.d.ts",
+  "author": {
+    "name": "MetalMental",
+    "email": "flupino@metalmental.net",
+    "url": "https://github.com/Flupinochan"
+  }
+}

@@ -6,7 +6,7 @@ disable-model-invocation: true
 
 # 利用可能なskill, commandの一覧表
 
-`grep -H '^description:' ${CLAUDE_PLUGIN_ROOT}/skills/*/SKILL.md ${CLAUDE_PLUGIN_ROOT}/commands/*.md 2>/dev/null || true` を実行し、結果の各行を `コマンド` と `説明` の列を持つ以下の形式の表で出力すること
+`grep -H '^description:' "${CLAUDE_PLUGIN_ROOT}"/skills/*/SKILL.md "${CLAUDE_PLUGIN_ROOT}"/commands/*.md 2>/dev/null || true` を実行し、結果の各行を `コマンド` と `説明` の列を持つ以下の形式の表で出力すること
 
 | コマンド  | 説明                |
 | --------- | ------------------- |

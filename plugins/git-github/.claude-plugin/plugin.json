@@ -1,7 +1,7 @@
 {
   "name": "git-github",
   "description": "A skill plugin bundling git and GitHub skills: commit enforcement, worktree/branch creation, and pull request creation",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "author": {
     "name": "MetalMental",
     "email": "flupino@metalmental.net",

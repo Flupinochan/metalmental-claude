@@ -18,6 +18,7 @@ metalmental (ユーザ名) の `claude code` の `plugins` 等をまとめたリ
 | session-daily-report      | 全プロジェクトのセッション履歴から日報を作成するWorkflow                        |
 | statusline                | ModelやBranch名、Python等のversionを表示するstatusline Mod                      |
 | tool-failure-log          | Toolの実行エラーを調査可能にするSkill                                           |
+| ui-plus                   | UIに表のコピーや会話の折りたたみボタン追加するMod                               |
 | verified-web-search       | 検索したURLの完全なページを取得し、正確な1件のみ返すWorkflow                    |
 
 ## Add Marketplace

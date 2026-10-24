@@ -13,5 +13,13 @@
     "jsxFactory": "h",
     "jsxFragmentFactory": "Fragment"
   },
-  "include": ["types", "plugins/statusline/types", "plugins/statusline/hooks", "plugins/statusline/tests"]
+  "include": [
+    "types",
+    "plugins/statusline/types",
+    "plugins/statusline/hooks",
+    "plugins/statusline/tests",
+    "plugins/ui-plus/types",
+    "plugins/ui-plus/hooks",
+    "plugins/ui-plus/tests"
+  ]
 }

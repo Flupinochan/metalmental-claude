@@ -1,7 +1,7 @@
 {
   "name": "code-review-by-book",
   "description": "読んだ技術書ごとに学んだ内容とレビュー観点をmarkdownで蓄積し、レビュー観点ファイル1件につき1つのsubagentで並行コードレビューするworkflowプラグイン",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "author": {
     "name": "MetalMental",
     "email": "flupino@metalmental.net",
