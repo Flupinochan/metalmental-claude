@@ -268,3 +268,23 @@ test("HID-17: from と task がない、入力欄以外の行は、回答の終�
   expect(await ui.find({ type: "Text", text: ENGINE_TEXT })).toBeDefined();
   await ui.unmount();
 });
+
+test("HID-18: 回答中に全体表示で描画した行も、次の回答の通常の表示では表示に戻らない", async ($, on) => {
+  stubWorld(on);
+
+  await startTurn($, "t1");
+  const expandedRow = await $.ui.mount(
+    agentRow("message", { requestId: "row-18", isExpanded: true }),
+  );
+  await expandedRow.unmount();
+  await endTurn($, "t1");
+  await startTurn($, "t2");
+  const normalRow = await $.ui.mount(
+    agentRow("message", { requestId: "row-18" }),
+  );
+
+  expect(
+    await normalRow.find({ type: "Text", text: ENGINE_TEXT }),
+  ).toBeUndefined();
+  await normalRow.unmount();
+});

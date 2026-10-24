@@ -189,8 +189,9 @@ export const register: Register = (on) => {
   on("ui.render", { component: "UserMessage" }, async ($, event, next) => {
     if (event.props.from !== undefined || event.props.task !== undefined) {
       const turn = await readTurnState($);
+      const isShown = isAgentRowShown(turn, event.requestId);
 
-      if (event.props.isExpanded || isAgentRowShown(turn, event.requestId)) {
+      if (event.props.isExpanded || isShown) {
         return next(event);
       }
 
