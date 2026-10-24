@@ -472,13 +472,19 @@ type Mounted = {
 
 /**
  * 描画された Text の表示文字列を、文書順に集める
+ * hover で全体を覆う絶対パスの Text は、通常の表示ではないため除く
+ * オーバーレイは最後の子であり、Text には key が届かないため、末尾の Text を除く
  * @param ui 描画のハンドル
  * @returns Text の表示文字列
  */
 export async function shownTexts(ui: Mounted) {
-  const texts = await ui.findAll({ type: "Text" });
+  const texts = (await ui.findAll({ type: "Text" })).map(({ text }) => text);
+  const overlay = await ui.find({
+    type: "Button",
+    key: "working-directory-path",
+  });
 
-  return texts.map(({ text }) => text);
+  return overlay === undefined ? texts : texts.slice(0, -1);
 }
 
 /**
