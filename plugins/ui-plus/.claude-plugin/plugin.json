@@ -1,7 +1,7 @@
 {
   "name": "ui-plus",
   "description": "UIに表のコピーや会話の折りたたみボタン追加するMod",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "types": "./types/index.d.ts",
   "author": {
     "name": "MetalMental",

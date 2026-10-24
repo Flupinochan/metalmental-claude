@@ -9,22 +9,22 @@
 
 回答 (`AssistantMessage`) の Markdown の表の上に、表をコピーするボタンを表示する
 
-| ID    | 区分   | 仕様                                                                                                                                           | 実装                  |
-| ----- | ------ | ---------------------------------------------------------------------------------------------------------------------------------------------- | --------------------- |
-| UI-1  | 正常系 | 表がない回答は、標準の描画にする                                                                                                               | `register.tsx`        |
-| UI-2  | 正常系 | 表がある回答は、表ごとに表の上へ `COPY TABLE` ボタンを表示する。表以外の文章は、回答の順にそのまま表示                                         | `register.tsx`        |
-| UI-3  | 正常系 | 表以外の文章も、Markdown として表示する                                                                                                        | `register.tsx`        |
-| UI-4  | 正常系 | 要約の回答 (`isSummary`) は、標準の描画にする                                                                                                  | `register.tsx`        |
-| UI-5  | 正常系 | ボタンの幅は、端末の横幅から余白 6 (字下げ 2、枠線 2、余裕 2) を引いた幅にそろえる。横幅が分からないときは、文言のみ                           | `padLabelToWidth`     |
-| LBL-1 | 正常系 | 枠線と文言は塗りつぶさない。未押下 → `COPY TABLE` (white、ポインタが乗ると indigo)、成功 → `TABLE COPIED` (green)、失敗 → `COPY FAILED` (red) | `getCopyButtonStyle`  |
-| LBL-2 | 正常系 | 文言は中央に置き、両側をノーブレークスペースで埋める                                                                                           | `padLabelToWidth`     |
-| LBL-3 | 正常系 | 横幅が文言より狭くても、文言を切らない                                                                                                         | `padLabelToWidth`     |
-| BTN-1 | 正常系 | ボタンを押すと、表の元の Markdown をそのままコピーする                                                                                         | `copyText`            |
-| BTN-2 | 正常系 | コピーできたら `TABLE COPIED` を 3 秒間表示して、`COPY TABLE` に戻る                                                                           | `copyText`            |
-| BTN-3 | 異常系 | コピーが断られたら `COPY FAILED` を 3 秒間表示して、理由をデバッグログに残す                                                                   | `copyText`            |
-| BTN-4 | 異常系 | コピーが例外で失敗しても `COPY FAILED` を表示して、デバッグログに残す                                                                          | `copyText`            |
-| BTN-5 | 正常系 | 結果は表ごとに表示する                                                                                                                         | `copyText`            |
-| BTN-6 | 正常系 | 結果の表示中に押し直したら、3 秒を数え直す                                                                                                     | `syncCopyResult`      |
+| ID    | 区分   | 仕様                                                                                                                                          | 実装                 |
+| ----- | ------ | --------------------------------------------------------------------------------------------------------------------------------------------- | -------------------- |
+| UI-1  | 正常系 | 表がない回答は、標準の描画にする                                                                                                              | `register.tsx`       |
+| UI-2  | 正常系 | 表がある回答は、表ごとに表の上へ `COPY TABLE` ボタンを表示する。表以外の文章は、回答の順にそのまま表示                                        | `register.tsx`       |
+| UI-3  | 正常系 | 表以外の文章も、Markdown として表示する                                                                                                       | `register.tsx`       |
+| UI-4  | 正常系 | 要約の回答 (`isSummary`) は、標準の描画にする                                                                                                 | `register.tsx`       |
+| UI-5  | 正常系 | ボタンの幅は、端末の横幅から余白 6 (字下げ 2、枠線 2、余裕 2) を引いた幅にそろえる。横幅が分からないときは、文言のみ                          | `padLabelToWidth`    |
+| LBL-1 | 正常系 | 枠線と文言は塗りつぶさない。未押下 → `COPY TABLE` (white、ポインタが乗ると indigo)、成功 → `TABLE COPIED` (green)、失敗 → `COPY FAILED` (red) | `getCopyButtonStyle` |
+| LBL-2 | 正常系 | 文言は中央に置き、両側をノーブレークスペースで埋める                                                                                          | `padLabelToWidth`    |
+| LBL-3 | 正常系 | 横幅が文言より狭くても、文言を切らない                                                                                                        | `padLabelToWidth`    |
+| BTN-1 | 正常系 | ボタンを押すと、表の元の Markdown をそのままコピーする                                                                                        | `copyText`           |
+| BTN-2 | 正常系 | コピーできたら `TABLE COPIED` を 3 秒間表示して、`COPY TABLE` に戻る                                                                          | `copyText`           |
+| BTN-3 | 異常系 | コピーが断られたら `COPY FAILED` を 3 秒間表示して、理由をデバッグログに残す                                                                  | `copyText`           |
+| BTN-4 | 異常系 | コピーが例外で失敗しても `COPY FAILED` を表示して、デバッグログに残す                                                                         | `copyText`           |
+| BTN-5 | 正常系 | 結果は表ごとに表示する                                                                                                                        | `copyText`           |
+| BTN-6 | 正常系 | 結果の表示中に押し直したら、3 秒を数え直す                                                                                                    | `syncCopyResult`     |
 
 ## 2. コピーボタン (コードブロック)
 
@@ -55,27 +55,46 @@
 
 ## 4. コードブロックの検出
 
-| ID    | 区分   | 仕様                                                                                           | 実装                    |
-| ----- | ------ | ---------------------------------------------------------------------------------------------- | ----------------------- |
-| BLK-1 | 正常系 | コードブロックが始まる行から、コードブロックの行とコードと次に読む行の位置を返す               | `findCodeBlockAt`       |
-| BLK-2 | 正常系 | コードブロックが始まらない行は、undefined を返す                                               | `findCodeBlockAt`       |
-| BLK-3 | 正常系 | 言語は区別せず、どの言語のコードブロックもコードブロックにする                                 | `findCodeBlockAt`       |
-| BLK-4 | 正常系 | バッククォートを含む行 (` ```code``` と書く` など) は、開始のフェンス行にしない                | `findCodeBlockAt`       |
-| BLK-5 | 正常系 | 終了のフェンス行がないコードブロックは、回答の最後までをコードにする (回答の生成途中への対応)  | `findCodeBlockAt`       |
-| BLK-6 | 正常系 | 終了のフェンス行は、開始と同じ文字で、開始以上の長さの行にする                                 | `findClosingFenceIndex` |
-| BLK-7 | 正常系 | チルダ (`~~~`) のフェンス行も、コードブロックにする                                            | `findCodeBlockAt`       |
-| BLK-8 | 正常系 | コードブロックの中の表も、コードにする                                                         | `findCodeBlockAt`       |
+| ID    | 区分   | 仕様                                                                                          | 実装                    |
+| ----- | ------ | --------------------------------------------------------------------------------------------- | ----------------------- |
+| BLK-1 | 正常系 | コードブロックが始まる行から、コードブロックの行とコードと次に読む行の位置を返す              | `findCodeBlockAt`       |
+| BLK-2 | 正常系 | コードブロックが始まらない行は、undefined を返す                                              | `findCodeBlockAt`       |
+| BLK-3 | 正常系 | 言語は区別せず、どの言語のコードブロックもコードブロックにする                                | `findCodeBlockAt`       |
+| BLK-4 | 正常系 | バッククォートを含む行 (` ```code``` と書く` など) は、開始のフェンス行にしない               | `findCodeBlockAt`       |
+| BLK-5 | 正常系 | 終了のフェンス行がないコードブロックは、回答の最後までをコードにする (回答の生成途中への対応) | `findCodeBlockAt`       |
+| BLK-6 | 正常系 | 終了のフェンス行は、開始と同じ文字で、開始以上の長さの行にする                                | `findClosingFenceIndex` |
+| BLK-7 | 正常系 | チルダ (`~~~`) のフェンス行も、コードブロックにする                                           | `findCodeBlockAt`       |
+| BLK-8 | 正常系 | コードブロックの中の表も、コードにする                                                        | `findCodeBlockAt`       |
 
 ## 5. 回答の分割
 
-| ID    | 区分   | 仕様                                                                 | 実装                                   |
-| ----- | ------ | -------------------------------------------------------------------- | -------------------------------------- |
-| SEG-1 | 正常系 | 表の前後の文章と表を、回答の順に分ける                               | `splitCopyTargetsFromAssistantMessage` |
-| SEG-2 | 正常系 | 表もコードブロックもない回答は、通常の部分1つにする                  | `splitCopyTargetsFromAssistantMessage` |
-| SEG-3 | 正常系 | 複数の表は、それぞれ別の表にする                                     | `splitCopyTargetsFromAssistantMessage` |
-| SEG-4 | 正常系 | 改行が CRLF でも、LF にそろえて分ける                                | `splitCopyTargetsFromAssistantMessage` |
-| SEG-5 | 正常系 | コードブロックは、コードとコードブロックの文字列に分ける            | `splitCopyTargetsFromAssistantMessage` |
-| SEG-6 | 正常系 | 表とコードブロックは、回答の順に分ける                               | `splitCopyTargetsFromAssistantMessage` |
-| SEG-7 | 正常系 | 言語によらず、コードブロックはコードにする                           | `splitCopyTargetsFromAssistantMessage` |
-| SEG-8 | 正常系 | コードブロックの中の表は、表にしない                                 | `splitCopyTargetsFromAssistantMessage` |
-| SEG-9 | 正常系 | 中身が空のコードブロックは、通常の文章にする                         | `splitCopyTargetsFromAssistantMessage` |
+| ID    | 区分   | 仕様                                                     | 実装                                   |
+| ----- | ------ | -------------------------------------------------------- | -------------------------------------- |
+| SEG-1 | 正常系 | 表の前後の文章と表を、回答の順に分ける                   | `splitCopyTargetsFromAssistantMessage` |
+| SEG-2 | 正常系 | 表もコードブロックもない回答は、通常の部分1つにする      | `splitCopyTargetsFromAssistantMessage` |
+| SEG-3 | 正常系 | 複数の表は、それぞれ別の表にする                         | `splitCopyTargetsFromAssistantMessage` |
+| SEG-4 | 正常系 | 改行が CRLF でも、LF にそろえて分ける                    | `splitCopyTargetsFromAssistantMessage` |
+| SEG-5 | 正常系 | コードブロックは、コードとコードブロックの文字列に分ける | `splitCopyTargetsFromAssistantMessage` |
+| SEG-6 | 正常系 | 表とコードブロックは、回答の順に分ける                   | `splitCopyTargetsFromAssistantMessage` |
+| SEG-7 | 正常系 | 言語によらず、コードブロックはコードにする               | `splitCopyTargetsFromAssistantMessage` |
+| SEG-8 | 正常系 | コードブロックの中の表は、表にしない                     | `splitCopyTargetsFromAssistantMessage` |
+| SEG-9 | 正常系 | 中身が空のコードブロックは、通常の文章にする             | `splitCopyTargetsFromAssistantMessage` |
+
+## 6. 回答の終了後の非表示
+
+回答中は表示し、回答の終了後に非表示にする。回答は、メインの回答だけを数える (サブエージェントの回答は数えない)
+
+| ID     | 区分   | 仕様                                                                                 | 実装                |
+| ------ | ------ | ------------------------------------------------------------------------------------ | ------------------- |
+| HID-1  | 正常系 | 回答中は、今の回答のツールの行 (ToolUse) を表示する                                  | `isToolShown`       |
+| HID-2  | 正常系 | 回答の終了後は、ツールの行を非表示にする                                             | `endTurn`           |
+| HID-3  | 正常系 | 次の回答が始まっても、前の回答のツールの行は表示に戻らない                           | `startTurn`         |
+| HID-4  | 正常系 | ツールの結果の行 (ToolResult) も、回答中は表示し、回答の終了後は非表示にする         | `register.tsx`      |
+| HID-5  | 正常系 | ツールのまとめの行 (ToolGroup) は、今の回答のツールを含む間だけ表示する              | `isToolGroupShown`  |
+| HID-6  | 正常系 | 回答の所要時間の行 (TurnDuration) は、常に非表示にする                               | `register.tsx`      |
+| HID-7  | 正常系 | ツールの進行の行 (ToolProgress) は、今の回答のツールの間だけ表示する                 | `isToolShown`       |
+| HID-8  | 正常系 | 起動時のお知らせ (InfoNotice) は、最初の回答が終わるまで表示し、終わると非表示にする | `isInfoNoticeShown` |
+| HID-9  | 正常系 | 全体表示 (ctrl+o) のときは、非表示の対象も表示する                                   | `register.tsx`      |
+| HID-10 | 正常系 | サブエージェントの回答の開始と終了では、メインの回答中の状態を変えない               | `register.tsx`      |
+| HID-11 | 正常系 | 中断やエラーで終わった回答のツールの行も、非表示にする                               | `endTurn`           |
+| HID-12 | 正常系 | スラッシュコマンドの出力の行 (CommandOutput) は、回答の終了後も表示する              | `register.tsx`      |

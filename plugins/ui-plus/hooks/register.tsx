@@ -7,6 +7,15 @@ import {
   readCopyResults,
 } from "./copyButton";
 import { splitCopyTargetsFromAssistantMessage } from "./splitCopyTargetsFromAssistantMessage";
+import {
+  endTurn,
+  isInfoNoticeShown,
+  isToolGroupShown,
+  isToolShown,
+  readTurnState,
+  recordToolCall,
+  startTurn,
+} from "./turnVisibility";
 
 /**
  * ui-plus の描画を登録する
@@ -83,5 +92,103 @@ export const register: Register = (on) => {
         </Box>
       </Box>
     );
+  });
+
+  on("turn.start", async ($, event, next) => {
+    if (event.agentId === undefined) {
+      await startTurn($);
+    }
+
+    return next(event);
+  });
+
+  on("turn.complete", async ($, event, next) => {
+    if (event.agentId === undefined) {
+      await endTurn($);
+    }
+
+    return next(event);
+  });
+
+  on("tool.call", async ($, event, next) => {
+    await recordToolCall($, event.tool_use_id);
+
+    return next(event);
+  });
+
+  on("ui.render", { component: "ToolUse" }, async ($, event, next) => {
+    const turn = await readTurnState($);
+
+    if (
+      event.props.isExpanded === true ||
+      isToolShown(turn, event.props.tool_use_id)
+    ) {
+      return next(event);
+    }
+
+    const { Box } = $.ui.resolve(event);
+
+    return <Box />;
+  });
+
+  on("ui.render", { component: "ToolResult" }, async ($, event, next) => {
+    const turn = await readTurnState($);
+
+    if (
+      event.props.isExpanded === true ||
+      isToolShown(turn, event.props.tool_use_id)
+    ) {
+      return next(event);
+    }
+
+    const { Box } = $.ui.resolve(event);
+
+    return <Box />;
+  });
+
+  on("ui.render", { component: "ToolGroup" }, async ($, event, next) => {
+    const turn = await readTurnState($);
+
+    if (event.props.isExpanded || isToolGroupShown(turn, event.props.calls)) {
+      return next(event);
+    }
+
+    const { Box } = $.ui.resolve(event);
+
+    return <Box />;
+  });
+
+  on("ui.render", { component: "ToolProgress" }, async ($, event, next) => {
+    const turn = await readTurnState($);
+
+    if (isToolShown(turn, event.props.tool_use_id)) {
+      return next(event);
+    }
+
+    const { Box } = $.ui.resolve(event);
+
+    return <Box />;
+  });
+
+  on("ui.render", { component: "TurnDuration" }, ($, event, next) => {
+    if (event.props.isExpanded === true) {
+      return next(event);
+    }
+
+    const { Box } = $.ui.resolve(event);
+
+    return <Box />;
+  });
+
+  on("ui.render", { component: "InfoNotice" }, async ($, event, next) => {
+    const turn = await readTurnState($);
+
+    if (isInfoNoticeShown(turn)) {
+      return next(event);
+    }
+
+    const { Box } = $.ui.resolve(event);
+
+    return <Box />;
   });
 };
