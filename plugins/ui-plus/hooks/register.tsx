@@ -11,7 +11,6 @@ import {
 /**
  * ui-plus の描画を登録する
  * @param on フックを登録する関数
- * @returns なし
  */
 export const register: Register = (on) => {
   on("ui.render", { component: "AssistantMessage" }, async ($, event, next) => {

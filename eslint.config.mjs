@@ -7,7 +7,7 @@ import tseslint from "typescript-eslint";
 export default defineConfig(
   { ignores: ["**/types/**", "**/.claude-plugin/types/**", "**/node_modules/**"] },
   {
-    files: ["plugins/statusline/**/*.{ts,tsx}"],
+    files: ["plugins/{statusline,ui-plus}/**/*.{ts,tsx}"],
     extends: [
       js.configs.recommended,
       tseslint.configs.strictTypeChecked,

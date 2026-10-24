@@ -9,20 +9,20 @@ export const COLUMNS = 80;
 /**
  * stub が返す、テストごとに書き換えられる世界の状態
  */
-export type State = {
+export interface State {
   copy:
     | { isCopied: true }
     | { isCopied: false; reason: "no-surface" | "no-clipboard" | "refused" };
   copyFails: boolean;
-};
+}
 
 /**
  * stub が受けた呼び出しの記録
  */
-export type Calls = {
+export interface Calls {
   copies: { text: string; surface: string }[];
   logs: string[];
-};
+}
 
 /**
  * Claude Code の代わりに答える stub をすべて登録する
@@ -64,6 +64,8 @@ export function stubWorld(on: On, overrides: Partial<State> = {}) {
  * 回答を描画する対象を作る
  * @param text 回答の Markdown
  * @param props 既定の props から変える項目
+ * @param props.isFirstOfReply 返信の最初の回答か
+ * @param props.isSummary 要約の回答か
  * @returns ui.mount に渡す対象
  */
 export function reply(
