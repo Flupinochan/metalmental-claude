@@ -14,7 +14,7 @@
 | UI-3 | 正常系 | 未取得の間は、git、ディレクトリ、ブランチ名、node、python、rust、go、bun、terraform、PR、モデル、output style を表示しない。他の項目は常に表示する | `register.tsx` |
 | UI-4 | 正常系 | terminal と desktop で表示する。vscode と mobile では表示されない(Claude Code が帯を描画しない)                                                    | `register.tsx` |
 | UI-5 | 正常系 | 押せるのは、リロード、ディレクトリ、PR、review の3ボタン。それ以外は押せない                                                                       | `register.tsx` |
-| UI-6 | 正常系 | ディレクトリ名に hover している間は、帯の全体を覆って、作業ディレクトリの絶対パスだけを表示する。押すと、絶対パスをコピーする                      | `register.tsx` |
+| UI-6 | 正常系 | ディレクトリ名に hover している間は、帯の全体を覆って、作業ディレクトリの絶対パスだけを表示する。文字の色はディレクトリ名と同じにする。他の項目は覆われるため、hover の間は押せない。押すと、絶対パスをコピーする | `register.tsx` |
 
 ## 2. 各項目の表示
 

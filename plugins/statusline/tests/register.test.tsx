@@ -107,7 +107,19 @@ test("UI-6: ディレクトリ名に hover すると、絶対パスだけを全�
     display: "flex",
   });
   expect(JSON.stringify(overlay?.children)).toContain("/home/x/proj");
+  expect(textColorOf(overlay?.children?.[0])).toBe(textColorOf(name));
 });
+
+/**
+ * Button の最初の子の Text の色を返す
+ * @param button ツリー上の Button
+ * @returns 色。Text でなければ undefined
+ */
+function textColorOf(button: unknown) {
+  const text = (button as Described | undefined)?.children?.[0];
+
+  return (text as Described | undefined)?.props.color;
+}
 
 type Described = {
   type: string;
