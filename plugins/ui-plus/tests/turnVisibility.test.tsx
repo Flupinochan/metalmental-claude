@@ -234,7 +234,9 @@ test("HID-15: 次の回答が始まっても、前の回答までに描画した
   await startTurn($, "t2");
   const newRow = await $.ui.mount(agentRow("message"));
 
-  expect(await oldRow.find({ type: "Text", text: ENGINE_TEXT })).toBeUndefined();
+  expect(
+    await oldRow.find({ type: "Text", text: ENGINE_TEXT }),
+  ).toBeUndefined();
   expect(await newRow.find({ type: "Text", text: ENGINE_TEXT })).toBeDefined();
   await oldRow.unmount();
   await newRow.unmount();
@@ -259,7 +261,9 @@ test("HID-17: from と task がない、入力欄以外の行は、回答の終�
 
   await startTurn($, "t1");
   await endTurn($, "t1");
-  const ui = await $.ui.mount(question("入力", { origin: { kind: "unclassified" } }));
+  const ui = await $.ui.mount(
+    question("入力", { origin: { kind: "unclassified" } }),
+  );
 
   expect(await ui.find({ type: "Text", text: ENGINE_TEXT })).toBeDefined();
   await ui.unmount();

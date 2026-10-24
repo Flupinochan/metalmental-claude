@@ -1,16 +1,16 @@
-name: claude-plugin
+name: claude-plugin-statusline
 
 on:
   pull_request:
     paths:
       - "plugins/statusline/**"
-      - ".github/workflows/claude-plugin.yml"
+      - ".github/workflows/claude-plugin-statusline.yml"
 
 permissions:
   contents: read
 
 jobs:
-  claude-plugin:
+  claude-plugin-statusline:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
