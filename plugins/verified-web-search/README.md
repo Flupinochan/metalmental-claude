@@ -23,7 +23,7 @@ Invoke explicitly with `/verified-web-search:web-search <query>`, or let Claude 
 | Field               | Type   | Required          | Description                                                          |
 | -------------------- | ------ | ------------------ | ----------------------------------------------------------------------- |
 | `query`              | string | Yes                | The question or topic to research                                    |
-| `maxUrls`            | number | No (default: `5`)  | Max number of URLs fetched in parallel in the Fetch phase            |
+| `maxUrls`            | number | No (default: `10`) | Max number of URLs fetched in parallel in the Fetch phase            |
 | `maxVerifyAttempts`  | number | No (default: `3`)  | Max number of top-ranked candidates re-verified in the Verify phase  |
 
 ## Workflow

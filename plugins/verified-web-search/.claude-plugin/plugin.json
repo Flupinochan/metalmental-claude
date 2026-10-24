@@ -1,7 +1,7 @@
 {
   "name": "verified-web-search",
   "description": "URLごとに要約なしの完全なdocumentを取得・判定し、優先順位の高い候補から独立した敵対的検証を経た1件のみをURL付きで返すworkflowプラグイン",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "author": {
     "name": "MetalMental",
     "email": "flupino@metalmental.net",

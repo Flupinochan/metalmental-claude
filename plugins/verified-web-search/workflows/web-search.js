@@ -15,7 +15,7 @@ if (!query) {
   return { found: false, message: 'query が指定されていない' }
 }
 
-const DEFAULT_MAX_URLS = 5
+const DEFAULT_MAX_URLS = 10
 const parsedMaxUrls = Number.parseInt(maxUrls, 10)
 const MAX_URLS = Number.isInteger(parsedMaxUrls) && parsedMaxUrls >= 1 ? parsedMaxUrls : DEFAULT_MAX_URLS
 
