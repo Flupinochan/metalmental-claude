@@ -356,3 +356,36 @@ export function question(
     viewport: VIEWPORT,
   } as const;
 }
+
+/**
+ * サブエージェントの行を描画する対象を作る
+ * @param kind メッセージ (他のエージェントから) または通知 (バックグラウンドタスクの)
+ * @param options 既定から変える項目
+ * @param options.requestId 行の識別子。省略すると、他のテストと重ならない識別子にする
+ * @param options.isExpanded 全体表示か
+ * @returns ui.mount に渡す対象
+ */
+export function agentRow(
+  kind: "message" | "notification",
+  options: { requestId?: string; isExpanded?: boolean } = {},
+) {
+  const isMessage = kind === "message";
+
+  return {
+    plugin: "ui-plus",
+    component: "UserMessage",
+    requestId: options.requestId ?? nextRequestId("agent"),
+    props: {
+      text: "報告",
+      origin: isMessage
+        ? ({ kind: "unclassified" } as const)
+        : ({ kind: "task-notification" } as const),
+      isExpanded: options.isExpanded ?? false,
+      ...(isMessage
+        ? { from: { name: "general-purpose" } }
+        : { task: { id: "agent-1", status: "completed" } }),
+    },
+    surface: "terminal",
+    viewport: VIEWPORT,
+  } as const;
+}

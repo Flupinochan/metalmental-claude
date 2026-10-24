@@ -4,6 +4,7 @@ on:
   pull_request:
     paths:
       - "plugins/statusline/**"
+      - "plugins/ui-plus/**"
       - "package.json"
       - "package-lock.json"
       - ".prettierrc"

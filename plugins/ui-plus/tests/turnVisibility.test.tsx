@@ -1,10 +1,12 @@
 import { expect, test } from "claude-code/testing";
 
 import {
+  agentRow,
   callTool,
   commandOutputRow,
   endTurn,
   infoNoticeRow,
+  question,
   startTurn,
   stubWorld,
   toolGroupRow,
@@ -192,4 +194,97 @@ test("HID-12: スラッシュコマンドの出力の行は、回答の終了後
 
   expect(await ui.find({ type: "Text", text: ENGINE_TEXT })).toBeDefined();
   await ui.unmount();
+});
+
+test("HID-13: サブエージェントのメッセージと通知の行は、回答中は表示し、回答の終了後は非表示にする", async ($, on) => {
+  stubWorld(on);
+
+  for (const kind of ["message", "notification"] as const) {
+    await startTurn($, `t-${kind}`);
+    const ui = await $.ui.mount(agentRow(kind));
+
+    expect(await ui.find({ type: "Text", text: ENGINE_TEXT })).toBeDefined();
+
+    await endTurn($, `t-${kind}`);
+
+    expect(await ui.find({ type: "Text", text: ENGINE_TEXT })).toBeUndefined();
+    await ui.unmount();
+  }
+});
+
+test("HID-14: 回答の開始前に描画した行も、その回答が始まれば表示する", async ($, on) => {
+  stubWorld(on);
+
+  const ui = await $.ui.mount(agentRow("notification"));
+
+  expect(await ui.find({ type: "Text", text: ENGINE_TEXT })).toBeUndefined();
+
+  await startTurn($, "t1");
+
+  expect(await ui.find({ type: "Text", text: ENGINE_TEXT })).toBeDefined();
+  await ui.unmount();
+});
+
+test("HID-15: 次の回答が始まっても、前の回答までに描画した行は表示に戻らない", async ($, on) => {
+  stubWorld(on);
+
+  await startTurn($, "t1");
+  const oldRow = await $.ui.mount(agentRow("message"));
+  await endTurn($, "t1");
+  await startTurn($, "t2");
+  const newRow = await $.ui.mount(agentRow("message"));
+
+  expect(
+    await oldRow.find({ type: "Text", text: ENGINE_TEXT }),
+  ).toBeUndefined();
+  expect(await newRow.find({ type: "Text", text: ENGINE_TEXT })).toBeDefined();
+  await oldRow.unmount();
+  await newRow.unmount();
+});
+
+test("HID-16: サブエージェントの行も、全体表示 (ctrl+o) のときは表示する", async ($, on) => {
+  stubWorld(on);
+
+  await startTurn($, "t1");
+  await endTurn($, "t1");
+
+  for (const kind of ["message", "notification"] as const) {
+    const ui = await $.ui.mount(agentRow(kind, { isExpanded: true }));
+
+    expect(await ui.find({ type: "Text", text: ENGINE_TEXT })).toBeDefined();
+    await ui.unmount();
+  }
+});
+
+test("HID-17: from と task がない、入力欄以外の行は、回答の終了後も表示する", async ($, on) => {
+  stubWorld(on);
+
+  await startTurn($, "t1");
+  await endTurn($, "t1");
+  const ui = await $.ui.mount(
+    question("入力", { origin: { kind: "unclassified" } }),
+  );
+
+  expect(await ui.find({ type: "Text", text: ENGINE_TEXT })).toBeDefined();
+  await ui.unmount();
+});
+
+test("HID-18: 回答中に全体表示で描画した行も、次の回答の通常の表示では表示に戻らない", async ($, on) => {
+  stubWorld(on);
+
+  await startTurn($, "t1");
+  const expandedRow = await $.ui.mount(
+    agentRow("message", { requestId: "row-18", isExpanded: true }),
+  );
+  await expandedRow.unmount();
+  await endTurn($, "t1");
+  await startTurn($, "t2");
+  const normalRow = await $.ui.mount(
+    agentRow("message", { requestId: "row-18" }),
+  );
+
+  expect(
+    await normalRow.find({ type: "Text", text: ENGINE_TEXT }),
+  ).toBeUndefined();
+  await normalRow.unmount();
 });

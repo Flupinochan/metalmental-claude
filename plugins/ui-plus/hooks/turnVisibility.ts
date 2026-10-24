@@ -9,6 +9,11 @@ import type { TurnState } from "../types";
 // | 回答中             | isRunning   | メインの回答の開始から終了までの間                           |
 // | 回答の終了後       | hasEnded    | 1回以上、メインの回答が終わっている状態                      |
 // | 今の回答のツール   | toolUseIds  | 回答中に呼ばれたツールの識別子。サブエージェントの呼び出しも含む |
+// | サブエージェントの行 | -           | 他のエージェントからのメッセージと、バックグラウンドタスクの通知 |
+
+// 描画の識別子で覚える。終わった回答までに描画した行は、次の回答中も表示に戻さない
+const seenAgentRowIds = new Set<string>();
+const endedAgentRowIds = new Set<string>();
 
 const turnState = atom({ plugin: "ui-plus", key: "turn" } as const, {
   isRunning: false,
@@ -55,6 +60,10 @@ export async function recordToolCall($: EngineInterface, toolUseId: string) {
  * @param $ engineのインターフェース
  */
 export async function endTurn($: EngineInterface) {
+  for (const id of seenAgentRowIds) {
+    endedAgentRowIds.add(id);
+  }
+
   await update($, turnState, () => ({
     isRunning: false,
     hasEnded: true,
@@ -86,6 +95,19 @@ export function isToolGroupShown(
     (call) =>
       call.tool_use_id !== undefined && isToolShown(turn, call.tool_use_id),
   );
+}
+
+/**
+ * サブエージェントの行を、今の回答のものとして表示するかを返す
+ * 回答が始まる前に描画した行も、その回答が始まれば表示する
+ * @param turn 回答の状態
+ * @param rowId 描画する行の識別子
+ * @returns 回答中で、前の回答までに描画していない行なら true
+ */
+export function isAgentRowShown(turn: TurnState, rowId: string) {
+  seenAgentRowIds.add(rowId);
+
+  return turn.isRunning && !endedAgentRowIds.has(rowId);
 }
 
 /**
