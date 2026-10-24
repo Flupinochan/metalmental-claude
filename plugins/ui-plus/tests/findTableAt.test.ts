@@ -51,3 +51,16 @@ test("TBL-7: 表の行は、空行か | のない行で終わる", () => {
     nextIndex: 4,
   });
 });
+
+test("TBL-8: エスケープされた | だけの見出し行は、表にしない", () => {
+  expect(findTableAt(["a \\| b", "---"], 0)).toBeUndefined();
+});
+
+test("TBL-8: バックスラッシュ自体をエスケープした直後の | は、区切りにする", () => {
+  const lines = ["| a\\\\| b |", "| --- | --- |"];
+
+  expect(findTableAt(lines, 0)).toEqual({
+    tableText: lines.join("\n"),
+    nextIndex: 2,
+  });
+});

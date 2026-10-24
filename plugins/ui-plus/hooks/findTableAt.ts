@@ -22,29 +22,73 @@ const SEPARATOR_CELL = /^:?-+:?$/;
 const NON_CODE_INDENT_START = /^ {0,3}\S/;
 
 /**
+ * 行を、エスケープされていない | で区切る
+ * バックスラッシュの直後の1文字は区切りにしないため、\\| の | は区切りになる
+ * @param row 表の1行
+ * @returns 区切った文字列。先頭と末尾の | による空の要素も含む
+ */
+function splitRow(row: string) {
+  const pieces: string[] = [];
+  let current = "";
+  let isEscaped = false;
+
+  for (const char of row) {
+    if (isEscaped) {
+      current += char;
+      isEscaped = false;
+    } else if (char === "\\") {
+      current += char;
+      isEscaped = true;
+    } else if (char === "|") {
+      pieces.push(current);
+      current = "";
+    } else {
+      current += char;
+    }
+  }
+
+  pieces.push(current);
+
+  return pieces;
+}
+
+/**
+ * 表の1行のセルを取り出す
+ * 先頭と末尾の | による空の要素は含めない
+ * @param row 表の1行
+ * @returns セルの文字列
+ */
+function cellsOf(row: string) {
+  const cells = splitRow(row.trim());
+
+  if (cells.length > 1 && cells[0] === "") {
+    cells.shift();
+  }
+
+  if (cells.length > 1 && cells.at(-1) === "") {
+    cells.pop();
+  }
+
+  return cells;
+}
+
+/**
  * 行が表の区切り行かを判定する
  * @param line 判定する行
  * @returns すべてのセルが -- や :-: の形の場合は true
  */
 function isSeparatorRow(line: string) {
-  const cells = line.trim().replace(/^\|/, "").replace(/\|$/, "").split("|");
-
-  return cells.every((cell) => SEPARATOR_CELL.test(cell.trim()));
+  return cellsOf(line).every((cell) => SEPARATOR_CELL.test(cell.trim()));
 }
 
 /**
  * 表の1行の列数を数える
- * 先頭と末尾の | と、\| でエスケープされた | は区切りに含めない
+ * 先頭と末尾の | と、エスケープされた | は区切りに含めない
  * @param row 表の1行
  * @returns 列数
  */
 function countColumns(row: string) {
-  const cells = row
-    .trim()
-    .replace(/^\|/, "")
-    .replace(/(?<!\\)\|$/, "");
-
-  return cells.replaceAll(String.raw`\|`, "").split("|").length;
+  return cellsOf(row).length;
 }
 
 /**
@@ -66,7 +110,7 @@ function isTableRow(line: string) {
 function isTableStart(headerLine: string, separatorLine: string | undefined) {
   return (
     NON_CODE_INDENT_START.test(headerLine) &&
-    headerLine.includes("|") &&
+    splitRow(headerLine).length > 1 &&
     separatorLine !== undefined &&
     isSeparatorRow(separatorLine) &&
     countColumns(headerLine) === countColumns(separatorLine)
