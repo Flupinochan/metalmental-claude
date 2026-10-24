@@ -18,8 +18,19 @@ export interface TableMatch {
   readonly nextIndex: number;
 }
 
-const TABLE_SEPARATOR = /^ {0,3}\|?\s*:?-+:?\s*(\|\s*:?-+:?\s*)*\|?\s*$/;
+const SEPARATOR_CELL = /^:?-+:?$/;
 const NON_CODE_INDENT_START = /^ {0,3}\S/;
+
+/**
+ * 行が表の区切り行かを判定する
+ * @param line 判定する行
+ * @returns すべてのセルが -- や :-: の形の場合は true
+ */
+function isSeparatorRow(line: string) {
+  const cells = line.trim().replace(/^\|/, "").replace(/\|$/, "").split("|");
+
+  return cells.every((cell) => SEPARATOR_CELL.test(cell.trim()));
+}
 
 /**
  * 表の1行の列数を数える
@@ -33,7 +44,7 @@ function countColumns(row: string) {
     .replace(/^\|/, "")
     .replace(/(?<!\\)\|$/, "");
 
-  return cells.replaceAll("\\|", "").split("|").length;
+  return cells.replaceAll(String.raw`\|`, "").split("|").length;
 }
 
 /**
@@ -57,7 +68,7 @@ function isTableStart(headerLine: string, separatorLine: string | undefined) {
     NON_CODE_INDENT_START.test(headerLine) &&
     headerLine.includes("|") &&
     separatorLine !== undefined &&
-    TABLE_SEPARATOR.test(separatorLine) &&
+    isSeparatorRow(separatorLine) &&
     countColumns(headerLine) === countColumns(separatorLine)
   );
 }

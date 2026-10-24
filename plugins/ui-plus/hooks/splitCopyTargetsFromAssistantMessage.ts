@@ -21,7 +21,25 @@ export type MessagePart =
       readonly codeBlockText: string;
     };
 
-const EDGE_BLANK_LINES = /^(?:[ \t]*\n)+|(?:\n[ \t]*)+$/g;
+/**
+ * 先頭と末尾の空行を取り除く
+ * @param lines 通常の部分の行
+ * @returns 空行を取り除いた行
+ */
+function trimBlankLines(lines: string[]) {
+  let start = 0;
+  let end = lines.length;
+
+  while (start < end && lines[start]?.trim() === "") {
+    start += 1;
+  }
+
+  while (end > start && lines[end - 1]?.trim() === "") {
+    end -= 1;
+  }
+
+  return lines.slice(start, end);
+}
 
 /**
  * 回答を、通常の部分と表とコードに分ける
@@ -36,7 +54,7 @@ export function splitCopyTargetsFromAssistantMessage(assistantMessage: string) {
   let index = 0;
 
   const pushPlainPart = () => {
-    const plainText = plainLines.join("\n").replace(EDGE_BLANK_LINES, "");
+    const plainText = trimBlankLines(plainLines).join("\n");
     plainLines = [];
 
     if (plainText.trim() !== "") {

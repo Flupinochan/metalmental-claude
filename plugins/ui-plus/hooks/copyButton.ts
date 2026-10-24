@@ -39,16 +39,14 @@ const resultClearTimers = new Map<string, Timer>();
 /**
  * コピー対象の種類とコピーの結果に対応する、ボタンの文言と色を返す
  * @param kind コピー対象の種類 (表またはコード)
- * @param result コピーの結果。まだ押されていない場合は undefined
+ * @param result コピーの結果。まだ押されていない場合は undefined または省略
  * @returns 項目の label と color と hoverColor (ポインタが乗ったときの色)
  */
 export function getCopyButtonStyle(
   kind: "table" | "code",
-  result: CopyResult | undefined,
+  result: CopyResult | "idle" = "idle",
 ) {
-  const state = result ?? "idle";
-
-  return { label: COPY_LABELS[kind][state], ...COPY_COLORS[state] };
+  return { label: COPY_LABELS[kind][result], ...COPY_COLORS[result] };
 }
 
 /**
