@@ -107,7 +107,8 @@ test("UI-6: ディレクトリ名に hover すると、絶対パスだけを全�
     display: "flex",
   });
   expect(JSON.stringify(overlay?.children)).toContain("/home/x/proj");
-  expect(textColorOf(overlay?.children?.[0])).toBe(textColorOf(name));
+  expect(overlay?.props.backgroundColor).toBe(textColorOf(name));
+  expect(textColorOf(overlay?.children?.[0])).toBe("inverseText");
 });
 
 /**
