@@ -9,6 +9,10 @@ const workingDirectoryState = atom(
 );
 
 const WORKTREE_KEYWORD = "worktree";
+// 行末の通常の空白は描画時に削られるため、削られない no-break space (U+00A0) で埋める
+const NO_BREAK_SPACE = " ";
+// 折り返さないための余裕
+const PATH_WIDTH_MARGIN = 2;
 
 /**
  * 絶対パスの末尾のディレクトリ名を取り出す
@@ -18,6 +22,24 @@ const WORKTREE_KEYWORD = "worktree";
  */
 export function directoryName(path: string) {
   return path.split(/[\\/]/).findLast((segment) => segment !== "") ?? "/";
+}
+
+/**
+ * 絶対パスの後ろを、端末の横幅いっぱいになるまで埋める
+ * 余白を押しても、ボタンが押されたことになる
+ * 横幅が分からない場合は、絶対パスをそのまま返す
+ * @param path 絶対パス
+ * @param columns 端末の桁数。分からない場合は undefined
+ * @returns 横幅いっぱいにした絶対パス
+ */
+export function padPathToWidth(path: string, columns: number | undefined) {
+  if (columns === undefined) {
+    return path;
+  }
+
+  const padding = Math.max(0, columns - PATH_WIDTH_MARGIN - path.length);
+
+  return path + NO_BREAK_SPACE.repeat(padding);
 }
 
 /**

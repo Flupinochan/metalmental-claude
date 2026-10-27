@@ -3,6 +3,7 @@ import { expect, test } from "claude-code/testing";
 import { COLOR } from "../hooks/colors";
 import {
   directoryName,
+  padPathToWidth,
   workingDirectoryColor,
 } from "../hooks/workingDirectory";
 import { BAND, startLoadedSession } from "./helpers";
@@ -27,6 +28,18 @@ for (const [path, expected] of [
     expect(workingDirectoryColor(path)).toBe(COLOR[expected]);
   });
 }
+
+test("UI-6: 横幅が分かるなら、絶対パスの後ろをno-break space で埋める", () => {
+  expect(padPathToWidth("/home/u", 20)).toBe(`/home/u${" ".repeat(11)}`);
+});
+
+test("UI-6: 絶対パスが横幅より長いなら、埋めない", () => {
+  expect(padPathToWidth("/home/u/project", 10)).toBe("/home/u/project");
+});
+
+test("UI-6: 横幅が分からないなら、絶対パスをそのまま返す", () => {
+  expect(padPathToWidth("/home/u", undefined)).toBe("/home/u");
+});
 
 test("BTN-1: ディレクトリ名を押すと、絶対パスをコピーする", async ($, on) => {
   const { calls } = await startLoadedSession($, on);

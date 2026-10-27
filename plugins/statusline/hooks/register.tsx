@@ -27,6 +27,7 @@ import { syncStatusline } from "./syncStatusline";
 import {
   copyWorkingDirectory,
   directoryName,
+  padPathToWidth,
   readWorkingDirectory,
   workingDirectoryColor,
 } from "./workingDirectory";
@@ -239,7 +240,7 @@ export const register: Register = (on) => {
             left={0}
             right={0}
             display="none"
-            backgroundColor={COLOR.blue}
+            backgroundColor={workingDirectoryColor(workingDirectory)}
             hover={{ scope: "working-directory", display: "flex" }}
           >
             <Button
@@ -249,8 +250,8 @@ export const register: Register = (on) => {
                 void copyWorkingDirectory($, workingDirectory, press.surface)
               }
             >
-              <Text color={workingDirectoryColor(workingDirectory)}>
-                {workingDirectory}
+              <Text color={COLOR.black}>
+                {padPathToWidth(workingDirectory, event.viewport?.columns)}
               </Text>
             </Button>
           </Box>
